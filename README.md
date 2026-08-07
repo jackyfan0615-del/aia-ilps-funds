@@ -19,13 +19,13 @@ npm run dev
 
 開啟 [http://localhost:3000](http://localhost:3000)
 
-## 部署（給同事用）
+## 線上使用
 
-建議部署到 Vercel：
+- **網頁 App**：https://aia-ilps-funds.vercel.app
+- **GitHub**（Cursor for iOS / Cloud Agent）：https://github.com/jackyfan0615-del/aia-ilps-funds
 
-1. 將此專案推上 GitHub
-2. 在 Vercel Import 該 repo
-3. 部署後把公開網址發給同事
+在 Cursor iOS：用 GitHub 開啟此 repo，或直接在 Safari 開網頁網址。
+推送到 `main` 會自動觸發 Vercel 重新部署。
 
 ## 更新基金資料
 
