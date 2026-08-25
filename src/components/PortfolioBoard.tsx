@@ -3,15 +3,27 @@
 import Link from "next/link";
 import type { ResolvedPortfolio } from "@/lib/portfolios";
 import { formatAbsPct, formatSignedPct, riskBadgeClass } from "@/lib/portfolio-stats";
+import type { QuarterReview } from "@/lib/quarter";
 import { typeLabel } from "@/lib/labels";
 
 type Props = {
   portfolios: ResolvedPortfolio[];
+  review: QuarterReview;
 };
 
-export function PortfolioBoard({ portfolios }: Props) {
+export function PortfolioBoard({ portfolios, review }: Props) {
   return (
     <div className="portfolio-board">
+      <aside className="portfolio-review" aria-label="組合檢討週期">
+        <p className="portfolio-review-title">{review.quarterLabel}配置</p>
+        <p>
+          持股每季檢討一次：{review.cycleLabel}（香港時間）。今季由 {review.lastLabel} 生效，下次更新 {review.nextLabel}。
+        </p>
+        <p className="portfolio-review-note">
+          回報、股息率與價格仍跟 AIA 最新資料計算；此處按季更新的是四套組合的持股與比重。
+          {review.stampedLabel ? ` 上次蓋章：${review.stampedLabel}。` : ""}
+        </p>
+      </aside>
       <p className="result-count">
         四套內部參考配置，同一套原則：先定目標（派息或增值），再沿風險階梯由防守（現金／短債）→ 核心（平衡／多元）→ 衛星（股票／主題）配 5 隻基金，權重合計 100%。
       </p>

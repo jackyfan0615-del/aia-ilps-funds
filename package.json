@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sync-funds": "npx tsx scripts/sync-funds.ts"
+    "sync-funds": "npx tsx scripts/sync-funds.ts",
+    "snapshot-portfolios": "npx tsx scripts/snapshot-portfolios.ts"
   },
   "dependencies": {
     "next": "16.3.0",

@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import { fetchAiaFunds } from "./aia";
 import type { CatalogChangesFile } from "./catalog";
+import type { PortfolioQuarterFile } from "./quarter";
 import type { Fund, FundFilters, FundsDataset } from "./types";
 
 export function getFallbackDataset(): FundsDataset {
@@ -12,6 +13,15 @@ export function getFallbackDataset(): FundsDataset {
 export function getCatalogChanges(): CatalogChangesFile {
   const filePath = path.join(process.cwd(), "data", "catalog-changes.json");
   return JSON.parse(readFileSync(filePath, "utf-8")) as CatalogChangesFile;
+}
+
+export function getPortfolioQuarter(): PortfolioQuarterFile | null {
+  const filePath = path.join(process.cwd(), "data", "portfolio-quarter.json");
+  try {
+    return JSON.parse(readFileSync(filePath, "utf-8")) as PortfolioQuarterFile;
+  } catch {
+    return null;
+  }
 }
 
 export async function getDataset(): Promise<FundsDataset> {

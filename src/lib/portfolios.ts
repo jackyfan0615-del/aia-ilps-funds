@@ -39,6 +39,7 @@ export type ResolvedPortfolio = Omit<PortfolioTemplate, "sleeves"> & {
   stats: PortfolioStats;
 };
 
+/** 持股每季檢討一次（香港時間 1/1、4/1、7/1、10/1）。改配置請在該日更新本檔。 */
 export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
   {
     id: "income",

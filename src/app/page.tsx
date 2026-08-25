@@ -1,7 +1,8 @@
 import { FundExplorer } from "@/components/FundExplorer";
 import { diffCatalog, pickCatalogNotice } from "@/lib/catalog";
-import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions } from "@/lib/funds";
+import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions, getPortfolioQuarter } from "@/lib/funds";
 import { resolvePortfoliosWithStats } from "@/lib/portfolios";
+import { getQuarterReview } from "@/lib/quarter";
 
 export const revalidate = 21600;
 
@@ -30,6 +31,7 @@ export default async function HomePage() {
         product={dataset.product}
         catalogNotice={catalogNotice}
         portfolios={await resolvePortfoliosWithStats(dataset.funds)}
+        review={getQuarterReview(new Date(), getPortfolioQuarter()?.current.reviewedAt)}
       />
       <footer className="site-footer">
         資料來源：

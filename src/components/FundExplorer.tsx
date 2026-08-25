@@ -4,6 +4,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import type { Fund } from "@/lib/types";
 import type { CatalogHistoryEvent } from "@/lib/catalog";
 import type { ResolvedPortfolio } from "@/lib/portfolios";
+import type { QuarterReview } from "@/lib/quarter";
 import { CatalogNotice } from "./CatalogNotice";
 import { FundRow } from "./FundRow";
 import { PortfolioBoard } from "./PortfolioBoard";
@@ -21,6 +22,7 @@ type Props = {
   product: string;
   catalogNotice: CatalogHistoryEvent | null;
   portfolios: ResolvedPortfolio[];
+  review: QuarterReview;
 };
 
 export function FundExplorer({
@@ -31,6 +33,7 @@ export function FundExplorer({
   product,
   catalogNotice,
   portfolios,
+  review,
 }: Props) {
   const [view, setView] = useState<"funds" | "portfolios">("funds");
   const [q, setQ] = useState("");
@@ -88,7 +91,7 @@ export function FundExplorer({
         </button>
       </div>
 
-      {view === "portfolios" ? <PortfolioBoard portfolios={portfolios} /> : null}
+      {view === "portfolios" ? <PortfolioBoard portfolios={portfolios} review={review} /> : null}
 
       {view === "funds" ? (
         <>
