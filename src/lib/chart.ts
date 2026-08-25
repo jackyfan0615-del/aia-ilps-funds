@@ -61,6 +61,13 @@ export function compactChart(points: ChartPoint[], recentDays = 800): ChartPoint
   return [...downsample(older, 200), ...recent];
 }
 
+export function parseBidNumber(bidPrice: string): number | null {
+  const match = bidPrice.replace(/,/g, "").match(/(\d+\.\d+|\d+)/);
+  if (!match) return null;
+  const value = Number(match[1]);
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
 export function currencyPrefix(bidPrice: string): string {
   const match = bidPrice.match(/^([^\d.+-]+)/);
   return match ? match[1] : "";

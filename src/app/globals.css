@@ -815,4 +815,8 @@ body {
   .portfolio-metrics {
     grid-template-columns: repeat(4, 1fr);
   }
+
+  .portfolio-metrics:has(:nth-child(5)) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }

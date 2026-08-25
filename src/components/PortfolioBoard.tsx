@@ -16,7 +16,7 @@ export function PortfolioBoard({ portfolios }: Props) {
         四套內部參考配置，同一套原則：先定目標（派息或增值），再沿風險階梯由防守（現金／短債）→ 核心（平衡／多元）→ 衛星（股票／主題）配 5 隻基金，權重合計 100%。
       </p>
       <p className="portfolio-disclaimer">
-        參考預期回報按各基金 AIA 過往賣出價加權；風險按組合模擬淨值的年化波動及最大回撤。未扣保單收費，過往表現不代表將來表現，亦非投資建議。
+        參考預期回報按各基金 AIA 過往賣出價加權；派息組合另計現金股息率（未扣保單收費）。風險按年化波動及最大回撤。過往表現不代表將來表現，派息不保證。
       </p>
       {portfolios.map((portfolio) => (
         <article key={portfolio.id} className="portfolio-card">
@@ -39,18 +39,37 @@ export function PortfolioBoard({ portfolios }: Props) {
                 {formatSignedPct(portfolio.stats.expectedPct)}
               </p>
               <p className="metric-sub">
-                按過去{portfolio.stats.expectedHorizon}
-                {portfolio.stats.threeYearCagrPct != null
+                {portfolio.style === "派息" && portfolio.stats.dividendYieldPct != null
+                  ? "近1年價格 + 股息率"
+                  : `按過去${portfolio.stats.expectedHorizon}`}
+                {portfolio.style !== "派息" && portfolio.stats.threeYearCagrPct != null
                   ? ` · 3年 ${formatSignedPct(portfolio.stats.threeYearCagrPct)}`
                   : ""}
               </p>
             </div>
+            {portfolio.style === "派息" ? (
+              <div>
+                <p className="price-label">參考股息率</p>
+                <p className="metric-value is-up">{formatAbsPct(portfolio.stats.dividendYieldPct)}</p>
+                <p className="metric-sub">
+                  {portfolio.stats.dividendYieldMethod === "annualized"
+                    ? "部分基金按近月年化"
+                    : "AIA 現金派息／最新賣出價"}
+                </p>
+              </div>
+            ) : null}
             <div>
-              <p className="price-label">近1年</p>
-              <p className={`metric-value ${ (portfolio.stats.oneYearPct ?? 0) >= 0 ? "is-up" : "is-down"}`}>
-                {formatSignedPct(portfolio.stats.oneYearPct)}
+              <p className="price-label">{portfolio.style === "派息" ? "近1年含息" : "近1年"}</p>
+              <p className={`metric-value ${ ((portfolio.style === "派息" ? portfolio.stats.oneYearTotalPct : portfolio.stats.oneYearPct) ?? 0) >= 0 ? "is-up" : "is-down"}`}>
+                {formatSignedPct(
+                  portfolio.style === "派息" ? portfolio.stats.oneYearTotalPct : portfolio.stats.oneYearPct,
+                )}
               </p>
-              <p className="metric-sub">過往總回報</p>
+              <p className="metric-sub">
+                {portfolio.style === "派息"
+                  ? `價格 ${formatSignedPct(portfolio.stats.oneYearPct)}`
+                  : "過往總回報"}
+              </p>
             </div>
             <div>
               <p className="price-label">年化波動</p>
@@ -87,6 +106,9 @@ export function PortfolioBoard({ portfolios }: Props) {
                       <span className="holding-role">
                         {holding.role}
                         {` · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · 近1年 ${formatSignedPct(holding.oneYearPct)}`}
+                        {holding.dividendYieldPct != null
+                          ? ` · 股息率 ${formatAbsPct(holding.dividendYieldPct)}`
+                          : ""}
                       </span>
                     </span>
                   </Link>

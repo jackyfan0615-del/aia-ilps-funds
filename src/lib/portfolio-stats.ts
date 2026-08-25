@@ -11,6 +11,9 @@ export type PortfolioStats = {
   volPct: number | null;
   maxDrawdownPct: number | null;
   riskLabel: "偏低" | "中低" | "中等" | "偏高" | "高";
+  dividendYieldPct: number | null;
+  dividendYieldMethod: "ttm" | "annualized" | null;
+  oneYearTotalPct: number | null;
   asOf: number | null;
   coverage: number;
 };
@@ -243,6 +246,9 @@ export function computePortfolioStats(
     volPct,
     maxDrawdownPct,
     riskLabel: riskFromVol(volPct),
+    dividendYieldPct: null,
+    dividendYieldMethod: null,
+    oneYearTotalPct: null,
     asOf: nav.at(-1)?.t ?? covered[0]?.points.at(-1)?.t ?? null,
     coverage,
   };
@@ -250,4 +256,39 @@ export function computePortfolioStats(
 
 export function holdingOneYearPct(points: ChartPoint[]): number | null {
   return periodReturn(points, 1, false);
+}
+
+export function withDividendYield(
+  stats: PortfolioStats,
+  items: { weight: number; yieldPct: number | null; method: "ttm" | "annualized" | null }[],
+): PortfolioStats {
+  let weight = 0;
+  let sum = 0;
+  let annualizedWeight = 0;
+  for (const item of items) {
+    if (item.yieldPct == null || item.weight <= 0) continue;
+    weight += item.weight;
+    sum += item.weight * item.yieldPct;
+    if (item.method === "annualized") annualizedWeight += item.weight;
+  }
+  const dividendYieldPct = weight > 0 ? sum / weight : null;
+  const dividendYieldMethod =
+    dividendYieldPct == null ? null : annualizedWeight / Math.max(weight, 1) >= 0.5 ? "annualized" : "ttm";
+  const oneYearTotalPct =
+    stats.oneYearPct != null && dividendYieldPct != null
+      ? stats.oneYearPct + dividendYieldPct
+      : stats.oneYearPct ?? dividendYieldPct;
+
+  if (dividendYieldPct == null) {
+    return { ...stats, dividendYieldPct, dividendYieldMethod, oneYearTotalPct };
+  }
+
+  return {
+    ...stats,
+    dividendYieldPct,
+    dividendYieldMethod,
+    oneYearTotalPct,
+    expectedPct: (stats.oneYearPct ?? 0) + dividendYieldPct,
+    expectedHorizon: "1年",
+  };
 }

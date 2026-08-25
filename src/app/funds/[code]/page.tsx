@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PriceTrend } from "@/components/PriceTrend";
-import { aiaDetailsUrl, fetchAiaFundChart, fetchAiaFundExtras } from "@/lib/aia";
-import { compactChart, currencyPrefix } from "@/lib/chart";
+import { aiaDetailsUrl, fetchAiaFundChart, fetchAiaFundExtras, fetchAiaDividends } from "@/lib/aia";
+import { compactChart, currencyPrefix, parseBidNumber, formatChartDate } from "@/lib/chart";
+import { estimateDividendYield, dividendYieldLabel } from "@/lib/dividends";
+import { formatAbsPct } from "@/lib/portfolio-stats";
 import { getFundByCode } from "@/lib/funds";
 import { typeLabel } from "@/lib/labels";
 import type { Metadata } from "next";
@@ -34,9 +36,12 @@ export default async function FundDetailPage({ params }: PageProps) {
   const fund = await getFundByCode(code);
   if (!fund) notFound();
 
-  const [chartResult, extrasResult] = await Promise.allSettled([
+  const [chartResult, extrasResult, dividendResult] = await Promise.allSettled([
     fetchAiaFundChart(fund.code),
     fetchAiaFundExtras(fund.code),
+    fund.type === "dividend" || fund.type === "other_dividend"
+      ? fetchAiaDividends(fund.code)
+      : Promise.resolve([]),
   ]);
   const points = compactChart(
     chartResult.status === "fulfilled" ? chartResult.value : [],
@@ -45,6 +50,9 @@ export default async function FundDetailPage({ params }: PageProps) {
     extrasResult.status === "fulfilled"
       ? extrasResult.value
       : { isin: "", dailyChange: "", performanceAsOf: "", yearReturns: [] };
+  const payouts = dividendResult.status === "fulfilled" ? dividendResult.value : [];
+  const bid = parseBidNumber(fund.bidPrice);
+  const yieldEst = bid ? estimateDividendYield(payouts, bid) : null;
 
   const daily = Number.parseFloat(extras.dailyChange);
   const dailyUp = Number.isFinite(daily) ? daily >= 0 : null;
@@ -85,10 +93,45 @@ export default async function FundDetailPage({ params }: PageProps) {
               </p>
             </div>
           ) : null}
+          {yieldEst ? (
+            <div>
+              <p className="price-label">參考股息率</p>
+              <p className="trend-change is-up">{formatAbsPct(yieldEst.pct)}</p>
+              <p className="price-date">{dividendYieldLabel(yieldEst.method)}</p>
+            </div>
+          ) : null}
         </div>
       </header>
 
       <PriceTrend points={points} currency={currency} />
+
+      {payouts.length > 0 ? (
+        <section className="year-panel">
+          <h2 className="detail-h">近期現金派息</h2>
+          <p className="detail-note">{dividendYieldLabel(yieldEst?.method)}。派息不保證，亦可從本金支付。</p>
+          <div className="price-table-wrap">
+            <table className="price-table">
+              <thead>
+                <tr>
+                  <th>紀錄日期</th>
+                  <th>每股派息</th>
+                </tr>
+              </thead>
+              <tbody>
+                {payouts.slice(0, 12).map((payout) => (
+                  <tr key={payout.t}>
+                    <td>{formatChartDate(payout.t)}</td>
+                    <td>
+                      {currency}
+                      {payout.rate.toFixed(4)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
 
       {extras.yearReturns.length > 0 ? (
         <section className="year-panel">

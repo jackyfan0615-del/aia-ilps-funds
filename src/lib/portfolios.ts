@@ -1,7 +1,10 @@
-import { fetchAiaFundChart } from "./aia";
+import { fetchAiaFundChart, fetchAiaDividends } from "./aia";
+import { parseBidNumber } from "./chart";
+import { estimateDividendYield } from "./dividends";
 import {
   computePortfolioStats,
   holdingOneYearPct,
+  withDividendYield,
   type PortfolioStats,
 } from "./portfolio-stats";
 import type { Fund } from "./types";
@@ -28,6 +31,7 @@ export type PortfolioTemplate = {
 export type ResolvedHolding = PortfolioSleeve & {
   fund: Fund | null;
   oneYearPct: number | null;
+  dividendYieldPct: number | null;
 };
 
 export type ResolvedPortfolio = Omit<PortfolioTemplate, "sleeves"> & {
@@ -108,14 +112,29 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
 
 export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<ResolvedPortfolio[]> {
   const codes = [...new Set(PORTFOLIO_TEMPLATES.flatMap((template) => template.sleeves.map((sleeve) => sleeve.code)))];
+  const incomeCodes = [
+    ...new Set(
+      PORTFOLIO_TEMPLATES.filter((template) => template.style === "派息").flatMap((template) =>
+        template.sleeves.map((sleeve) => sleeve.code),
+      ),
+    ),
+  ];
   const charts = new Map<string, Awaited<ReturnType<typeof fetchAiaFundChart>>>();
-  const results = await Promise.allSettled(codes.map((code) => fetchAiaFundChart(code)));
-  results.forEach((result, index) => {
-    const code = codes[index];
-    charts.set(code, result.status === "fulfilled" ? result.value : []);
+  const yields = new Map<string, ReturnType<typeof estimateDividendYield>>();
+  const [chartResults, dividendResults] = await Promise.all([
+    Promise.allSettled(codes.map((code) => fetchAiaFundChart(code))),
+    Promise.allSettled(incomeCodes.map((code) => fetchAiaDividends(code))),
+  ]);
+  chartResults.forEach((result, index) => {
+    charts.set(codes[index], result.status === "fulfilled" ? result.value : []);
   });
-
   const byCode = new Map(funds.map((fund) => [fund.code, fund]));
+  dividendResults.forEach((result, index) => {
+    const code = incomeCodes[index];
+    const bid = parseBidNumber(byCode.get(code)?.bidPrice || "");
+    const payouts = result.status === "fulfilled" ? result.value : [];
+    yields.set(code, bid ? estimateDividendYield(payouts, bid) : null);
+  });
 
   return PORTFOLIO_TEMPLATES.map((template) => {
     const holdings = template.sleeves.map((sleeve) => {
@@ -124,8 +143,26 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
         ...sleeve,
         fund: byCode.get(sleeve.code) ?? null,
         oneYearPct: holdingOneYearPct(points),
+        dividendYieldPct: yields.get(sleeve.code)?.pct ?? null,
       };
     });
+
+    let stats = computePortfolioStats(
+      holdings.map((holding) => ({
+        weight: holding.weight,
+        points: charts.get(holding.code) ?? [],
+      })),
+    );
+    if (template.style === "派息") {
+      stats = withDividendYield(
+        stats,
+        holdings.map((holding) => ({
+          weight: holding.weight,
+          yieldPct: holding.dividendYieldPct,
+          method: yields.get(holding.code)?.method ?? null,
+        })),
+      );
+    }
 
     return {
       id: template.id,
@@ -136,12 +173,7 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
       principle: template.principle,
       suitedFor: template.suitedFor,
       holdings,
-      stats: computePortfolioStats(
-        holdings.map((holding) => ({
-          weight: holding.weight,
-          points: charts.get(holding.code) ?? [],
-        })),
-      ),
+      stats,
     };
   });
 }

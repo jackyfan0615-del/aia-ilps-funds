@@ -8,6 +8,7 @@ export const AIA_SOURCE_PAGE =
 
 export const FUNDS_CACHE_TAG = "aia-funds";
 export const CHART_CACHE_TAG = "aia-fund-charts";
+export const DIVIDEND_CACHE_TAG = "aia-dividends";
 
 const AIA_HEADERS = {
   Accept: "application/json,text/plain,*/*",
@@ -211,4 +212,53 @@ export async function fetchAiaFundExtras(code: string): Promise<FundExtras> {
     performanceAsOf: parseDate(fund.performance_as_of),
     yearReturns: parseYearReturns(fund.priceHistory),
   };
+}
+
+export type DividendPayout = {
+  rate: number;
+  t: number;
+};
+
+function pad2(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
+function formatAiaDate(date: Date): string {
+  return `${pad2(date.getUTCMonth() + 1)}/${pad2(date.getUTCDate())}/${date.getUTCFullYear()}`;
+}
+
+function parseAiaDate(value: string): number | null {
+  const match = value.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!match) return null;
+  const month = Number(match[1]);
+  const day = Number(match[2]);
+  const year = Number(match[3]);
+  const t = Date.UTC(year, month - 1, day);
+  return Number.isFinite(t) ? t : null;
+}
+
+export async function fetchAiaDividends(code: string): Promise<DividendPayout[]> {
+  const end = new Date();
+  const start = new Date(end.getTime() - 400 * 86_400_000);
+  const url = `https://www1.aia.com.hk/CorpWS/Investment/Get/FundDividendRecord/?fund_code=${encodeURIComponent(code)}&fund_cat=TMP2&start_date=${formatAiaDate(start)}&end_date=${formatAiaDate(end)}`;
+  const res = await fetch(url, {
+    headers: AIA_HEADERS,
+    next: { revalidate: 21600, tags: [DIVIDEND_CACHE_TAG] },
+  });
+
+  if (!res.ok) {
+    throw new Error(`AIA FundDividendRecord failed: ${res.status}`);
+  }
+
+  const raw = (await res.json()) as { dividend_rate?: string; record_date?: string }[];
+  if (!Array.isArray(raw)) return [];
+
+  const payouts: DividendPayout[] = [];
+  for (const row of raw) {
+    const rate = Number.parseFloat(row.dividend_rate || "");
+    const t = parseAiaDate(row.record_date || "");
+    if (!Number.isFinite(rate) || rate <= 0 || t == null) continue;
+    payouts.push({ rate, t });
+  }
+  return payouts.sort((a, b) => b.t - a.t);
 }

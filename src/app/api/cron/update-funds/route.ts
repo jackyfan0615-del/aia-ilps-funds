@@ -1,6 +1,6 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { fetchAiaFunds, FUNDS_CACHE_TAG, CHART_CACHE_TAG, toDataset } from "@/lib/aia";
+import { fetchAiaFunds, FUNDS_CACHE_TAG, CHART_CACHE_TAG, DIVIDEND_CACHE_TAG, toDataset } from "@/lib/aia";
 import { diffCatalog, hasCatalogChanges } from "@/lib/catalog";
 import { getFallbackDataset } from "@/lib/funds";
 
@@ -44,6 +44,7 @@ export async function GET(request: NextRequest) {
 
     revalidateTag(FUNDS_CACHE_TAG, { expire: 0 });
     revalidateTag(CHART_CACHE_TAG, { expire: 0 });
+    revalidateTag(DIVIDEND_CACHE_TAG, { expire: 0 });
     revalidatePath("/");
     revalidatePath("/funds", "layout");
     revalidatePath("/api/funds");
