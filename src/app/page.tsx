@@ -1,11 +1,17 @@
 import { FundExplorer } from "@/components/FundExplorer";
-import { getDataset, getFilterOptions } from "@/lib/funds";
+import { diffCatalog, pickCatalogNotice } from "@/lib/catalog";
+import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions } from "@/lib/funds";
 
 export const revalidate = 21600;
 
 export default async function HomePage() {
   const dataset = await getDataset();
   const { assetClasses } = await getFilterOptions();
+  const fallback = getFallbackDataset();
+  const catalogNotice = pickCatalogNotice(
+    diffCatalog(fallback.funds, dataset.funds),
+    getCatalogChanges().history,
+  );
 
   return (
     <>
@@ -15,6 +21,7 @@ export default async function HomePage() {
         counts={dataset.counts}
         scrapedAt={dataset.scrapedAt}
         product={dataset.product}
+        catalogNotice={catalogNotice}
       />
       <footer className="site-footer">
         資料來源：

@@ -1,6 +1,8 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { fetchAiaFunds, FUNDS_CACHE_TAG, toDataset } from "@/lib/aia";
+import { diffCatalog, hasCatalogChanges } from "@/lib/catalog";
+import { getFallbackDataset } from "@/lib/funds";
 
 export const maxDuration = 60;
 
@@ -36,6 +38,8 @@ export async function GET(request: NextRequest) {
 
     const raw = await res.json();
     const dataset = toDataset(raw);
+    const fallback = getFallbackDataset();
+    const catalog = diffCatalog(fallback.funds, dataset.funds);
     const sample = dataset.funds.find((f) => f.code === "Z07") || dataset.funds[0];
 
     revalidateTag(FUNDS_CACHE_TAG, { expire: 0 });
@@ -43,12 +47,16 @@ export async function GET(request: NextRequest) {
     revalidatePath("/api/funds");
 
     // Warm the tagged cache for subsequent visitors
-    await fetchAiaFunds();
+    await fetchAiaFunds(true);
 
     return NextResponse.json({
       ok: true,
       updatedAt: dataset.scrapedAt,
       counts: dataset.counts,
+      catalogChanged: hasCatalogChanges(catalog),
+      added: catalog.added,
+      removed: catalog.removed,
+      renamed: catalog.renamed,
       sample: sample
         ? {
             code: sample.code,

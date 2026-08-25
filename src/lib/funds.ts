@@ -1,11 +1,17 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { fetchAiaFunds } from "./aia";
+import type { CatalogChangesFile } from "./catalog";
 import type { Fund, FundFilters, FundsDataset } from "./types";
 
-function readFallbackDataset(): FundsDataset {
+export function getFallbackDataset(): FundsDataset {
   const filePath = path.join(process.cwd(), "data", "funds.json");
   return JSON.parse(readFileSync(filePath, "utf-8")) as FundsDataset;
+}
+
+export function getCatalogChanges(): CatalogChangesFile {
+  const filePath = path.join(process.cwd(), "data", "catalog-changes.json");
+  return JSON.parse(readFileSync(filePath, "utf-8")) as CatalogChangesFile;
 }
 
 export async function getDataset(): Promise<FundsDataset> {
@@ -13,7 +19,7 @@ export async function getDataset(): Promise<FundsDataset> {
     return await fetchAiaFunds();
   } catch (error) {
     console.error("[funds] AIA live fetch failed, using fallback JSON", error);
-    return readFallbackDataset();
+    return getFallbackDataset();
   }
 }
 

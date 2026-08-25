@@ -119,6 +119,41 @@ body {
   color: rgba(247, 250, 252, 0.62);
 }
 
+.catalog-notice {
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(200, 16, 46, 0.18);
+  border-radius: 1.1rem;
+  background: var(--surface);
+  animation: rise 0.6s ease both;
+}
+
+.catalog-notice-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.catalog-notice-meta,
+.catalog-notice-label {
+  margin: 0.35rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.catalog-notice-label {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.catalog-notice ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .toolbar {
   display: grid;
   gap: 0.85rem;

@@ -2,6 +2,8 @@
 
 import { useDeferredValue, useMemo, useState } from "react";
 import type { Fund } from "@/lib/types";
+import type { CatalogHistoryEvent } from "@/lib/catalog";
+import { CatalogNotice } from "./CatalogNotice";
 import { FundRow } from "./FundRow";
 
 type Props = {
@@ -15,6 +17,7 @@ type Props = {
   };
   scrapedAt: string;
   product: string;
+  catalogNotice: CatalogHistoryEvent | null;
 };
 
 export function FundExplorer({
@@ -23,6 +26,7 @@ export function FundExplorer({
   counts,
   scrapedAt,
   product,
+  catalogNotice,
 }: Props) {
   const [q, setQ] = useState("");
   const [type, setType] = useState<"all" | "growth" | "dividend">("all");
@@ -58,8 +62,10 @@ export function FundExplorer({
         <p className="hero-sub">
           {product} · 增長 {counts.growth} · 派息 Z 字 {counts.dividend}
         </p>
-        <p className="hero-meta">資料更新：{scrapedLabel}</p>
+        <p className="hero-meta">資料更新：{scrapedLabel} · 目錄隨 AIA 增減自動同步</p>
       </section>
+
+      {catalogNotice ? <CatalogNotice notice={catalogNotice} /> : null}
 
       <section className="toolbar" aria-label="篩選">
         <label className="search-field">

@@ -103,17 +103,16 @@ export function toDataset(rawFunds: AiaFundRaw[], scrapedAt = new Date().toISOSt
   };
 }
 
-export async function fetchAiaFunds(): Promise<FundsDataset> {
+export async function fetchAiaFunds(fresh = false): Promise<FundsDataset> {
   const res = await fetch(AIA_FUND_INFO_URL, {
     headers: {
       Accept: "application/json,text/plain,*/*",
       "User-Agent":
         "Mozilla/5.0 (compatible; AIA-ILPS-Funds/1.0; +https://aia-ilps-funds.vercel.app)",
     },
-    next: {
-      revalidate: 21600,
-      tags: [FUNDS_CACHE_TAG],
-    },
+    ...(fresh
+      ? { cache: "no-store" as const }
+      : { next: { revalidate: 21600, tags: [FUNDS_CACHE_TAG] } }),
   });
 
   if (!res.ok) {
