@@ -1,7 +1,7 @@
 import { FundExplorer } from "@/components/FundExplorer";
 import { diffCatalog, pickCatalogNotice } from "@/lib/catalog";
 import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions } from "@/lib/funds";
-import { resolvePortfolios } from "@/lib/portfolios";
+import { resolvePortfoliosWithStats } from "@/lib/portfolios";
 
 export const revalidate = 21600;
 
@@ -29,7 +29,7 @@ export default async function HomePage() {
         scrapedLabel={scrapedLabel}
         product={dataset.product}
         catalogNotice={catalogNotice}
-        portfolios={resolvePortfolios(dataset.funds)}
+        portfolios={await resolvePortfoliosWithStats(dataset.funds)}
       />
       <footer className="site-footer">
         資料來源：
