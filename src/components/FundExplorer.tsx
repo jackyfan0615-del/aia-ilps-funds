@@ -88,18 +88,7 @@ export function FundExplorer({
         </button>
       </div>
 
-      {view === "portfolios" ? (
-        <PortfolioBoard
-          portfolios={portfolios}
-          onSelectFund={(code) => {
-            setView("funds");
-            setType("all");
-            setRisk("");
-            setAssetClass("");
-            setQ(code);
-          }}
-        />
-      ) : null}
+      {view === "portfolios" ? <PortfolioBoard portfolios={portfolios} /> : null}
 
       {view === "funds" ? (
         <>

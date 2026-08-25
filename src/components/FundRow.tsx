@@ -1,5 +1,7 @@
+import Link from "next/link";
 import type { Fund } from "@/lib/types";
 import { typeLabel } from "@/lib/labels";
+
 function riskClass(risk: string) {
   if (risk === "高") return "risk-high";
   if (risk === "中") return "risk-mid";
@@ -8,7 +10,7 @@ function riskClass(risk: string) {
 
 export function FundRow({ fund }: { fund: Fund }) {
   return (
-    <article className="fund-row">
+    <Link href={`/funds/${fund.code}`} className="fund-row">
       <div className="fund-row-main">
         <div className="fund-codes">
           <span className="fund-code">{fund.code}</span>
@@ -21,6 +23,7 @@ export function FundRow({ fund }: { fund: Fund }) {
         <p className="fund-meta">
           <span>{fund.assetClass || "—"}</span>
           {fund.manager ? <span>{fund.manager}</span> : null}
+          <span className="fund-trend-hint">點入查看價格走勢</span>
         </p>
       </div>
       <div className="fund-price">
@@ -33,6 +36,6 @@ export function FundRow({ fund }: { fund: Fund }) {
           </p>
         ) : null}
       </div>
-    </article>
+    </Link>
   );
 }

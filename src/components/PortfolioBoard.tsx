@@ -1,14 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import type { ResolvedPortfolio } from "@/lib/portfolios";
 import { typeLabel } from "@/lib/labels";
 
 type Props = {
   portfolios: ResolvedPortfolio[];
-  onSelectFund: (code: string) => void;
 };
 
-export function PortfolioBoard({ portfolios, onSelectFund }: Props) {
+export function PortfolioBoard({ portfolios }: Props) {
   return (
     <div className="portfolio-board">
       <p className="result-count">
@@ -39,25 +39,28 @@ export function PortfolioBoard({ portfolios, onSelectFund }: Props) {
           <ul className="holding-list">
             {portfolio.holdings.map((holding) => (
               <li key={holding.code}>
-                <button
-                  type="button"
-                  className="holding-btn"
-                  onClick={() => onSelectFund(holding.code)}
-                >
-                  <span className="holding-weight">{holding.weight}%</span>
-                  <span className="holding-main">
-                    <span className="holding-code">{holding.code}</span>
-                    <span className="holding-name">
-                      {holding.fund?.name ?? "此代號目前不在目錄"}
+                {holding.fund ? (
+                  <Link href={`/funds/${holding.code}`} className="holding-btn">
+                    <span className="holding-weight">{holding.weight}%</span>
+                    <span className="holding-main">
+                      <span className="holding-code">{holding.code}</span>
+                      <span className="holding-name">{holding.fund.name}</span>
+                      <span className="holding-role">
+                        {holding.role}
+                        {` · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · ${holding.fund.assetClass}`}
+                      </span>
                     </span>
-                    <span className="holding-role">
-                      {holding.role}
-                      {holding.fund
-                        ? ` · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · ${holding.fund.assetClass}`
-                        : " · 已下架或暫停"}
+                  </Link>
+                ) : (
+                  <div className="holding-btn is-disabled">
+                    <span className="holding-weight">{holding.weight}%</span>
+                    <span className="holding-main">
+                      <span className="holding-code">{holding.code}</span>
+                      <span className="holding-name">此代號目前不在目錄</span>
+                      <span className="holding-role">{holding.role} · 已下架或暫停</span>
                     </span>
-                  </span>
-                </button>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

@@ -1,4 +1,4 @@
-import type { Fund, FundType, FundsDataset } from "./types";
+import type { ChartPoint, Fund, FundExtras, FundType, FundsDataset, YearReturn } from "./types";
 
 const AIA_FUND_INFO_URL =
   "https://www1.aia.com.hk/CorpWS/Investment/Get/FundInfo2/?fund_cat=TMP2&fund_type=&fund_house=&fund_code=&name=&lang=zh";
@@ -7,6 +7,17 @@ export const AIA_SOURCE_PAGE =
   "https://www.aia.com.hk/zh-hk/help-and-support/individuals/investment-information/investment-options-prices.html";
 
 export const FUNDS_CACHE_TAG = "aia-funds";
+export const CHART_CACHE_TAG = "aia-fund-charts";
+
+const AIA_HEADERS = {
+  Accept: "application/json,text/plain,*/*",
+  "User-Agent":
+    "Mozilla/5.0 (compatible; AIA-ILPS-Funds/1.0; +https://aia-ilps-funds.vercel.app)",
+};
+
+export function aiaDetailsUrl(code: string): string {
+  return `https://www.aia.com.hk/zh-hk/help-and-support/individuals/investment-information/investment-options-prices/details.html?id=${encodeURIComponent(code)}&cat=TMP2&lang=zh`;
+}
 
 type AiaFundRaw = {
   cat: string;
@@ -105,11 +116,7 @@ export function toDataset(rawFunds: AiaFundRaw[], scrapedAt = new Date().toISOSt
 
 export async function fetchAiaFunds(fresh = false): Promise<FundsDataset> {
   const res = await fetch(AIA_FUND_INFO_URL, {
-    headers: {
-      Accept: "application/json,text/plain,*/*",
-      "User-Agent":
-        "Mozilla/5.0 (compatible; AIA-ILPS-Funds/1.0; +https://aia-ilps-funds.vercel.app)",
-    },
+    headers: AIA_HEADERS,
     ...(fresh
       ? { cache: "no-store" as const }
       : { next: { revalidate: 21600, tags: [FUNDS_CACHE_TAG] } }),
@@ -125,4 +132,83 @@ export async function fetchAiaFunds(fresh = false): Promise<FundsDataset> {
   }
 
   return toDataset(raw);
+}
+
+type AiaYearRow = {
+  year?: string;
+  price?: string;
+};
+
+type AiaFundDetailRaw = AiaFundRaw & {
+  ISIN?: string;
+  dd_change?: string;
+  performance_as_of?: string;
+  priceHistory?: AiaYearRow[];
+};
+
+function parseYearReturns(rows: AiaYearRow[] | undefined): YearReturn[] {
+  if (!Array.isArray(rows)) return [];
+  return rows
+    .map((row) => {
+      const year = (row.year || "").trim();
+      const value = stripHtml(row.price || "");
+      if (!year || !value) return null;
+      return {
+        year,
+        value,
+        negative: value.startsWith("-"),
+      };
+    })
+    .filter((row): row is YearReturn => row !== null);
+}
+
+export async function fetchAiaFundChart(code: string): Promise<ChartPoint[]> {
+  const url = `https://www1.aia.com.hk/CorpWS/Investment/Get/FundChart/?fund_code=${encodeURIComponent(code)}&fund_cat=TMP2`;
+  const res = await fetch(url, {
+    headers: AIA_HEADERS,
+    next: { revalidate: 21600, tags: [CHART_CACHE_TAG] },
+  });
+
+  if (!res.ok) {
+    throw new Error(`AIA FundChart failed: ${res.status}`);
+  }
+
+  const text = await res.text();
+  const raw = JSON.parse(text) as unknown;
+  if (!Array.isArray(raw)) return [];
+
+  const points: ChartPoint[] = [];
+  for (const row of raw) {
+    if (!Array.isArray(row) || row.length < 2) continue;
+    const t = Number(row[0]);
+    const price = Number(row[1]);
+    if (!Number.isFinite(t) || !Number.isFinite(price)) continue;
+    points.push({ t, price });
+  }
+  return points;
+}
+
+export async function fetchAiaFundExtras(code: string): Promise<FundExtras> {
+  const url = `https://www1.aia.com.hk/CorpWS/Investment/Get/FundInfo2/?fund_cat=TMP2&fund_type=&fund_house=&fund_code=${encodeURIComponent(code)}&name=&lang=zh`;
+  const res = await fetch(url, {
+    headers: AIA_HEADERS,
+    next: { revalidate: 21600, tags: [FUNDS_CACHE_TAG] },
+  });
+
+  if (!res.ok) {
+    throw new Error(`AIA FundInfo2 detail failed: ${res.status}`);
+  }
+
+  const raw = (await res.json()) as AiaFundDetailRaw[];
+  const fund = Array.isArray(raw) ? raw[0] : undefined;
+  if (!fund) {
+    return { isin: "", dailyChange: "", performanceAsOf: "", yearReturns: [] };
+  }
+
+  return {
+    isin: (fund.ISIN || "").trim(),
+    dailyChange: stripHtml(fund.dd_change || ""),
+    performanceAsOf: parseDate(fund.performance_as_of),
+    yearReturns: parseYearReturns(fund.priceHistory),
+  };
 }

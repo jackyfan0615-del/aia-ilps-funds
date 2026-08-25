@@ -49,6 +49,12 @@ export async function getFunds(filters: FundFilters = {}): Promise<Fund[]> {
   });
 }
 
+export async function getFundByCode(code: string): Promise<Fund | undefined> {
+  const { funds } = await getDataset();
+  const needle = code.trim().toUpperCase();
+  return funds.find((fund) => fund.code.toUpperCase() === needle);
+}
+
 export async function getFilterOptions() {
   const { funds } = await getDataset();
   const assetClasses = [

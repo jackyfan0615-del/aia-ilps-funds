@@ -33,3 +33,23 @@ export type FundFilters = {
   risk?: string;
   assetClass?: string;
 };
+
+export type ChartPoint = {
+  t: number;
+  price: number;
+};
+
+export type YearReturn = {
+  year: string;
+  value: string;
+  negative: boolean;
+};
+
+export type FundExtras = {
+  isin: string;
+  dailyChange: string;
+  performanceAsOf: string;
+  yearReturns: YearReturn[];
+};
+
+export type ChartPeriod = "1M" | "3M" | "6M" | "1Y" | "5Y" | "All";
