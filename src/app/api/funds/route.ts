@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
     assetClass: searchParams.get("assetClass") ?? undefined,
   };
 
-  const dataset = getDataset();
-  const funds = getFunds(filters);
-  const options = getFilterOptions();
+  const dataset = await getDataset();
+  const funds = await getFunds(filters);
+  const options = await getFilterOptions();
 
   return NextResponse.json({
     product: dataset.product,

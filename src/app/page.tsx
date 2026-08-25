@@ -1,9 +1,11 @@
 import { FundExplorer } from "@/components/FundExplorer";
 import { getDataset, getFilterOptions } from "@/lib/funds";
 
-export default function HomePage() {
-  const dataset = getDataset();
-  const { assetClasses } = getFilterOptions();
+export const revalidate = 21600;
+
+export default async function HomePage() {
+  const dataset = await getDataset();
+  const { assetClasses } = await getFilterOptions();
 
   return (
     <>

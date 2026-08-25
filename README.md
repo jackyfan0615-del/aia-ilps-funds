@@ -7,7 +7,7 @@
 - 增長型 / 派息 Z 字基金目錄（目前 107 + 38）
 - 關鍵詞搜尋（代號、名稱、經理）
 - 風險與資產類別篩選
-- 賣出價與評估日
+- 賣出價與評估日（每日自動更新）
 - 手機友善，可分享給同事
 
 ## 本機開發
@@ -27,11 +27,18 @@ npm run dev
 在 Cursor iOS：用 GitHub 開啟此 repo，或直接在 Safari 開網頁網址。
 推送到 `main` 會自動觸發 Vercel 重新部署。
 
-## 更新基金資料
+## 每日價格更新
 
-資料檔：`data/funds.json`（來源為 AIA 官網投資選擇資訊頁）。
+- 即時來源：AIA `FundInfo2` API（`fund_cat=TMP2`）
+- 頁面快取約 6 小時；若 API 失敗則回退到 `data/funds.json`
+- Vercel Cron 每日 **10:00 HKT**（`0 2 * * *` UTC）呼叫 `/api/cron/update-funds` 強制刷新
 
-之後可加排程自動抓取；目前可手動更新該 JSON 後重新部署。
+手動觸發（需 `CRON_SECRET`）：
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" \
+  https://aia-ilps-funds.vercel.app/api/cron/update-funds
+```
 
 ## API
 

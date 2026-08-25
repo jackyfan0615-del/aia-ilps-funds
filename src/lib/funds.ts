@@ -1,18 +1,24 @@
 import { readFileSync } from "fs";
 import path from "path";
+import { fetchAiaFunds } from "./aia";
 import type { Fund, FundFilters, FundsDataset } from "./types";
 
-let cached: FundsDataset | null = null;
-
-export function getDataset(): FundsDataset {
-  if (cached) return cached;
+function readFallbackDataset(): FundsDataset {
   const filePath = path.join(process.cwd(), "data", "funds.json");
-  cached = JSON.parse(readFileSync(filePath, "utf-8")) as FundsDataset;
-  return cached;
+  return JSON.parse(readFileSync(filePath, "utf-8")) as FundsDataset;
 }
 
-export function getFunds(filters: FundFilters = {}): Fund[] {
-  const { funds } = getDataset();
+export async function getDataset(): Promise<FundsDataset> {
+  try {
+    return await fetchAiaFunds();
+  } catch (error) {
+    console.error("[funds] AIA live fetch failed, using fallback JSON", error);
+    return readFallbackDataset();
+  }
+}
+
+export async function getFunds(filters: FundFilters = {}): Promise<Fund[]> {
+  const { funds } = await getDataset();
   const q = filters.q?.trim().toLowerCase() ?? "";
   const type = filters.type ?? "all";
   const risk = filters.risk ?? "";
@@ -37,11 +43,11 @@ export function getFunds(filters: FundFilters = {}): Fund[] {
   });
 }
 
-export function getFilterOptions() {
-  const { funds } = getDataset();
-  const assetClasses = [...new Set(funds.map((f) => f.assetClass).filter(Boolean))].sort(
-    (a, b) => a.localeCompare(b, "zh-Hant"),
-  );
+export async function getFilterOptions() {
+  const { funds } = await getDataset();
+  const assetClasses = [
+    ...new Set(funds.map((f) => f.assetClass).filter(Boolean)),
+  ].sort((a, b) => a.localeCompare(b, "zh-Hant"));
   const risks = ["低", "中", "高"];
   return { assetClasses, risks };
 }
