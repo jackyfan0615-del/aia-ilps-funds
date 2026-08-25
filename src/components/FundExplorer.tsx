@@ -3,8 +3,10 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import type { Fund } from "@/lib/types";
 import type { CatalogHistoryEvent } from "@/lib/catalog";
+import type { ResolvedPortfolio } from "@/lib/portfolios";
 import { CatalogNotice } from "./CatalogNotice";
 import { FundRow } from "./FundRow";
+import { PortfolioBoard } from "./PortfolioBoard";
 
 type Props = {
   funds: Fund[];
@@ -15,19 +17,22 @@ type Props = {
     dividend: number;
     other: number;
   };
-  scrapedAt: string;
+  scrapedLabel: string;
   product: string;
   catalogNotice: CatalogHistoryEvent | null;
+  portfolios: ResolvedPortfolio[];
 };
 
 export function FundExplorer({
   funds,
   assetClasses,
   counts,
-  scrapedAt,
+  scrapedLabel,
   product,
   catalogNotice,
+  portfolios,
 }: Props) {
+  const [view, setView] = useState<"funds" | "portfolios">("funds");
   const [q, setQ] = useState("");
   const [type, setType] = useState<"all" | "growth" | "dividend">("all");
   const [risk, setRisk] = useState("");
@@ -49,11 +54,6 @@ export function FundExplorer({
     });
   }, [funds, deferredQ, type, risk, assetClass]);
 
-  const scrapedLabel = new Date(scrapedAt).toLocaleString("zh-HK", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-
   return (
     <div className="explorer">
       <section className="hero">
@@ -67,6 +67,42 @@ export function FundExplorer({
 
       {catalogNotice ? <CatalogNotice notice={catalogNotice} /> : null}
 
+      <div className="view-tabs" role="tablist" aria-label="頁面">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={view === "funds"}
+          className={view === "funds" ? "active" : undefined}
+          onClick={() => setView("funds")}
+        >
+          基金目錄
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={view === "portfolios"}
+          className={view === "portfolios" ? "active" : undefined}
+          onClick={() => setView("portfolios")}
+        >
+          參考組合
+        </button>
+      </div>
+
+      {view === "portfolios" ? (
+        <PortfolioBoard
+          portfolios={portfolios}
+          onSelectFund={(code) => {
+            setView("funds");
+            setType("all");
+            setRisk("");
+            setAssetClass("");
+            setQ(code);
+          }}
+        />
+      ) : null}
+
+      {view === "funds" ? (
+        <>
       <section className="toolbar" aria-label="篩選">
         <label className="search-field">
           <span className="sr-only">搜尋基金</span>
@@ -136,6 +172,8 @@ export function FundExplorer({
           <p className="empty">沒有符合條件的基金，試試清除篩選。</p>
         ) : null}
       </div>
+        </>
+      ) : null}
     </div>
   );
 }

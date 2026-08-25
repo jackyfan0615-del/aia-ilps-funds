@@ -64,9 +64,10 @@ export function diffCatalog(previous: Fund[], current: Fund[]): CatalogDiff {
 export function pickCatalogNotice(
   liveDiff: CatalogDiff,
   history: CatalogHistoryEvent[],
+  checkedAt: string,
 ): CatalogHistoryEvent | null {
   if (hasCatalogChanges(liveDiff)) {
-    return { at: new Date().toISOString(), ...liveDiff };
+    return { at: checkedAt, ...liveDiff };
   }
 
   const latest = history[0];

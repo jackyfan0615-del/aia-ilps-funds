@@ -17,7 +17,7 @@ const sourceSans = Source_Sans_3({
 export const metadata: Metadata = {
   title: "AIA ILPS 基金研究台",
   description:
-    "「卓達智悅 2」投資相連壽險基金目錄：增長型與派息（Z字）投資選擇、風險、價格與資產類別。",
+    "「卓達智悅 2」投資相連壽險基金目錄與內部參考組合：增長型與派息（Z字）投資選擇、風險、價格與資產類別。",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

@@ -1,6 +1,7 @@
 import { FundExplorer } from "@/components/FundExplorer";
 import { diffCatalog, pickCatalogNotice } from "@/lib/catalog";
 import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions } from "@/lib/funds";
+import { resolvePortfolios } from "@/lib/portfolios";
 
 export const revalidate = 21600;
 
@@ -11,7 +12,13 @@ export default async function HomePage() {
   const catalogNotice = pickCatalogNotice(
     diffCatalog(fallback.funds, dataset.funds),
     getCatalogChanges().history,
+    dataset.scrapedAt,
   );
+  const scrapedLabel = new Date(dataset.scrapedAt).toLocaleString("zh-HK", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Hong_Kong",
+  });
 
   return (
     <>
@@ -19,9 +26,10 @@ export default async function HomePage() {
         funds={dataset.funds}
         assetClasses={assetClasses}
         counts={dataset.counts}
-        scrapedAt={dataset.scrapedAt}
+        scrapedLabel={scrapedLabel}
         product={dataset.product}
         catalogNotice={catalogNotice}
+        portfolios={resolvePortfolios(dataset.funds)}
       />
       <footer className="site-footer">
         資料來源：

@@ -3,10 +3,7 @@
 import type { CatalogHistoryEvent } from "@/lib/catalog";
 
 function formatAt(at: string) {
-  return new Date(at).toLocaleString("zh-HK", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  return at.replace("T", " ").replace(/\.\d+Z$/, " UTC");
 }
 
 export function CatalogNotice({ notice }: { notice: CatalogHistoryEvent }) {
