@@ -32,7 +32,7 @@ export function FundExplorer({
   catalogNotice,
   portfolios,
 }: Props) {
-  const [view, setView] = useState<"funds" | "portfolios">("funds");
+  const [view, setView] = useState<"funds" | "portfolios">("portfolios");
   const [q, setQ] = useState("");
   const [type, setType] = useState<"all" | "growth" | "dividend">("all");
   const [risk, setRisk] = useState("");
@@ -60,7 +60,7 @@ export function FundExplorer({
         <p className="hero-brand">AIA ILPS</p>
         <h1 className="hero-title">基金研究台</h1>
         <p className="hero-sub">
-          {product} · 增長 {counts.growth} · 派息 Z 字 {counts.dividend}
+          {product} · 先問三題再出一套組合 · 增長 {counts.growth} · 派息 Z 字 {counts.dividend}
         </p>
         <p className="hero-meta">資料更新：{scrapedLabel} · 目錄隨 AIA 增減自動同步</p>
       </section>
@@ -71,20 +71,20 @@ export function FundExplorer({
         <button
           type="button"
           role="tab"
-          aria-selected={view === "funds"}
-          className={view === "funds" ? "active" : undefined}
-          onClick={() => setView("funds")}
-        >
-          基金目錄
-        </button>
-        <button
-          type="button"
-          role="tab"
           aria-selected={view === "portfolios"}
           className={view === "portfolios" ? "active" : undefined}
           onClick={() => setView("portfolios")}
         >
           參考組合
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={view === "funds"}
+          className={view === "funds" ? "active" : undefined}
+          onClick={() => setView("funds")}
+        >
+          基金目錄
         </button>
       </div>
 
