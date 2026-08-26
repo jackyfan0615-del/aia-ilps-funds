@@ -25,6 +25,9 @@ export type PortfolioTemplate = {
   summary: string;
   principle: string;
   suitedFor: string;
+  whySleeves: string;
+  alternatives: string;
+  meetingRisk: string;
   sleeves: PortfolioSleeve[];
 };
 
@@ -49,6 +52,11 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     principle:
       "目標是帳戶有股息流。短債與公司債防守，安聯收益及增長做核心入息，環球高息股票提高派息。代價是淨值會波動，派息不保證。",
     suitedFor: "希望保單帳戶有現金股息、可接受價格波動的客戶。派息不保證，亦可因市況而從本金支付。",
+    whySleeves:
+      "帳戶要現金股息才用 Z 字。J16 施羅德環球收益股票是累積類別，保單戶口不會派現金，不要用它替代 Z17。",
+    alternatives:
+      "首 5 年手續費約 2.4% 會吃薄短債息；可略減 Z36／Z29、提高 Z07／Z17。第 6 年才把防守債加回。",
+    meetingRisk: "淨值會波動，派息不保證，亦可從本金支付。",
     sleeves: [
       { code: "Z36", weight: 20, role: "短債打底" },
       { code: "Z77", weight: 20, role: "多元收益" },
@@ -66,6 +74,10 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     principle:
       "目標是穩中求升、少派息。現金加短債壓波動，平衡／動態配置做核心，約兩成環球股票參與升市。",
     suitedFor: "風險承受較低、年期中長、以累積淨值為主的客戶。",
+    whySleeves:
+      "現金 W04 + 短債 W06 約 35% 壓波動。首 5 年這兩格幾乎只夠交保單手續費，所以只留給完全不能看股票波動的客人。",
+    alternatives: "新單首 5 年較宜改用均衡核心（少現金、多股票核心）。第 6 年起才把這套當「穩」。",
+    meetingRisk: "首 5 年扣費後可能幾乎不升；股市大跌時仍會回撤，不是保本。",
     sleeves: [
       { code: "W04", weight: 15, role: "美元現金" },
       { code: "W06", weight: 20, role: "短債穩定" },
@@ -83,6 +95,11 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     principle:
       "目標是一籃子完成核心。股債混合約一半，環球加重點股票約四成半，一成短債作緩衝。",
     suitedFor: "可接受中度波動、想一籃子完成核心配置的客戶。",
+    whySleeves:
+      "CG1 做環球核心，A15 柏瑞重點是集中衛星，兩隻走勢很接近，不要把 A15 當第二隻核心。P07＋J20 做股債混合。",
+    alternatives:
+      "不要再疊 N07 或 H01，科技／增長會重複。能源 I09（油氣）與 T09（潔淨能源）二選一當主題，不要兩隻都加。",
+    meetingRisk: "中度波動，不是保本。過往表現不代表將來表現。",
     sleeves: [
       { code: "W06", weight: 10, role: "短債緩衝" },
       { code: "P07", weight: 25, role: "收益及增長" },
@@ -100,6 +117,11 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     principle:
       "目標是長期資本增值。約九成股票（環球核心、機會型、科技），黃金分散，一成現金方便調倉。",
     suitedFor: "年期較長、能承受較大回撤、目標資本增值的客戶。",
+    whySleeves:
+      "CG1 做環球核心，N07 是機會型衛星，H01 是科技。黃金用 I07（大型金礦）而非 D14（貴金屬／中小型礦股），角色是分散不是追礦股。H01 不是 QQQ：主動環球科技，這張保單買不到納指 ETF。",
+    alternatives:
+      "不要再加 A15（與 CG1／N07 同向）。能源 I09／T09 不要用來替代 I07。現金 W04 可留作調倉。",
+    meetingRisk: "年期要長，須能接受科技與機會型股票約三成至五成回撤。",
     sleeves: [
       { code: "CG1", weight: 30, role: "環球核心" },
       { code: "N07", weight: 25, role: "機會型股票" },
@@ -172,6 +194,9 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
       summary: template.summary,
       principle: template.principle,
       suitedFor: template.suitedFor,
+      whySleeves: template.whySleeves,
+      alternatives: template.alternatives,
+      meetingRisk: template.meetingRisk,
       holdings,
       stats,
     };
