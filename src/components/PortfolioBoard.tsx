@@ -42,16 +42,6 @@ export function PortfolioBoard({ portfolios }: Props) {
   const pick = recommendPortfolio(answers);
   const quizDone = pick != null;
 
-  function setHorizon(horizon: Horizon) {
-    setAnswers((current) => ({ ...current, horizon }));
-  }
-  function setGoal(goal: Goal) {
-    setAnswers((current) => ({ ...current, goal }));
-  }
-  function setDrawdown(drawdown: Drawdown) {
-    setAnswers((current) => ({ ...current, drawdown }));
-  }
-
   function isOpen(id: PortfolioId) {
     if (!quizDone) return true;
     if (pick.id === id) return true;
@@ -67,6 +57,10 @@ export function PortfolioBoard({ portfolios }: Props) {
     });
   }
 
+  const ordered = quizDone
+    ? [...portfolios].sort((a, b) => Number(b.id === pick.id) - Number(a.id === pick.id))
+    : portfolios;
+
   return (
     <div className="portfolio-board">
       <section className="suitability" aria-labelledby="suitability-title">
@@ -76,27 +70,24 @@ export function PortfolioBoard({ portfolios }: Props) {
         <p className="suitability-lead">先問這三題，再出一套主倉。不要先翻 145 隻基金。</p>
         <QuizRow
           legend="1. 投資年期？"
-          name="horizon"
           value={answers.horizon}
           options={HORIZON_OPTIONS}
-          onChange={setHorizon}
+          onChange={(horizon) => setAnswers((current) => ({ ...current, horizon }))}
         />
         <QuizRow
           legend="2. 要現金息，還是淨值增長？"
-          name="goal"
           value={answers.goal}
           options={GOAL_OPTIONS}
-          onChange={setGoal}
+          onChange={(goal) => setAnswers((current) => ({ ...current, goal }))}
         />
         <QuizRow
           legend="3. 2022 那種大回撤拿不拿得住？"
-          name="drawdown"
           value={answers.drawdown}
           options={DRAWDOWN_OPTIONS}
-          onChange={setDrawdown}
+          onChange={(drawdown) => setAnswers((current) => ({ ...current, drawdown }))}
         />
         {pick ? (
-          <div className="suitability-result">
+          <div className="suitability-result" data-pick={pick.id}>
             <p className="suitability-pick">
               主推 <strong>{portfolios.find((item) => item.id === pick.id)?.name ?? pick.id}</strong>
             </p>
@@ -125,18 +116,20 @@ export function PortfolioBoard({ portfolios }: Props) {
       <p className="portfolio-disclaimer">
         參考預期回報按各基金 AIA 過往賣出價加權；派息組合另計現金股息率。下方另列扣保單手續費約{" "}
         {(POLICY_FEE_EARLY * 100).toFixed(2)}%（首 5 年）及 {(POLICY_FEE_LATER * 100).toFixed(2)}%（第 6
-        年起）後的數字，實際以保單為準。風險按年化波動及最大回撤。過往表現不代表將來表現，派息不保證。
+        年起）後的數字，實際以保單為準，收費可按條款調整。風險按年化波動及最大回撤。過往表現不代表將來表現，派息不保證。
       </p>
 
-      {(quizDone
-        ? [...portfolios].sort((a, b) => Number(b.id === pick.id) - Number(a.id === pick.id))
-        : portfolios
-      ).map((portfolio) => {
+      {ordered.map((portfolio) => {
         const featured = quizDone && pick.id === portfolio.id;
         const open = isOpen(portfolio.id);
+        const collapsed = quizDone && !open;
         return (
           <article
             key={portfolio.id}
+            id={`mix-${portfolio.id}`}
+            data-mix={portfolio.id}
+            data-featured={featured ? "true" : "false"}
+            data-open={open ? "true" : "false"}
             className={`portfolio-card${featured ? " is-featured" : ""}${open ? "" : " is-collapsed"}`}
           >
             <div className="portfolio-head">
@@ -151,12 +144,12 @@ export function PortfolioBoard({ portfolios }: Props) {
                 </span>
               </div>
             </div>
-            {!open ? <p className="portfolio-fit">{portfolio.summary}</p> : null}
+            {collapsed ? <p className="portfolio-fit">{portfolio.summary}</p> : null}
 
             {quizDone && pick.id !== portfolio.id ? (
               <button
                 type="button"
-                className="text-btn"
+                className="expand-btn"
                 aria-expanded={open}
                 onClick={() => toggle(portfolio.id)}
               >
@@ -174,13 +167,11 @@ export function PortfolioBoard({ portfolios }: Props) {
 
 function QuizRow<T extends string>({
   legend,
-  name,
   value,
   options,
   onChange,
 }: {
   legend: string;
-  name: string;
   value: T | null;
   options: { value: T; label: string }[];
   onChange: (value: T) => void;
@@ -189,18 +180,21 @@ function QuizRow<T extends string>({
     <fieldset className="quiz-row">
       <legend>{legend}</legend>
       <div className="quiz-options" role="radiogroup" aria-label={legend}>
-        {options.map((option) => (
-          <label key={option.value} className={value === option.value ? "is-on" : undefined}>
-            <input
-              type="radio"
-              name={name}
-              value={option.value}
-              checked={value === option.value}
-              onChange={() => onChange(option.value)}
-            />
-            {option.label}
-          </label>
-        ))}
+        {options.map((option) => {
+          const selected = value === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              className={selected ? "is-on" : undefined}
+              onClick={() => onChange(option.value)}
+            >
+              {option.label}
+            </button>
+          );
+        })}
       </div>
     </fieldset>
   );
@@ -286,7 +280,7 @@ function PortfolioBody({
         </div>
         <div>
           <p className="price-label">最大回撤</p>
-          <p className="metric-value is-down">{formatSignedPct(portfolio.stats.maxDrawdownPct)}</p>
+          <p className={`metric-value is-down`}>{formatSignedPct(portfolio.stats.maxDrawdownPct)}</p>
           <p className="metric-sub">組合高峰至低位</p>
         </div>
       </div>
@@ -355,7 +349,7 @@ function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
   const mix = portfolio.holdings.map((holding) => `${holding.code} ${holding.weight}%`).join(" · ");
 
   return (
-    <div className="meeting-card">
+    <div className="meeting-card" id={`meeting-${portfolio.id}`}>
       <p className="meeting-kicker">會面摘要 · 可截圖</p>
       <h3 className="meeting-title">{portfolio.name}</h3>
       <p>

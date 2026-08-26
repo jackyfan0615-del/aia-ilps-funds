@@ -183,6 +183,7 @@ body {
 }
 
 .portfolio-card {
+  scroll-margin-top: 1rem;
   padding: 1.05rem 1.1rem 1.15rem;
   border: 1px solid var(--line);
   border-radius: 1.1rem;
@@ -255,41 +256,38 @@ body {
 }
 
 .quiz-options {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 0.4rem;
 }
 
-.quiz-options label {
+.quiz-options button {
+  appearance: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  min-height: 2.4rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0.42rem 0.75rem;
   background: #fff;
+  color: var(--ink);
+  font: inherit;
   font-size: 0.8rem;
   font-weight: 650;
+  text-align: left;
   cursor: pointer;
 }
 
-.quiz-options label.is-on {
+.quiz-options button.is-on {
   border-color: var(--ink);
   background: var(--ink);
   color: #fff;
 }
 
-.quiz-options label:has(input:focus-visible) {
+.quiz-options button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-
-.quiz-options input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
 }
 
 .suitability-result {
@@ -330,6 +328,23 @@ body {
 .portfolio-card.is-featured {
   border-color: rgba(15, 107, 92, 0.35);
   box-shadow: 0 10px 28px rgba(15, 107, 92, 0.12);
+}
+
+.portfolio-card.is-collapsed {
+  background: #f7f9fb;
+}
+
+.expand-btn {
+  margin-top: 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .pick-badge {
@@ -1018,5 +1033,10 @@ body {
 
   .fee-strip {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-wrap: wrap;
   }
 }

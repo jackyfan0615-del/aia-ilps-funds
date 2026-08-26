@@ -55,7 +55,7 @@ export function FundExplorer({
   }, [funds, deferredQ, type, risk, assetClass]);
 
   return (
-    <div className="explorer">
+    <div className="explorer" data-view={view}>
       <section className="hero">
         <p className="hero-brand">AIA ILPS</p>
         <h1 className="hero-title">基金研究台</h1>
@@ -71,6 +71,8 @@ export function FundExplorer({
         <button
           type="button"
           role="tab"
+          id="tab-portfolios"
+          aria-controls="panel-portfolios"
           aria-selected={view === "portfolios"}
           className={view === "portfolios" ? "active" : undefined}
           onClick={() => setView("portfolios")}
@@ -80,6 +82,8 @@ export function FundExplorer({
         <button
           type="button"
           role="tab"
+          id="tab-funds"
+          aria-controls="panel-funds"
           aria-selected={view === "funds"}
           className={view === "funds" ? "active" : undefined}
           onClick={() => setView("funds")}
@@ -88,10 +92,14 @@ export function FundExplorer({
         </button>
       </div>
 
-      {view === "portfolios" ? <PortfolioBoard portfolios={portfolios} /> : null}
+      {view === "portfolios" ? (
+        <div role="tabpanel" id="panel-portfolios" aria-labelledby="tab-portfolios">
+          <PortfolioBoard portfolios={portfolios} />
+        </div>
+      ) : null}
 
       {view === "funds" ? (
-        <>
+        <div role="tabpanel" id="panel-funds" aria-labelledby="tab-funds">
       <section className="toolbar" aria-label="篩選">
         <label className="search-field">
           <span className="sr-only">搜尋基金</span>
@@ -161,7 +169,7 @@ export function FundExplorer({
           <p className="empty">沒有符合條件的基金，試試清除篩選。</p>
         ) : null}
       </div>
-        </>
+        </div>
       ) : null}
     </div>
   );
