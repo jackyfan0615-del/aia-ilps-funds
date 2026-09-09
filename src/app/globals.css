@@ -373,6 +373,71 @@ body {
   color: #fff;
 }
 
+.research-filter {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: start;
+}
+
+.research-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.fund-safety-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.fund-safety-badge.is-yes {
+  background: var(--growth-soft);
+  color: var(--growth);
+}
+
+.fund-safety-badge.is-watch {
+  background: #fef0c7;
+  color: var(--risk-mid);
+}
+
+.detail-hero .fund-safety-badge.is-yes {
+  background: rgba(230, 245, 241, 0.2);
+  color: #b7eadb;
+}
+
+.detail-hero .fund-safety-badge.is-watch {
+  background: rgba(254, 240, 199, 0.18);
+  color: #f6d48a;
+}
+
+.price-dd {
+  margin: 0.2rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.research-filter button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  background: #e8eef8;
+  color: #184866;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.research-filter button.active {
+  background: #184866;
+  color: #fff;
+}
+
 .select-row {
   display: grid;
   gap: 0.75rem;
@@ -455,6 +520,22 @@ body {
 .fund-type.is-growth {
   background: var(--growth-soft);
   color: var(--growth);
+}
+
+.fund-research-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  background: #e8eef8;
+  color: #184866;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.detail-hero .fund-research-badge {
+  background: rgba(255, 255, 255, 0.16);
+  color: #e8eef8;
 }
 
 .fund-risk.risk-high {
@@ -591,6 +672,63 @@ body {
   border: 1px solid var(--line);
   border-radius: 1rem;
   background: var(--surface);
+}
+
+.research-panel {
+  padding: 1rem 1.05rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.research-grid {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.85rem 0 0;
+}
+
+.research-grid div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.research-grid dt {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.research-grid dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.research-comment {
+  margin: 0.9rem 0 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.75rem;
+  background: #f6f8fa;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.research-left {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.research-left .research-comment {
+  margin: 0.2rem 0 0;
+}
+
+.research-method {
+  margin: 0.15rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 .period-tabs {
