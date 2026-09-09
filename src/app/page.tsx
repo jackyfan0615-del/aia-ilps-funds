@@ -2,6 +2,7 @@ import { FundExplorer } from "@/components/FundExplorer";
 import { diffCatalog, pickCatalogNotice } from "@/lib/catalog";
 import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions } from "@/lib/funds";
 import { getResearchedCodes } from "@/lib/fund-notes";
+import { getSafetyMarginFile, getSafetyIndex } from "@/lib/safety-margin";
 import { resolvePortfoliosWithStats } from "@/lib/portfolios";
 
 export const revalidate = 21600;
@@ -31,6 +32,8 @@ export default async function HomePage() {
         product={dataset.product}
         catalogNotice={catalogNotice}
         researchedCodes={getResearchedCodes()}
+        safetyIndex={getSafetyIndex()}
+        safetyYesCount={getSafetyMarginFile().yesCount}
         portfolios={await resolvePortfoliosWithStats(dataset.funds)}
       />
       <footer className="site-footer">

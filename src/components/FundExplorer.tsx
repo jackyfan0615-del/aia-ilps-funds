@@ -4,9 +4,12 @@ import { useDeferredValue, useMemo, useState } from "react";
 import type { Fund } from "@/lib/types";
 import type { CatalogHistoryEvent } from "@/lib/catalog";
 import type { ResolvedPortfolio } from "@/lib/portfolios";
+import type { SafetyLabel } from "@/lib/safety-format";
 import { CatalogNotice } from "./CatalogNotice";
 import { FundRow } from "./FundRow";
 import { PortfolioBoard } from "./PortfolioBoard";
+
+type SafetyIndex = Record<string, { label: SafetyLabel; dd5: number }>;
 
 type Props = {
   funds: Fund[];
@@ -21,6 +24,8 @@ type Props = {
   product: string;
   catalogNotice: CatalogHistoryEvent | null;
   researchedCodes: string[];
+  safetyIndex: SafetyIndex;
+  safetyYesCount: number;
   portfolios: ResolvedPortfolio[];
 };
 
@@ -32,6 +37,8 @@ export function FundExplorer({
   product,
   catalogNotice,
   researchedCodes,
+  safetyIndex,
+  safetyYesCount,
   portfolios,
 }: Props) {
   const [view, setView] = useState<"funds" | "portfolios">("funds");
@@ -40,24 +47,30 @@ export function FundExplorer({
   const [risk, setRisk] = useState("");
   const [assetClass, setAssetClass] = useState("");
   const [researchOnly, setResearchOnly] = useState(false);
+  const [safetyOnly, setSafetyOnly] = useState(false);
   const deferredQ = useDeferredValue(q);
   const researched = useMemo(() => new Set(researchedCodes), [researchedCodes]);
 
   const filtered = useMemo(() => {
     const query = deferredQ.trim().toLowerCase();
-    return funds.filter((fund) => {
+    const rows = funds.filter((fund) => {
       if (type === "growth" && fund.type !== "growth") return false;
       if (type === "dividend" && fund.type !== "dividend") return false;
       if (risk && fund.risk !== risk) return false;
       if (assetClass && fund.assetClass !== assetClass) return false;
       if (researchOnly && !researched.has(fund.code)) return false;
+      if (safetyOnly && safetyIndex[fund.code]?.label !== "yes") return false;
       if (!query) return true;
       const haystack = [fund.code, fund.name, fund.manager, fund.assetClass]
         .join(" ")
         .toLowerCase();
       return haystack.includes(query);
     });
-  }, [funds, deferredQ, type, risk, assetClass, researchOnly, researched]);
+    if (!safetyOnly) return rows;
+    return [...rows].sort(
+      (a, b) => (safetyIndex[a.code]?.dd5 ?? 0) - (safetyIndex[b.code]?.dd5 ?? 0),
+    );
+  }, [funds, deferredQ, type, risk, assetClass, researchOnly, safetyOnly, researched, safetyIndex]);
 
   return (
     <div className="explorer">
@@ -130,16 +143,26 @@ export function FundExplorer({
         </div>
 
         <div className="research-filter">
-          <button
-            type="button"
-            aria-pressed={researchOnly}
-            className={researchOnly ? "active" : undefined}
-            onClick={() => setResearchOnly((value) => !value)}
-          >
-            有研究備註 {researchedCodes.length}
-          </button>
+          <div className="research-filter-row">
+            <button
+              type="button"
+              aria-pressed={researchOnly}
+              className={researchOnly ? "active" : undefined}
+              onClick={() => setResearchOnly((value) => !value)}
+            >
+              有研究備註 {researchedCodes.length}
+            </button>
+            <button
+              type="button"
+              aria-pressed={safetyOnly}
+              className={safetyOnly ? "active" : undefined}
+              onClick={() => setSafetyOnly((value) => !value)}
+            >
+              有安全邊際 {safetyYesCount}
+            </button>
+          </div>
           <p className="research-method">
-            基本面＋左側：先定經濟驅動與估值，只在「惡化未完、但便宜」時分注；先寫認錯，不靠破線才買。
+            安全邊際看累積類距5年高位、近1年是否仍弱、資產類是否仍貴。派息類除息後的淨值下跌不當成便宜。轉換不收費。
           </p>
         </div>
 
@@ -174,7 +197,13 @@ export function FundExplorer({
 
       <div className="fund-list">
         {filtered.map((fund) => (
-          <FundRow key={fund.code} fund={fund} hasResearch={researched.has(fund.code)} />
+          <FundRow
+            key={fund.code}
+            fund={fund}
+            hasResearch={researched.has(fund.code)}
+            safetyLabel={safetyIndex[fund.code]?.label}
+            dd5={safetyIndex[fund.code]?.dd5}
+          />
         ))}
         {filtered.length === 0 ? (
           <p className="empty">沒有符合條件的基金，試試清除篩選。</p>

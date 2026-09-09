@@ -6,6 +6,8 @@ import { compactChart, currencyPrefix, parseBidNumber, formatChartDate } from "@
 import { estimateDividendYield, dividendYieldLabel } from "@/lib/dividends";
 import { FundResearch } from "@/components/FundResearch";
 import { getFundNote } from "@/lib/fund-notes";
+import { getSafetyRow } from "@/lib/safety-margin";
+import { formatDrawdown, safetyLabelText } from "@/lib/safety-format";
 import { formatAbsPct } from "@/lib/portfolio-stats";
 import { getFundByCode } from "@/lib/funds";
 import { typeLabel } from "@/lib/labels";
@@ -56,6 +58,8 @@ export default async function FundDetailPage({ params }: PageProps) {
   const bid = parseBidNumber(fund.bidPrice);
   const yieldEst = bid ? estimateDividendYield(payouts, bid) : null;
   const research = getFundNote(fund.code);
+  const safety = getSafetyRow(fund.code);
+  const safetyText = safetyLabelText(safety?.label);
 
   const daily = Number.parseFloat(extras.dailyChange);
   const dailyUp = Number.isFinite(daily) ? daily >= 0 : null;
@@ -75,6 +79,9 @@ export default async function FundDetailPage({ params }: PageProps) {
           </span>
           <span className={`fund-risk ${riskClass(fund.risk)}`}>{fund.risk}風險</span>
           {research ? <span className="fund-research-badge">研究</span> : null}
+          {safetyText ? (
+            <span className={`fund-safety-badge is-${safety?.label}`}>{safetyText}</span>
+          ) : null}
         </div>
         <h1 className="detail-title">{fund.name}</h1>
         <p className="detail-sub">
@@ -104,8 +111,25 @@ export default async function FundDetailPage({ params }: PageProps) {
               <p className="price-date">{dividendYieldLabel(yieldEst.method)}</p>
             </div>
           ) : null}
+          {safety?.dd5 != null ? (
+            <div>
+              <p className="price-label">自身估值</p>
+              <p className="detail-price">{formatDrawdown(safety.dd5)}</p>
+              <p className="price-date">累積／增長類賣出價對近5年高位</p>
+            </div>
+          ) : null}
         </div>
       </header>
+
+      {safety?.why ? (
+        <section className="research-panel" aria-label="安全邊際">
+          <h2 className="detail-h">{safetyText || "估值觀察"}</h2>
+          <p className="research-comment">{safety.why}</p>
+          <p className="detail-note">
+            派息類除息會拉低賣出價，不當成便宜。轉換不收費。過往表現不代表將來表現。
+          </p>
+        </section>
+      ) : null}
 
       {research ? <FundResearch note={research} /> : null}
 

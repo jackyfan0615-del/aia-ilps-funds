@@ -37,7 +37,7 @@ Left-side = buy while price is still weak, because valuation and the cycle say t
   - `data/fund-notes.json`
   - fund detail UI under `src/app/funds/[code]/`
   - catalog badges / research filter
-- Fill comment, benchmark, market, TradingView, research dividend rate, plus the five left-side fields
+- Update `data/safety-margin.json` when refreshing which funds currently have a left-side margin of safety (AIA bid vs 5-year high, excluding distributing NAV traps).
 
 ## Must not do
 
