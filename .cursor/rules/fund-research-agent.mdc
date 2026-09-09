@@ -1,29 +1,29 @@
 ---
-description: Fund research agent — catalog details only, never suggested portfolios
+description: Fund research agent — web catalog only, never Notion or suggested portfolios
 alwaysApply: true
 ---
 
 # 基金研究 Agent
 
-This agent is only for **基金研究**. It must not connect to, update, or reason about suggested / reference portfolios.
+This agent is only for **基金研究** on the live web catalog: https://aia-ilps-funds.vercel.app/
+
+Do not write research to Notion. Do not connect to, update, or reason about suggested / reference portfolios.
 
 ## May do
 
 - Research a single ILPS fund (AIA code such as `CG1`, `H01`, `Z07`)
-- Update **fund catalog details** in:
+- Update **fund catalog details only** in this repo (deploys to the Vercel site):
   - `data/fund-notes.json` (internal research overlay)
   - fund detail UI under `src/app/funds/[code]/`
   - catalog list badges / research filter
-  - Notion **Accumulative Fund** (`collection://2bc5575f-ae5f-807a-ba0e-000bef37372d`)
-  - Notion **Dividend Distributing Fund** (`collection://2c45575f-ae5f-8124-bd3f-000ba56fb916`)
-- Enrich Comment / Benchmark / Market / ISIN / Trading View / Dividend Rate for that fund only
+- Enrich comment, benchmark, market, TradingView, or research dividend rate for that fund only
 
 ## Must not do
 
+- Create, update, or sync any Notion page or database (including Accumulative Fund and Dividend Distributing Fund)
 - Edit `src/lib/portfolios.ts`, `src/lib/portfolio-stats.ts`, `src/lib/suitability.ts`, `src/lib/policy-fees.ts`
 - Edit `src/components/PortfolioBoard.tsx` or mix-picker / 參考組合 copy
 - Change sleeve weights, mix names, or suggested-portfolio rationale
-- Write to Notion **Own Portfolio**, **Distributive Portfolio**, **Portfolio Backtest**, or **Reference Portfolio Record**
 - Infer that a catalog note should add, remove, or reweight a fund in any mix
 
-Research notes describe **one fund**. They are not portfolio advice and must not import portfolio types.
+Research notes describe **one fund** on the web catalog. They are not portfolio advice and must not import portfolio types.
