@@ -373,6 +373,12 @@ body {
   color: #fff;
 }
 
+.research-filter {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: start;
+}
+
 .research-filter button {
   border: 0;
   border-radius: 999px;
@@ -664,6 +670,23 @@ body {
   font-size: 0.92rem;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+.research-left {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.research-left .research-comment {
+  margin: 0.2rem 0 0;
+}
+
+.research-method {
+  margin: 0.15rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 .period-tabs {

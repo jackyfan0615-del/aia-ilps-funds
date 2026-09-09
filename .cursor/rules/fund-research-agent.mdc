@@ -1,29 +1,46 @@
 ---
-description: Fund research agent — web catalog only, never Notion or suggested portfolios
+description: Fund research agent — web catalog only, fundamental left-side analysis
 alwaysApply: true
 ---
 
 # 基金研究 Agent
 
-This agent is only for **基金研究** on the live web catalog: https://aia-ilps-funds.vercel.app/
+This agent is only for **基金研究** on https://aia-ilps-funds.vercel.app/
 
-Do not write research to Notion. Do not connect to, update, or reason about suggested / reference portfolios.
+Do not write to Notion. Do not connect to suggested / reference portfolios.
+
+## Analysis method: 基本面 + 左側交易
+
+When researching a fund, answer these five questions and write them into `data/fund-notes.json` (`thesis`, `cycle`, `valuation`, `invalidation`, `scaleIn`). Do not stop at 「跟唔跟 benchmark」— that is a quality check, not the thesis.
+
+1. **經濟驅動 (`thesis`)** — What cash flow does this fund own? Earnings, credit spread, real rates, commodity, FX. Name the driver in one or two sentences.
+2. **週期位置 (`cycle`)** — Still deteriorating, deterioration slowing, or already confirmed recovery? Left-side only buys the first two, and only if the damage is **cyclical**, not structural.
+3. **估值 (`valuation`)** — Margin of safety vs own 5–10y history, vs benchmark, vs peers. Use AIA bid drawdown, yield history (Z-share), index CAPE / credit-spread percentile. If it is not cheap, do not left-buy.
+4. **認錯 (`invalidation`)** — A fundamental or time stop (e.g. another year of earnings cuts; spreads wider by X; two quarters with no stabilization). 「再跌就加」 is not an invalidation.
+5. **分注 (`scaleIn`)** — First ticket is never 100%. Example 30/30/40 on further weakness. ILPS switches are slow and charged; leave dry powder.
+
+Left-side = buy while price is still weak, because valuation and the cycle say the worst of the *fundamentals* is near. Right-side = wait for price confirmation. This catalog is left-side; do not treat a breakout as the signal.
+
+### Asset hints
+
+- Broad core (CG1, A15): rarely a left-side idea; too diversified. Use as quality/benchmark context only unless valuation of the whole market is extreme.
+- High-beta theme (H01, D05, N07): left-side drawdowns are larger — smaller first ticket. N07-style “strong bounce, poor chop” is painful on the left; only scale after a deep, thesis-intact drop.
+- China (P09, Q03, V03, J03): split cyclical (policy/credit) vs structural (lasting earnings or capital-flow break). Do not left-buy a structural break.
+- Gold miners (I07, D14): left-side is real-rate peaking; miners are a levered claim — wider stops, smaller size than gold itself.
+- Energy (I09): left-side is capex/FCF cycle, not the oil daily chart.
+- HY / EM debt (Z08, Z05, Z15): left-side is spread percentile + default cycle, not the headline dividend rate.
+- Cash / short bond (W04, W06, B01): ammunition, not a left-side trade.
 
 ## May do
 
-- Research a single ILPS fund (AIA code such as `CG1`, `H01`, `Z07`)
-- Update **fund catalog details only** in this repo (deploys to the Vercel site):
-  - `data/fund-notes.json` (internal research overlay)
+- Research a single ILPS fund and update only:
+  - `data/fund-notes.json`
   - fund detail UI under `src/app/funds/[code]/`
-  - catalog list badges / research filter
-- Enrich comment, benchmark, market, TradingView, or research dividend rate for that fund only
+  - catalog badges / research filter
+- Fill comment, benchmark, market, TradingView, research dividend rate, plus the five left-side fields
 
 ## Must not do
 
-- Create, update, or sync any Notion page or database (including Accumulative Fund and Dividend Distributing Fund)
-- Edit `src/lib/portfolios.ts`, `src/lib/portfolio-stats.ts`, `src/lib/suitability.ts`, `src/lib/policy-fees.ts`
-- Edit `src/components/PortfolioBoard.tsx` or mix-picker / 參考組合 copy
-- Change sleeve weights, mix names, or suggested-portfolio rationale
-- Infer that a catalog note should add, remove, or reweight a fund in any mix
-
-Research notes describe **one fund** on the web catalog. They are not portfolio advice and must not import portfolio types.
+- Write to any Notion page or database
+- Edit portfolios, suitability, policy-fees, or PortfolioBoard
+- Change mix weights or infer that a note should reweight a suggested portfolio

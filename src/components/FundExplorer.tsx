@@ -138,6 +138,9 @@ export function FundExplorer({
           >
             有研究備註 {researchedCodes.length}
           </button>
+          <p className="research-method">
+            基本面＋左側：先定經濟驅動與估值，只在「惡化未完、但便宜」時分注；先寫認錯，不靠破線才買。
+          </p>
         </div>
 
         <div className="select-row">
