@@ -4,6 +4,8 @@ import { PriceTrend } from "@/components/PriceTrend";
 import { aiaDetailsUrl, fetchAiaFundChart, fetchAiaFundExtras, fetchAiaDividends } from "@/lib/aia";
 import { compactChart, currencyPrefix, parseBidNumber, formatChartDate } from "@/lib/chart";
 import { estimateDividendYield, dividendYieldLabel } from "@/lib/dividends";
+import { FundResearch } from "@/components/FundResearch";
+import { getFundNote } from "@/lib/fund-notes";
 import { formatAbsPct } from "@/lib/portfolio-stats";
 import { getFundByCode } from "@/lib/funds";
 import { typeLabel } from "@/lib/labels";
@@ -53,6 +55,7 @@ export default async function FundDetailPage({ params }: PageProps) {
   const payouts = dividendResult.status === "fulfilled" ? dividendResult.value : [];
   const bid = parseBidNumber(fund.bidPrice);
   const yieldEst = bid ? estimateDividendYield(payouts, bid) : null;
+  const research = getFundNote(fund.code);
 
   const daily = Number.parseFloat(extras.dailyChange);
   const dailyUp = Number.isFinite(daily) ? daily >= 0 : null;
@@ -71,6 +74,7 @@ export default async function FundDetailPage({ params }: PageProps) {
             {typeLabel(fund.type)}
           </span>
           <span className={`fund-risk ${riskClass(fund.risk)}`}>{fund.risk}風險</span>
+          {research ? <span className="fund-research-badge">研究</span> : null}
         </div>
         <h1 className="detail-title">{fund.name}</h1>
         <p className="detail-sub">
@@ -102,6 +106,8 @@ export default async function FundDetailPage({ params }: PageProps) {
           ) : null}
         </div>
       </header>
+
+      {research ? <FundResearch note={research} /> : null}
 
       <PriceTrend points={points} currency={currency} />
 

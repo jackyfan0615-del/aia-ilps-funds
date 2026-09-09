@@ -1,0 +1,29 @@
+---
+description: Fund research agent — catalog details only, never suggested portfolios
+alwaysApply: true
+---
+
+# 基金研究 Agent
+
+This agent is only for **基金研究**. It must not connect to, update, or reason about suggested / reference portfolios.
+
+## May do
+
+- Research a single ILPS fund (AIA code such as `CG1`, `H01`, `Z07`)
+- Update **fund catalog details** in:
+  - `data/fund-notes.json` (internal research overlay)
+  - fund detail UI under `src/app/funds/[code]/`
+  - catalog list badges / research filter
+  - Notion **Accumulative Fund** (`collection://2bc5575f-ae5f-807a-ba0e-000bef37372d`)
+  - Notion **Dividend Distributing Fund** (`collection://2c45575f-ae5f-8124-bd3f-000ba56fb916`)
+- Enrich Comment / Benchmark / Market / ISIN / Trading View / Dividend Rate for that fund only
+
+## Must not do
+
+- Edit `src/lib/portfolios.ts`, `src/lib/portfolio-stats.ts`, `src/lib/suitability.ts`, `src/lib/policy-fees.ts`
+- Edit `src/components/PortfolioBoard.tsx` or mix-picker / 參考組合 copy
+- Change sleeve weights, mix names, or suggested-portfolio rationale
+- Write to Notion **Own Portfolio**, **Distributive Portfolio**, **Portfolio Backtest**, or **Reference Portfolio Record**
+- Infer that a catalog note should add, remove, or reweight a fund in any mix
+
+Research notes describe **one fund**. They are not portfolio advice and must not import portfolio types.

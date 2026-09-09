@@ -8,7 +8,7 @@ function riskClass(risk: string) {
   return "risk-low";
 }
 
-export function FundRow({ fund }: { fund: Fund }) {
+export function FundRow({ fund, hasResearch = false }: { fund: Fund; hasResearch?: boolean }) {
   return (
     <Link href={`/funds/${fund.code}`} className="fund-row">
       <div className="fund-row-main">
@@ -18,12 +18,15 @@ export function FundRow({ fund }: { fund: Fund }) {
             {typeLabel(fund.type)}
           </span>
           <span className={`fund-risk ${riskClass(fund.risk)}`}>{fund.risk}風險</span>
+          {hasResearch ? <span className="fund-research-badge">研究</span> : null}
         </div>
         <h2 className="fund-name">{fund.name}</h2>
         <p className="fund-meta">
           <span>{fund.assetClass || "—"}</span>
           {fund.manager ? <span>{fund.manager}</span> : null}
-          <span className="fund-trend-hint">點入查看價格走勢</span>
+          <span className="fund-trend-hint">
+            {hasResearch ? "點入查看研究備註與價格走勢" : "點入查看價格走勢"}
+          </span>
         </p>
       </div>
       <div className="fund-price">

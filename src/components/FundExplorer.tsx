@@ -20,6 +20,7 @@ type Props = {
   scrapedLabel: string;
   product: string;
   catalogNotice: CatalogHistoryEvent | null;
+  researchedCodes: string[];
   portfolios: ResolvedPortfolio[];
 };
 
@@ -30,6 +31,7 @@ export function FundExplorer({
   scrapedLabel,
   product,
   catalogNotice,
+  researchedCodes,
   portfolios,
 }: Props) {
   const [view, setView] = useState<"funds" | "portfolios">("funds");
@@ -37,7 +39,9 @@ export function FundExplorer({
   const [type, setType] = useState<"all" | "growth" | "dividend">("all");
   const [risk, setRisk] = useState("");
   const [assetClass, setAssetClass] = useState("");
+  const [researchOnly, setResearchOnly] = useState(false);
   const deferredQ = useDeferredValue(q);
+  const researched = useMemo(() => new Set(researchedCodes), [researchedCodes]);
 
   const filtered = useMemo(() => {
     const query = deferredQ.trim().toLowerCase();
@@ -46,13 +50,14 @@ export function FundExplorer({
       if (type === "dividend" && fund.type !== "dividend") return false;
       if (risk && fund.risk !== risk) return false;
       if (assetClass && fund.assetClass !== assetClass) return false;
+      if (researchOnly && !researched.has(fund.code)) return false;
       if (!query) return true;
       const haystack = [fund.code, fund.name, fund.manager, fund.assetClass]
         .join(" ")
         .toLowerCase();
       return haystack.includes(query);
     });
-  }, [funds, deferredQ, type, risk, assetClass]);
+  }, [funds, deferredQ, type, risk, assetClass, researchOnly, researched]);
 
   return (
     <div className="explorer">
@@ -124,6 +129,17 @@ export function FundExplorer({
           ))}
         </div>
 
+        <div className="research-filter">
+          <button
+            type="button"
+            aria-pressed={researchOnly}
+            className={researchOnly ? "active" : undefined}
+            onClick={() => setResearchOnly((value) => !value)}
+          >
+            有研究備註 {researchedCodes.length}
+          </button>
+        </div>
+
         <div className="select-row">
           <label>
             <span>風險</span>
@@ -155,7 +171,7 @@ export function FundExplorer({
 
       <div className="fund-list">
         {filtered.map((fund) => (
-          <FundRow key={fund.code} fund={fund} />
+          <FundRow key={fund.code} fund={fund} hasResearch={researched.has(fund.code)} />
         ))}
         {filtered.length === 0 ? (
           <p className="empty">沒有符合條件的基金，試試清除篩選。</p>

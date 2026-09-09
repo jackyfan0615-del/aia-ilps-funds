@@ -1,0 +1,236 @@
+{
+  "updatedAt": "2026-09-09T00:00:00.000Z",
+  "notes": {
+    "H01": {
+      "updatedAt": "2026-09-09",
+      "market": "Technology",
+      "benchmark": "MSCI ACWI Information Technology Index + MSCI ACWI Communication Services Index",
+      "comment": "Beta = 1.02，同benchmark差不多的，但係本身volatility 好高",
+      "tradingView": "HZ5I"
+    },
+    "F02": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "MSCI AC Asia ex Japan Small Cap Index (Total Return Net)",
+      "comment": "依然優於benchmark"
+    },
+    "CG1": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "benchmark": "MSCI AC World Index with net dividends reinvested",
+      "comment": "同Benchmark差不多的表現",
+      "tradingView": "Y560"
+    },
+    "B01": {
+      "updatedAt": "2026-09-09",
+      "market": "Short-term Bond"
+    },
+    "W04": {
+      "updatedAt": "2026-09-09",
+      "market": "Money Fund",
+      "benchmark": "Compounded Effective Federal Funds Rate Index"
+    },
+    "A15": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "benchmark": "MSCI All Country World Index (ACWI) Daily Total Return Net",
+      "comment": "同Benchmark差不多的表現"
+    },
+    "N07": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "benchmark": "MSCI All Country World Net Index",
+      "comment": "由低位反彈時能力特別強，但與大盤相關性較低。Choppy market performance is not good.",
+      "tradingView": "XTS2"
+    },
+    "I09": {
+      "updatedAt": "2026-09-09",
+      "market": "Energy",
+      "benchmark": "MSCI World Energy 30% Buffer 10/40 NET Index",
+      "tradingView": "LU0122376428"
+    },
+    "D14": {
+      "updatedAt": "2026-09-09",
+      "market": "Gold and Mining",
+      "benchmark": "FTSE Gold Mines Index",
+      "comment": "同Benchmark差不多",
+      "tradingView": "FT97"
+    },
+    "W06": {
+      "updatedAt": "2026-09-09",
+      "market": "US Bond",
+      "benchmark": "ICE BofA US 3-month Treasury Bill Index"
+    },
+    "N01": {
+      "updatedAt": "2026-09-09",
+      "market": "Bond",
+      "benchmark": "FTSE Global Focus Convertible (USD Hedged) Index"
+    },
+    "A30": {
+      "updatedAt": "2026-09-09",
+      "market": "Japan",
+      "benchmark": "TOPIX Total Return Net Index"
+    },
+    "I31": {
+      "updatedAt": "2026-09-09",
+      "market": "Health",
+      "benchmark": "MSCI World Health Care Index",
+      "comment": "一路優於Benchmark",
+      "tradingView": "LU0122379950"
+    },
+    "D05": {
+      "updatedAt": "2026-09-09",
+      "market": "Biotechnology",
+      "benchmark": "NASDAQ Biotechnology Index",
+      "comment": "跟大盤表現差不多"
+    },
+    "J14": {
+      "updatedAt": "2026-09-09",
+      "market": "Emerging Market",
+      "benchmark": "MSCI EM NR"
+    },
+    "N06": {
+      "updatedAt": "2026-09-09",
+      "market": "USA",
+      "benchmark": "S&P 500 Index",
+      "comment": "由低位反彈時能力特別強，但與大盤相關性較低。Choppy market performance is not good.",
+      "tradingView": "XTS9"
+    },
+    "F10": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "MSCI AC Asia ex Japan Index (Total Return Net)",
+      "comment": "近年表現轉趨與大盤差不多"
+    },
+    "I07": {
+      "updatedAt": "2026-09-09",
+      "market": "Gold and Mining",
+      "benchmark": "FTSE Gold Mines Index (Price Return) (USD)"
+    },
+    "R03": {
+      "updatedAt": "2026-09-09",
+      "market": "USA",
+      "benchmark": "Balanced Index (60% S&P 500 / 40% BB US Agg Bond)"
+    },
+    "J16": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "benchmark": "MSCI World NR"
+    },
+    "F05": {
+      "updatedAt": "2026-09-09",
+      "market": "Technology",
+      "benchmark": "MSCI AC Asia Pacific Tech 100 Equal Weighted Index (Total Return Net)"
+    },
+    "I10": {
+      "updatedAt": "2026-09-09",
+      "market": "Emerging Market",
+      "benchmark": "MSCI EM Latin America 10/40 Index (USD)"
+    },
+    "F13": {
+      "updatedAt": "2026-09-09",
+      "market": "Emerging Market",
+      "benchmark": "MSCI Emerging Markets Latin America Index (Total Return Net)"
+    },
+    "F03": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "Korea Composite Stock Price Index (KOSPI)"
+    },
+    "V02": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "MSCI AC Asia (ex-Japan) Index (Total Net Return)"
+    },
+    "Q01": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "MSCI AC Asia Pacific ex Japan Net Index"
+    },
+    "A29": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "MSCI India Daily Total Return Net Index"
+    },
+    "I21": {
+      "updatedAt": "2026-09-09",
+      "market": "Energy",
+      "benchmark": "MSCI All Country World Index (Net)"
+    },
+    "R01": {
+      "updatedAt": "2026-09-09",
+      "market": "Property",
+      "benchmark": "FTSE EPRA Nareit Global REIT Index"
+    },
+    "Q03": {
+      "updatedAt": "2026-09-09",
+      "market": "China & HK",
+      "benchmark": "MSCI AC World Index"
+    },
+    "P09": {
+      "updatedAt": "2026-09-09",
+      "market": "China & HK",
+      "benchmark": "MSCI China A Onshore Total Return Net"
+    },
+    "V03": {
+      "updatedAt": "2026-09-09",
+      "market": "China & HK",
+      "benchmark": "MSCI China Index (Total Net Return)"
+    },
+    "J03": {
+      "updatedAt": "2026-09-09",
+      "market": "China & HK",
+      "benchmark": "FTSE Hong Kong (Net TR)"
+    },
+    "I27": {
+      "updatedAt": "2026-09-09",
+      "market": "Bond",
+      "benchmark": "JPM Asian Credit Index (USD)"
+    },
+    "J07": {
+      "updatedAt": "2026-09-09",
+      "market": "Bond",
+      "benchmark": "50% JPM GBI-EM GD and 50% JPM EMBI GD"
+    },
+    "Z17": {
+      "updatedAt": "2026-09-09",
+      "market": "USA",
+      "dividendRatePct": 0.074
+    },
+    "Z08": {
+      "updatedAt": "2026-09-09",
+      "market": "APEC",
+      "benchmark": "J.P. Morgan JACI Non-investment Grade Custom Index",
+      "dividendRatePct": 0.0813
+    },
+    "Z51": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "comment": "股價升，派息都高，但要睇睇佢熊市表現",
+      "dividendRatePct": 0.08
+    },
+    "Z07": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "dividendRatePct": 0.0807
+    },
+    "Z05": {
+      "updatedAt": "2026-09-09",
+      "market": "Emerging Market",
+      "benchmark": "JPMorgan EMBI Global Diversified Index (Total Return, USD)",
+      "dividendRatePct": 0.08
+    },
+    "Z15": {
+      "updatedAt": "2026-09-09",
+      "market": "Global",
+      "benchmark": "ICE BofA Non-Financial Developed Markets High Yield Constrained Index (HNDC)",
+      "dividendRatePct": 0.1
+    },
+    "Z18": {
+      "updatedAt": "2026-09-09",
+      "market": "USA",
+      "benchmark": "Linked Blended 50% MSCI USA High Dividend Yield Index + 25% Bloomberg High Yield Very Liquid Index + 25% Bloomberg US Aggregate Index",
+      "dividendRatePct": 0.085
+    }
+  }
+}
