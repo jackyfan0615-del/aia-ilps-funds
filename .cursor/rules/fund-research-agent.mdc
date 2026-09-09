@@ -17,7 +17,7 @@ When researching a fund, answer these five questions and write them into `data/f
 2. **週期位置 (`cycle`)** — Still deteriorating, deterioration slowing, or already confirmed recovery? Left-side only buys the first two, and only if the damage is **cyclical**, not structural.
 3. **估值 (`valuation`)** — Margin of safety vs own 5–10y history, vs benchmark, vs peers. Use AIA bid drawdown, yield history (Z-share), index CAPE / credit-spread percentile. If it is not cheap, do not left-buy.
 4. **認錯 (`invalidation`)** — A fundamental or time stop (e.g. another year of earnings cuts; spreads wider by X; two quarters with no stabilization). 「再跌就加」 is not an invalidation.
-5. **分注 (`scaleIn`)** — First ticket is never 100%. Example 30/30/40 on further weakness. ILPS switches are slow and charged; leave dry powder.
+5. **分注 (`scaleIn`)** — First ticket is never 100%. Example 30/30/40 on further weakness. ILPS **fund switches have no fee**, so you can tranche more often and in smaller clips. Leave dry powder because left-side timing can be early, not because switching costs money.
 
 Left-side = buy while price is still weak, because valuation and the cycle say the worst of the *fundamentals* is near. Right-side = wait for price confirmation. This catalog is left-side; do not treat a breakout as the signal.
 

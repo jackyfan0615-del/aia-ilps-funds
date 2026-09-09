@@ -15,7 +15,7 @@ export type FundNote = {
   valuation?: string;
   /** 何時認錯：基本面條件或時間，不是「再跌就加」。 */
   invalidation?: string;
-  /** 左側分注：第一次不滿倉，再弱才加。 */
+  /** 左側分注：第一次不滿倉，再弱才加。轉換不收費，可分多注；留彈藥是因為時機，不是費用。 */
   scaleIn?: string;
   updatedAt: string;
 };
