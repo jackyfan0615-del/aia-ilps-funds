@@ -1,0 +1,110 @@
+/* 滾存模擬 */
+.simulator {
+  margin-top: 0.9rem;
+  padding: 0.8rem 0.85rem;
+  border: 1px dashed var(--line);
+  border-radius: 0.85rem;
+  background: #fff;
+}
+
+.sim-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.sim-row {
+  margin-bottom: 0.65rem;
+}
+
+.sim-field {
+  display: block;
+}
+
+.sim-field span,
+.sim-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.sim-field input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.sim-presets,
+.sim-years {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+
+.sim-presets button,
+.sim-years button {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sim-presets button.is-on,
+.sim-years button.is-on {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.sim-result {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  margin: 0.7rem 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.7rem;
+  background: var(--growth-soft);
+}
+
+.sim-total {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--growth);
+}
+
+.sim-note {
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.sim-disclaimer {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 760px) {
+  .sim-result {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
