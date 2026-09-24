@@ -5,7 +5,15 @@ import { resolvePortfoliosWithStats } from "@/lib/portfolios";
 
 export const revalidate = 21600;
 
-export default async function HomePage() {
+type PageProps = {
+  searchParams: Promise<{ view?: string | string[] }>;
+};
+
+export default async function HomePage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const viewParam = Array.isArray(params.view) ? params.view[0] : params.view;
+  // Lets fund detail pages link back to the catalog tab, e.g. /?view=funds.
+  const initialView = viewParam === "funds" ? "funds" : "portfolios";
   const dataset = await getDataset();
   const { assetClasses } = await getFilterOptions();
   const fallback = getFallbackDataset();
@@ -30,6 +38,7 @@ export default async function HomePage() {
         product={dataset.product}
         catalogNotice={catalogNotice}
         portfolios={await resolvePortfoliosWithStats(dataset.funds)}
+        initialView={initialView}
       />
       <footer className="site-footer">
         資料來源：
