@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Sora, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import "./simulator.css";
 
 const sora = Sora({
   variable: "--font-sora",

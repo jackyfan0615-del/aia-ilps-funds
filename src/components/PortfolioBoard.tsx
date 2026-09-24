@@ -19,6 +19,7 @@ import {
   saveOpenIds,
   saveQuizAnswers,
 } from "@/lib/quiz-storage";
+import { GrowthSimulator } from "./GrowthSimulator";
 import { typeLabel } from "@/lib/labels";
 
 type Props = {
@@ -275,6 +276,8 @@ function PortfolioBody({
       {portfolio.id === "steady" ? (
         <p className="fee-note">首 5 年現金／短債幾乎被手續費吃掉，新單較宜改用均衡核心。</p>
       ) : null}
+
+      <GrowthSimulator gross={gross} basisLabel={`過去${portfolio.stats.expectedHorizon}`} />
 
       <div className="portfolio-metrics">
         {portfolio.style === "派息" ? (
