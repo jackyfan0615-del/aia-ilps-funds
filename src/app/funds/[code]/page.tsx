@@ -60,7 +60,7 @@ export default async function FundDetailPage({ params }: PageProps) {
 
   return (
     <article className="fund-detail">
-      <Link href="/" className="back-link">
+      <Link href="/?view=funds" className="back-link">
         ← 返回基金目錄
       </Link>
 
