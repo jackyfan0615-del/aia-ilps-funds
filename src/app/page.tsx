@@ -5,7 +5,11 @@ import { resolvePortfoliosWithStats } from "@/lib/portfolios";
 
 export const revalidate = 21600;
 
-export default async function HomePage() {
+type PageProps = {
+  searchParams?: Promise<{ view?: string | string[] }>;
+};
+
+export default async function HomePage({ searchParams }: PageProps) {
   const dataset = await getDataset();
   const { assetClasses } = await getFilterOptions();
   const fallback = getFallbackDataset();
@@ -19,25 +23,19 @@ export default async function HomePage() {
     timeStyle: "short",
     timeZone: "Asia/Hong_Kong",
   });
-
+  const params = searchParams ? await searchParams : undefined;
+  const rawView = params?.view;
+  const viewParam = Array.isArray(rawView) ? rawView[0] : rawView;
+  const initialView = viewParam === "funds" ? "funds" : "portfolios";
   return (
-    <>
-      <FundExplorer
-        funds={dataset.funds}
-        assetClasses={assetClasses}
-        counts={dataset.counts}
-        scrapedLabel={scrapedLabel}
-        product={dataset.product}
-        catalogNotice={catalogNotice}
-        portfolios={await resolvePortfoliosWithStats(dataset.funds)}
-      />
-      <footer className="site-footer">
-        資料來源：
-        <a href={dataset.source} target="_blank" rel="noopener noreferrer">
-          AIA 投資選擇資訊
-        </a>
-        。本工具僅供內部銷售參考，並非投資建議。過往表現不代表將來表現。
-      </footer>
-    </>
+    <FundExplorer
+      assetClasses={assetClasses}
+      counts={dataset.counts}
+      scrapedLabel={scrapedLabel}
+      product={dataset.product}
+      catalogNotice={catalogNotice}
+      portfolios={await resolvePortfoliosWithStats(dataset.funds)}
+      initialView={initialView}
+    />
   );
 }
