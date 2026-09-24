@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { PortfolioId, ResolvedPortfolio } from "@/lib/portfolios";
 import { afterPolicyFee, POLICY_FEE_EARLY, POLICY_FEE_LATER } from "@/lib/policy-fees";
@@ -13,10 +13,17 @@ import {
   type Horizon,
   type SuitabilityAnswers,
 } from "@/lib/suitability";
+import {
+  loadOpenIds,
+  loadQuizAnswers,
+  saveOpenIds,
+  saveQuizAnswers,
+} from "@/lib/quiz-storage";
 import { typeLabel } from "@/lib/labels";
 
 type Props = {
   portfolios: ResolvedPortfolio[];
+  fundCount: number;
 };
 
 const HORIZON_OPTIONS: { value: Horizon; label: string }[] = [
@@ -36,11 +43,32 @@ const DRAWDOWN_OPTIONS: { value: Drawdown; label: string }[] = [
   { value: "can", label: "能接受 2022 那種大回撤" },
 ];
 
-export function PortfolioBoard({ portfolios }: Props) {
+export function PortfolioBoard({ portfolios, fundCount }: Props) {
   const [answers, setAnswers] = useState<SuitabilityAnswers>(EMPTY_ANSWERS);
   const [openIds, setOpenIds] = useState<Set<PortfolioId>>(() => new Set());
+  const [restored, setRestored] = useState(false);
   const pick = recommendPortfolio(answers);
   const quizDone = pick != null;
+
+  // Keep the quiz answers (and featured mix) across tab switches and fund
+  // detail page visits. Restored in an effect after mount so the SSR HTML and
+  // the first client render match (no hydration drift).
+  /* eslint-disable react-hooks/set-state-in-effect -- intentional post-mount restore from localStorage */
+  useEffect(() => {
+    setAnswers(loadQuizAnswers());
+    setOpenIds(loadOpenIds(portfolios.map((item) => item.id)));
+    setRestored(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  useEffect(() => {
+    if (restored) saveQuizAnswers(answers);
+  }, [answers, restored]);
+
+  useEffect(() => {
+    if (restored) saveOpenIds(openIds);
+  }, [openIds, restored]);
 
   function isOpen(id: PortfolioId) {
     if (!quizDone) return true;
@@ -67,7 +95,7 @@ export function PortfolioBoard({ portfolios }: Props) {
         <h2 id="suitability-title" className="suitability-title">
           會面三題
         </h2>
-        <p className="suitability-lead">先問這三題，再出一套主倉。不要先翻 145 隻基金。</p>
+        <p className="suitability-lead">先問這三題，再出一套主倉。不要先翻 {fundCount} 隻基金。</p>
         <QuizRow
           legend="1. 投資年期？"
           value={answers.horizon}
