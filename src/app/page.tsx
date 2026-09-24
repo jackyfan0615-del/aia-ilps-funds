@@ -6,10 +6,14 @@ import { resolvePortfoliosWithStats } from "@/lib/portfolios";
 export const revalidate = 21600;
 
 type PageProps = {
-  searchParams?: Promise<{ view?: string | string[] }>;
+  searchParams: Promise<{ view?: string | string[] }>;
 };
 
 export default async function HomePage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const viewParam = Array.isArray(params.view) ? params.view[0] : params.view;
+  // Lets fund detail pages link back to the catalog tab, e.g. /?view=funds.
+  const initialView = viewParam === "funds" ? "funds" : "portfolios";
   const dataset = await getDataset();
   const { assetClasses } = await getFilterOptions();
   const fallback = getFallbackDataset();
@@ -23,19 +27,26 @@ export default async function HomePage({ searchParams }: PageProps) {
     timeStyle: "short",
     timeZone: "Asia/Hong_Kong",
   });
-  const params = searchParams ? await searchParams : undefined;
-  const rawView = params?.view;
-  const viewParam = Array.isArray(rawView) ? rawView[0] : rawView;
-  const initialView = viewParam === "funds" ? "funds" : "portfolios";
+
   return (
-    <FundExplorer
-      assetClasses={assetClasses}
-      counts={dataset.counts}
-      scrapedLabel={scrapedLabel}
-      product={dataset.product}
-      catalogNotice={catalogNotice}
-      portfolios={await resolvePortfoliosWithStats(dataset.funds)}
-      initialView={initialView}
-    />
+    <>
+      <FundExplorer
+        funds={dataset.funds}
+        assetClasses={assetClasses}
+        counts={dataset.counts}
+        scrapedLabel={scrapedLabel}
+        product={dataset.product}
+        catalogNotice={catalogNotice}
+        portfolios={await resolvePortfoliosWithStats(dataset.funds)}
+        initialView={initialView}
+      />
+      <footer className="site-footer">
+        資料來源：
+        <a href={dataset.source} target="_blank" rel="noopener noreferrer">
+          AIA 投資選擇資訊
+        </a>
+        。本工具僅供內部銷售參考，並非投資建議。過往表現不代表將來表現。
+      </footer>
+    </>
   );
 }
