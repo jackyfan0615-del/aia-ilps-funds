@@ -21,6 +21,7 @@ type Props = {
   product: string;
   catalogNotice: CatalogHistoryEvent | null;
   portfolios: ResolvedPortfolio[];
+  initialView: "funds" | "portfolios";
 };
 
 export function FundExplorer({
@@ -31,8 +32,9 @@ export function FundExplorer({
   product,
   catalogNotice,
   portfolios,
+  initialView,
 }: Props) {
-  const [view, setView] = useState<"funds" | "portfolios">("portfolios");
+  const [view, setView] = useState<"funds" | "portfolios">(initialView);
   const [q, setQ] = useState("");
   const [type, setType] = useState<"all" | "growth" | "dividend">("all");
   const [risk, setRisk] = useState("");
@@ -94,7 +96,7 @@ export function FundExplorer({
 
       {view === "portfolios" ? (
         <div role="tabpanel" id="panel-portfolios" aria-labelledby="tab-portfolios">
-          <PortfolioBoard portfolios={portfolios} />
+          <PortfolioBoard portfolios={portfolios} fundCount={counts.total} />
         </div>
       ) : null}
 
