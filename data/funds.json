@@ -15,12 +15,12 @@
       "risk": "低",
       "bidPrice": "港元16.0300",
       "offerPrice": "港元16.0300",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "柏瑞投資香港有限公司",
       "assetClass": "流動 / 貨幣市場",
-      "aum": "港元39.9"
+      "aum": "港元 39.9百萬"
     },
     {
       "code": "A15",
@@ -28,12 +28,12 @@
       "risk": "中",
       "bidPrice": "美元495.2620",
       "offerPrice": "美元495.2620",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 環球",
-      "aum": "美元2299.1"
+      "aum": "美元 2,299.1百萬"
     },
     {
       "code": "A17",
@@ -41,12 +41,12 @@
       "risk": "高",
       "bidPrice": "美元67.4997",
       "offerPrice": "美元67.4997",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元86.3"
+      "aum": "美元 86.3百萬"
     },
     {
       "code": "A19",
@@ -54,12 +54,12 @@
       "risk": "高",
       "bidPrice": "美元919.8817",
       "offerPrice": "美元919.8817",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元101.3"
+      "aum": "美元 101.3百萬"
     },
     {
       "code": "A21",
@@ -67,12 +67,12 @@
       "risk": "高",
       "bidPrice": "美元790.9158",
       "offerPrice": "美元790.9158",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元66.2"
+      "aum": "美元 66.2百萬"
     },
     {
       "code": "A22",
@@ -80,12 +80,12 @@
       "risk": "中",
       "bidPrice": "美元81.4374",
       "offerPrice": "美元81.4374",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 美國",
-      "aum": "美元221.0"
+      "aum": "美元 221百萬"
     },
     {
       "code": "A26",
@@ -93,12 +93,12 @@
       "risk": "中",
       "bidPrice": "美元53.1276",
       "offerPrice": "美元53.1276",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元147.3"
+      "aum": "美元 147.3百萬"
     },
     {
       "code": "A29",
@@ -106,12 +106,12 @@
       "risk": "中",
       "bidPrice": "美元84.4782",
       "offerPrice": "美元84.4782",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元582.2"
+      "aum": "美元 582.2百萬"
     },
     {
       "code": "A30",
@@ -119,12 +119,12 @@
       "risk": "中",
       "bidPrice": "美元31.1443",
       "offerPrice": "美元31.1443",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元43.6"
+      "aum": "美元 43.6百萬"
     },
     {
       "code": "A32",
@@ -132,25 +132,25 @@
       "risk": "低",
       "bidPrice": "美元17.8388",
       "offerPrice": "美元17.8388",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元287.6"
+      "aum": "美元 287.6百萬"
     },
     {
       "code": "B01",
-      "name": "AB FCP I - 短期債券基金\"A2\" @",
+      "name": "AB FCP I - 短期債券基金\"A2\"",
       "risk": "低",
       "bidPrice": "美元20.1800",
       "offerPrice": "美元20.1800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "AllianceBernstein (Luxembourg) S.a.r.l.",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元414.7"
+      "aum": "美元 414.7百萬"
     },
     {
       "code": "C03",
@@ -158,12 +158,12 @@
       "risk": "中",
       "bidPrice": "美元53.7208",
       "offerPrice": "美元53.7208",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "abrdn Investments Luxembourg S.A.",
       "assetClass": "固定收入 - 新興市場",
-      "aum": "美元306.7"
+      "aum": "美元 306.7百萬"
     },
     {
       "code": "C05",
@@ -171,12 +171,12 @@
       "risk": "高",
       "bidPrice": "美元28.2099",
       "offerPrice": "美元28.2099",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "abrdn Investments Luxembourg S.A.",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元327.7"
+      "aum": "美元 327.7百萬"
     },
     {
       "code": "C09",
@@ -184,12 +184,12 @@
       "risk": "低",
       "bidPrice": "美元17.7276",
       "offerPrice": "美元17.7276",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "abrdn Investments Luxembourg S.A.",
       "assetClass": "固定收入 - 新興市場",
-      "aum": "美元1387.7"
+      "aum": "美元 1,387.7百萬"
     },
     {
       "code": "CG1",
@@ -197,12 +197,12 @@
       "risk": "中",
       "bidPrice": "美元30.7824",
       "offerPrice": "美元30.7824",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Capital International Management Company",
       "assetClass": "股票 - 環球",
-      "aum": "美元20205.6"
+      "aum": "美元 20,205.6百萬"
     },
     {
       "code": "CG9",
@@ -210,12 +210,12 @@
       "risk": "低",
       "bidPrice": "美元12.2916",
       "offerPrice": "美元12.2916",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "Capital International Management Company",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元7054.6"
+      "aum": "美元 7,054.6百萬"
     },
     {
       "code": "D02",
@@ -223,12 +223,12 @@
       "risk": "高",
       "bidPrice": "歐元39.2800",
       "offerPrice": "歐元39.2800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "股票 - 歐洲",
-      "aum": "歐元487.0"
+      "aum": "歐元 487百萬"
     },
     {
       "code": "D05",
@@ -236,12 +236,12 @@
       "risk": "高",
       "bidPrice": "美元74.0300",
       "offerPrice": "美元74.0300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "股票 - 行業",
-      "aum": "美元2275.7"
+      "aum": "美元 2,275.7百萬"
     },
     {
       "code": "D08",
@@ -249,12 +249,12 @@
       "risk": "高",
       "bidPrice": "歐元24.6800",
       "offerPrice": "歐元24.6800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "股票 - 新興市場",
-      "aum": "歐元195.4"
+      "aum": "歐元 195.4百萬"
     },
     {
       "code": "D14",
@@ -262,12 +262,12 @@
       "risk": "高",
       "bidPrice": "美元22.6600",
       "offerPrice": "美元22.6600",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "股票 - 行業",
-      "aum": "美元2054.4"
+      "aum": "美元 2,054.4百萬"
     },
     {
       "code": "D18",
@@ -275,12 +275,12 @@
       "risk": "高",
       "bidPrice": "美元16.9700",
       "offerPrice": "美元16.9700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "多元資產 - 美國",
-      "aum": "美元13596.3"
+      "aum": "美元 13,596.3百萬"
     },
     {
       "code": "E05",
@@ -288,12 +288,12 @@
       "risk": "低",
       "bidPrice": "歐元345.2715",
       "offerPrice": "歐元345.2715",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Invesco Management S.A.",
       "assetClass": "固定收入 - 環球",
-      "aum": "歐元475.5"
+      "aum": "歐元 475.5百萬"
     },
     {
       "code": "F02",
@@ -301,12 +301,12 @@
       "risk": "中",
       "bidPrice": "美元458.8500",
       "offerPrice": "美元458.8500",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元180.2"
+      "aum": "美元 180.2百萬"
     },
     {
       "code": "F03",
@@ -314,12 +314,12 @@
       "risk": "高",
       "bidPrice": "美元176.5200",
       "offerPrice": "美元176.5200",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元671.3"
+      "aum": "美元 671.3百萬"
     },
     {
       "code": "F05",
@@ -327,12 +327,12 @@
       "risk": "高",
       "bidPrice": "美元183.1300",
       "offerPrice": "美元183.1300",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 行業",
-      "aum": "美元1805.5"
+      "aum": "美元 1,805.5百萬"
     },
     {
       "code": "F06",
@@ -340,12 +340,12 @@
       "risk": "中",
       "bidPrice": "美元721.0100",
       "offerPrice": "美元721.0100",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元710.9"
+      "aum": "美元 710.9百萬"
     },
     {
       "code": "F07",
@@ -353,12 +353,12 @@
       "risk": "高",
       "bidPrice": "美元35.2800",
       "offerPrice": "美元35.2800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "other_dividend",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元4308.0"
+      "aum": "美元 4,308百萬"
     },
     {
       "code": "F08",
@@ -366,12 +366,12 @@
       "risk": "中",
       "bidPrice": "美元199.2400",
       "offerPrice": "美元199.2400",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元1174.3"
+      "aum": "美元 1,174.3百萬"
     },
     {
       "code": "F09",
@@ -379,12 +379,12 @@
       "risk": "中",
       "bidPrice": "美元314.2900",
       "offerPrice": "美元314.2900",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元491.7"
+      "aum": "美元 491.7百萬"
     },
     {
       "code": "F10",
@@ -392,12 +392,12 @@
       "risk": "高",
       "bidPrice": "美元30.1000",
       "offerPrice": "美元30.1000",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元837.7"
+      "aum": "美元 837.7百萬"
     },
     {
       "code": "F11",
@@ -405,12 +405,12 @@
       "risk": "中",
       "bidPrice": "美元416.0500",
       "offerPrice": "美元416.0500",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "股票 - 歐洲",
-      "aum": "美元1717.2"
+      "aum": "美元 1,717.2百萬"
     },
     {
       "code": "F12",
@@ -418,12 +418,12 @@
       "risk": "高",
       "bidPrice": "美元723.0600",
       "offerPrice": "美元723.0600",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "股票 - 行業",
-      "aum": "美元492.4"
+      "aum": "美元 492.4百萬"
     },
     {
       "code": "F13",
@@ -431,12 +431,12 @@
       "risk": "高",
       "bidPrice": "美元42.1700",
       "offerPrice": "美元42.1700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元569.3"
+      "aum": "美元 569.3百萬"
     },
     {
       "code": "F14",
@@ -444,12 +444,12 @@
       "risk": "低",
       "bidPrice": "美元33.4500",
       "offerPrice": "美元33.4500",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "多元資產 - 亞太區",
-      "aum": "美元1582.7"
+      "aum": "美元 1,582.7百萬"
     },
     {
       "code": "F15",
@@ -457,12 +457,12 @@
       "risk": "高",
       "bidPrice": "美元20.9100",
       "offerPrice": "美元20.9100",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元386.6"
+      "aum": "美元 386.6百萬"
     },
     {
       "code": "F16",
@@ -470,12 +470,12 @@
       "risk": "高",
       "bidPrice": "美元147.2100",
       "offerPrice": "美元147.2100",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元14515.3"
+      "aum": "美元 14,515.3百萬"
     },
     {
       "code": "G03",
@@ -483,12 +483,12 @@
       "risk": "高",
       "bidPrice": "美元112.7590",
       "offerPrice": "美元112.7590",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "HSBC Investment Funds (Luxembourg) S.A.",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元812.4"
+      "aum": "美元 812.4百萬"
     },
     {
       "code": "G07",
@@ -496,12 +496,12 @@
       "risk": "高",
       "bidPrice": "美元18.9800",
       "offerPrice": "美元18.9800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "HSBC Investment Funds (Luxembourg) S.A.",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元39.1"
+      "aum": "美元 39.1百萬"
     },
     {
       "code": "G08",
@@ -509,12 +509,12 @@
       "risk": "高",
       "bidPrice": "美元14.5070",
       "offerPrice": "美元14.5070",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "HSBC Investment Funds (Luxembourg) S.A.",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元158.9"
+      "aum": "美元 158.9百萬"
     },
     {
       "code": "G16",
@@ -522,12 +522,12 @@
       "risk": "高",
       "bidPrice": "美元13.4280",
       "offerPrice": "美元13.4280",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "滙豐投資基金（香港）有限公司",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元649.9"
+      "aum": "美元 649.9百萬"
     },
     {
       "code": "GG",
@@ -535,12 +535,12 @@
       "risk": "高",
       "bidPrice": "美元53.4000",
       "offerPrice": "美元53.4000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "股票 - 環球",
-      "aum": "美元580.4"
+      "aum": "美元 580.4百萬"
     },
     {
       "code": "H01",
@@ -548,12 +548,12 @@
       "risk": "高",
       "bidPrice": "美元336.9000",
       "offerPrice": "美元336.9000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Janus Henderson Investors Europe S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元8216.3"
+      "aum": "美元 8,216.3百萬"
     },
     {
       "code": "HEQ",
@@ -561,12 +561,12 @@
       "risk": "高",
       "bidPrice": "港元47.1500",
       "offerPrice": "港元47.1600",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "柏瑞投資香港有限公司",
       "assetClass": "股票 - 中國及香港",
-      "aum": "港元1894.9"
+      "aum": "港元 1,894.9百萬"
     },
     {
       "code": "I04",
@@ -574,12 +574,12 @@
       "risk": "高",
       "bidPrice": "美元122.9700",
       "offerPrice": "美元122.9700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元7609.9"
+      "aum": "美元 7,609.9百萬"
     },
     {
       "code": "I07",
@@ -587,12 +587,12 @@
       "risk": "高",
       "bidPrice": "美元119.7300",
       "offerPrice": "美元119.7300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元10849.8"
+      "aum": "美元 10,849.8百萬"
     },
     {
       "code": "I09",
@@ -600,12 +600,12 @@
       "risk": "高",
       "bidPrice": "美元37.1200",
       "offerPrice": "美元37.1200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元2296.8"
+      "aum": "美元 2,296.8百萬"
     },
     {
       "code": "I10",
@@ -613,12 +613,12 @@
       "risk": "高",
       "bidPrice": "美元80.3300",
       "offerPrice": "美元80.3300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元624.6"
+      "aum": "美元 624.6百萬"
     },
     {
       "code": "I17",
@@ -626,12 +626,12 @@
       "risk": "低",
       "bidPrice": "美元27.7800",
       "offerPrice": "美元27.7800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "美元15072.7"
+      "aum": "美元 15,072.7百萬"
     },
     {
       "code": "I21",
@@ -639,12 +639,12 @@
       "risk": "高",
       "bidPrice": "美元23.5200",
       "offerPrice": "美元23.5200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元5266.7"
+      "aum": "美元 5,266.7百萬"
     },
     {
       "code": "I23",
@@ -652,12 +652,12 @@
       "risk": "中",
       "bidPrice": "美元179.5100",
       "offerPrice": "美元179.5100",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 美國",
-      "aum": "美元999.8"
+      "aum": "美元 999.8百萬"
     },
     {
       "code": "I27",
@@ -665,12 +665,12 @@
       "risk": "低",
       "bidPrice": "美元45.2300",
       "offerPrice": "美元45.2300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元2031.3"
+      "aum": "美元 2,031.3百萬"
     },
     {
       "code": "I28",
@@ -678,12 +678,12 @@
       "risk": "高",
       "bidPrice": "美元34.2900",
       "offerPrice": "美元34.2900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元2003.5"
+      "aum": "美元 2,003.5百萬"
     },
     {
       "code": "I31",
@@ -691,12 +691,12 @@
       "risk": "中",
       "bidPrice": "美元81.3000",
       "offerPrice": "美元81.3000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元12975.7"
+      "aum": "美元 12,975.7百萬"
     },
     {
       "code": "J03",
@@ -704,12 +704,12 @@
       "risk": "高",
       "bidPrice": "港元422.9698",
       "offerPrice": "港元422.9698",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "股票 - 中國及香港",
-      "aum": "港元815.5"
+      "aum": "港元 815.5百萬"
     },
     {
       "code": "J07",
@@ -717,12 +717,12 @@
       "risk": "低",
       "bidPrice": "美元29.6796",
       "offerPrice": "美元29.6796",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "固定收入 - 新興市場",
-      "aum": "美元1323.9"
+      "aum": "美元 1,323.9百萬"
     },
     {
       "code": "J08",
@@ -730,12 +730,12 @@
       "risk": "高",
       "bidPrice": "美元88.0059",
       "offerPrice": "美元88.0059",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元411.8"
+      "aum": "美元 411.8百萬"
     },
     {
       "code": "J14",
@@ -743,12 +743,12 @@
       "risk": "高",
       "bidPrice": "美元32.1703",
       "offerPrice": "美元32.1703",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元3719.7"
+      "aum": "美元 3,719.7百萬"
     },
     {
       "code": "J15",
@@ -756,12 +756,12 @@
       "risk": "高",
       "bidPrice": "美元33.3135",
       "offerPrice": "美元33.3135",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元6729.0"
+      "aum": "美元 6,729百萬"
     },
     {
       "code": "J16",
@@ -769,12 +769,12 @@
       "risk": "中",
       "bidPrice": "美元334.6699",
       "offerPrice": "美元334.6699",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "美元319.9"
+      "aum": "美元 319.9百萬"
     },
     {
       "code": "J20",
@@ -782,12 +782,12 @@
       "risk": "中",
       "bidPrice": "美元129.3946",
       "offerPrice": "美元129.3946",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元356.0"
+      "aum": "美元 356百萬"
     },
     {
       "code": "L51",
@@ -795,12 +795,12 @@
       "risk": "低",
       "bidPrice": "美元165.2000",
       "offerPrice": "美元165.2000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元102.1"
+      "aum": "美元 102.1百萬"
     },
     {
       "code": "L52",
@@ -808,12 +808,12 @@
       "risk": "高",
       "bidPrice": "美元453.6700",
       "offerPrice": "美元453.6700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "股票 - 美國",
-      "aum": "美元1408.7"
+      "aum": "美元 1,408.7百萬"
     },
     {
       "code": "M01",
@@ -821,12 +821,12 @@
       "risk": "中",
       "bidPrice": "美元19.1700",
       "offerPrice": "美元19.1700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "股票 - 美國",
-      "aum": "美元2772.1"
+      "aum": "美元 2,772.1百萬"
     },
     {
       "code": "M06",
@@ -834,12 +834,12 @@
       "risk": "高",
       "bidPrice": "美元50.8800",
       "offerPrice": "美元50.8800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元2651.7"
+      "aum": "美元 2,651.7百萬"
     },
     {
       "code": "M08",
@@ -847,12 +847,12 @@
       "risk": "高",
       "bidPrice": "美元15.1000",
       "offerPrice": "美元15.1000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元2474.4"
+      "aum": "美元 2,474.4百萬"
     },
     {
       "code": "M10",
@@ -860,12 +860,12 @@
       "risk": "高",
       "bidPrice": "美元20.1900",
       "offerPrice": "美元20.1900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "美元2496.2"
+      "aum": "美元 2,496.2百萬"
     },
     {
       "code": "M11",
@@ -873,12 +873,12 @@
       "risk": "低",
       "bidPrice": "美元13.6800",
       "offerPrice": "美元13.6800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元1259.3"
+      "aum": "美元 1,259.3百萬"
     },
     {
       "code": "M13",
@@ -886,12 +886,12 @@
       "risk": "低",
       "bidPrice": "美元13.5380",
       "offerPrice": "美元13.5380",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "流動 / 貨幣市場",
-      "aum": "美元3031.6"
+      "aum": "美元 3,031.6百萬"
     },
     {
       "code": "M15",
@@ -899,12 +899,12 @@
       "risk": "高",
       "bidPrice": "美元43.2100",
       "offerPrice": "美元43.2100",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元3164.6"
+      "aum": "美元 3,164.6百萬"
     },
     {
       "code": "N01",
@@ -912,12 +912,12 @@
       "risk": "低",
       "bidPrice": "美元76.7200",
       "offerPrice": "美元76.7200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "MSIM Fund Management (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元806.9"
+      "aum": "美元 806.9百萬"
     },
     {
       "code": "N06",
@@ -925,12 +925,12 @@
       "risk": "高",
       "bidPrice": "美元159.1400",
       "offerPrice": "美元159.1400",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "MSIM Fund Management (Ireland) Limited",
       "assetClass": "股票 - 美國",
-      "aum": "美元3058.8"
+      "aum": "美元 3,058.8百萬"
     },
     {
       "code": "N07",
@@ -938,12 +938,12 @@
       "risk": "高",
       "bidPrice": "美元167.5000",
       "offerPrice": "美元167.5000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "MSIM Fund Management (Ireland) Limited",
       "assetClass": "股票 - 環球",
-      "aum": "美元12034.6"
+      "aum": "美元 12,034.6百萬"
     },
     {
       "code": "N08",
@@ -951,12 +951,12 @@
       "risk": "低",
       "bidPrice": "美元43.2200",
       "offerPrice": "美元43.2200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "MSIM Fund Management (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元1206.6"
+      "aum": "美元 1,206.6百萬"
     },
     {
       "code": "NB1",
@@ -964,12 +964,12 @@
       "risk": "低",
       "bidPrice": "美元17.0000",
       "offerPrice": "美元17.0000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Neuberger Berman Asset Management Ireland Limited",
       "assetClass": "固定收入 - 新興市場",
-      "aum": "美元3895.8"
+      "aum": "美元 3,895.8百萬"
     },
     {
       "code": "P03",
@@ -977,12 +977,12 @@
       "risk": "高",
       "bidPrice": "美元368.1000",
       "offerPrice": "美元368.1000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "多元資產 - 亞太區",
-      "aum": "美元2212.6"
+      "aum": "美元 2,212.6百萬"
     },
     {
       "code": "P04",
@@ -990,12 +990,12 @@
       "risk": "高",
       "bidPrice": "美元66.6449",
       "offerPrice": "美元66.6449",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元448.1"
+      "aum": "美元 448.1百萬"
     },
     {
       "code": "P05",
@@ -1003,12 +1003,12 @@
       "risk": "中",
       "bidPrice": "美元7.6255",
       "offerPrice": "美元7.6255",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "多元資產 - 亞太區",
-      "aum": "美元37.9"
+      "aum": "美元 37.9百萬"
     },
     {
       "code": "P07",
@@ -1016,12 +1016,12 @@
       "risk": "高",
       "bidPrice": "美元30.7918",
       "offerPrice": "美元30.7918",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "多元資產 - 美國",
-      "aum": "美元58721.7"
+      "aum": "美元 58,721.7百萬"
     },
     {
       "code": "P08",
@@ -1029,12 +1029,12 @@
       "risk": "高",
       "bidPrice": "美元8.4136",
       "offerPrice": "美元8.4136",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元709.2"
+      "aum": "美元 709.2百萬"
     },
     {
       "code": "P09",
@@ -1042,12 +1042,12 @@
       "risk": "高",
       "bidPrice": "美元16.4200",
       "offerPrice": "美元16.4200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元3155.1"
+      "aum": "美元 3,155.1百萬"
     },
     {
       "code": "P29",
@@ -1055,12 +1055,12 @@
       "risk": "高",
       "bidPrice": "人民幣10.5556",
       "offerPrice": "人民幣10.5556",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "股票 - 中國及香港",
-      "aum": "人民幣3155.1"
+      "aum": "人民幣 3,155.1百萬"
     },
     {
       "code": "P53",
@@ -1068,12 +1068,12 @@
       "risk": "高",
       "bidPrice": "美元377.1900",
       "offerPrice": "美元377.1900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "Pictet Asset Management (Europe) S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元1400.3"
+      "aum": "美元 1,400.3百萬"
     },
     {
       "code": "PC4",
@@ -1081,12 +1081,12 @@
       "risk": "低",
       "bidPrice": "美元19.7900",
       "offerPrice": "美元19.7900",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "Principal Global Investors (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元3763.5"
+      "aum": "美元 3,763.5百萬"
     },
     {
       "code": "Q01",
@@ -1094,12 +1094,12 @@
       "risk": "中",
       "bidPrice": "美元75.8340",
       "offerPrice": "美元75.8340",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "First Sentier Investors (Ireland) Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元5672.7"
+      "aum": "美元 5,672.7百萬"
     },
     {
       "code": "Q02",
@@ -1107,12 +1107,12 @@
       "risk": "中",
       "bidPrice": "美元5.8115",
       "offerPrice": "美元5.8115",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "First Sentier Investors (Ireland) Limited",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元34.3"
+      "aum": "美元 34.3百萬"
     },
     {
       "code": "Q03",
@@ -1120,12 +1120,12 @@
       "risk": "高",
       "bidPrice": "美元195.7868",
       "offerPrice": "美元195.7868",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "First Sentier Investors (Ireland) Limited",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元2533.1"
+      "aum": "美元 2,533.1百萬"
     },
     {
       "code": "R01",
@@ -1133,12 +1133,12 @@
       "risk": "高",
       "bidPrice": "美元28.8400",
       "offerPrice": "美元28.8400",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★★",
       "type": "growth",
       "manager": "Janus Henderson Investors Europe S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元175.4"
+      "aum": "美元 175.4百萬"
     },
     {
       "code": "R03",
@@ -1146,12 +1146,12 @@
       "risk": "低",
       "bidPrice": "美元53.6700",
       "offerPrice": "美元53.6700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★★",
       "type": "growth",
       "manager": "Janus Henderson Investors Europe S.A.",
       "assetClass": "多元資產 - 美國",
-      "aum": "美元11772.2"
+      "aum": "美元 11,772.2百萬"
     },
     {
       "code": "R51",
@@ -1159,12 +1159,12 @@
       "risk": "中",
       "bidPrice": "美元13.6237",
       "offerPrice": "美元13.6237",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "FundRock Management Company S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "美元1598.9"
+      "aum": "美元 1,598.9百萬"
     },
     {
       "code": "R52",
@@ -1172,12 +1172,12 @@
       "risk": "高",
       "bidPrice": "美元10.7587",
       "offerPrice": "美元10.7587",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "FundRock Management Company S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "美元229.9"
+      "aum": "美元 229.9百萬"
     },
     {
       "code": "T09",
@@ -1185,12 +1185,12 @@
       "risk": "高",
       "bidPrice": "美元91.0500",
       "offerPrice": "美元91.0500",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "BNP Paribas Asset Management Luxembourg",
       "assetClass": "股票 - 行業",
-      "aum": "美元954.9"
+      "aum": "美元 954.9百萬"
     },
     {
       "code": "U05",
@@ -1198,12 +1198,12 @@
       "risk": "高",
       "bidPrice": "美元1284.7800",
       "offerPrice": "美元1284.7800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "UBS Asset Management (Europe) S.A.",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元2448.3"
+      "aum": "美元 2,448.3百萬"
     },
     {
       "code": "U06",
@@ -1211,12 +1211,12 @@
       "risk": "高",
       "bidPrice": "美元191.7900",
       "offerPrice": "美元191.7900",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "UBS Asset Management (Europe) S.A.",
       "assetClass": "固定收入 - 歐洲",
-      "aum": "美元4233.6"
+      "aum": "美元 4,233.6百萬"
     },
     {
       "code": "V02",
@@ -1224,12 +1224,12 @@
       "risk": "高",
       "bidPrice": "美元154.5000",
       "offerPrice": "美元154.5000",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "惠理基金管理香港有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元1828.4"
+      "aum": "美元 1,828.4百萬"
     },
     {
       "code": "V03",
@@ -1237,12 +1237,12 @@
       "risk": "高",
       "bidPrice": "美元72.5300",
       "offerPrice": "美元72.5300",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "惠理基金管理公司",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元145.6"
+      "aum": "美元 145.6百萬"
     },
     {
       "code": "V04",
@@ -1250,12 +1250,12 @@
       "risk": "高",
       "bidPrice": "美元32.0000",
       "offerPrice": "美元32.0000",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "惠理基金管理香港有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元1156.0"
+      "aum": "美元 1,156百萬"
     },
     {
       "code": "V07",
@@ -1263,12 +1263,12 @@
       "risk": "高",
       "bidPrice": "美元10.8600",
       "offerPrice": "美元10.8600",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "惠理基金管理香港有限公司",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元35.4"
+      "aum": "美元 35.4百萬"
     },
     {
       "code": "W04",
@@ -1276,12 +1276,12 @@
       "risk": "低",
       "bidPrice": "美元131.0500",
       "offerPrice": "美元131.0500",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "growth",
       "manager": "Amundi Luxembourg S.A.",
       "assetClass": "流動 / 貨幣市場",
-      "aum": "美元5144.7"
+      "aum": "美元 5,144.7百萬"
     },
     {
       "code": "W06",
@@ -1289,12 +1289,12 @@
       "risk": "低",
       "bidPrice": "美元8.4200",
       "offerPrice": "美元8.4200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Amundi Luxembourg S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "美元3113.9"
+      "aum": "美元 3,113.9百萬"
     },
     {
       "code": "W07",
@@ -1302,12 +1302,12 @@
       "risk": "低",
       "bidPrice": "美元85.4200",
       "offerPrice": "美元85.4200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★★",
       "type": "growth",
       "manager": "Amundi Luxembourg S.A.",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元7444.9"
+      "aum": "美元 7,444.9百萬"
     },
     {
       "code": "X02",
@@ -1315,12 +1315,12 @@
       "risk": "高",
       "bidPrice": "美元162.9800",
       "offerPrice": "美元162.9800",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "Baring International Fund Managers (Ireland) Limited",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元60.8"
+      "aum": "美元 60.8百萬"
     },
     {
       "code": "X03",
@@ -1328,12 +1328,12 @@
       "risk": "中",
       "bidPrice": "美元36.7500",
       "offerPrice": "美元36.7500",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Baring International Fund Managers (Ireland) Limited",
       "assetClass": "股票 - 行業",
-      "aum": "美元287.3"
+      "aum": "美元 287.3百萬"
     },
     {
       "code": "X08",
@@ -1341,12 +1341,12 @@
       "risk": "高",
       "bidPrice": "美元73.3000",
       "offerPrice": "美元73.3000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Baring International Fund Managers (Ireland) Limited",
       "assetClass": "股票 - 新興市場",
-      "aum": "美元814.3"
+      "aum": "美元 814.3百萬"
     },
     {
       "code": "X15",
@@ -1354,12 +1354,12 @@
       "risk": "高",
       "bidPrice": "美元142.0000",
       "offerPrice": "美元142.0000",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "growth",
       "manager": "Baring International Fund Managers (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元5483.8"
+      "aum": "美元 5,483.8百萬"
     },
     {
       "code": "Y02",
@@ -1367,12 +1367,12 @@
       "risk": "高",
       "bidPrice": "美元23.4300",
       "offerPrice": "美元23.4300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "Ninety One Luxembourg S.A.",
       "assetClass": "固定收入 - 中國及香港",
-      "aum": "美元47.0"
+      "aum": "美元 47百萬"
     },
     {
       "code": "Y03",
@@ -1380,12 +1380,12 @@
       "risk": "高",
       "bidPrice": "歐元92.2700",
       "offerPrice": "歐元92.2700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "growth",
       "manager": "Ninety One Luxembourg S.A.",
       "assetClass": "股票 - 歐洲",
-      "aum": "歐元1042.7"
+      "aum": "歐元 1,042.7百萬"
     },
     {
       "code": "Y04",
@@ -1393,12 +1393,12 @@
       "risk": "高",
       "bidPrice": "美元24.1400",
       "offerPrice": "美元24.1400",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "growth",
       "manager": "Ninety One Luxembourg S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "美元430.1"
+      "aum": "美元 430.1百萬"
     },
     {
       "code": "Y22",
@@ -1406,12 +1406,12 @@
       "risk": "高",
       "bidPrice": "人民幣98.7600",
       "offerPrice": "人民幣98.7600",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "growth",
       "manager": "Ninety One Luxembourg S.A.",
       "assetClass": "固定收入 - 中國及香港",
-      "aum": "人民幣47.0"
+      "aum": "人民幣 47百萬"
     },
     {
       "code": "Z01",
@@ -1419,12 +1419,12 @@
       "risk": "高",
       "bidPrice": "美元12.9500",
       "offerPrice": "美元12.9500",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★",
       "type": "dividend",
       "manager": "惠理基金管理香港有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "美元1828.4"
+      "aum": "美元 1,828.4百萬"
     },
     {
       "code": "Z03",
@@ -1432,12 +1432,12 @@
       "risk": "低",
       "bidPrice": "美元122.2100",
       "offerPrice": "美元122.2100",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "多元資產 - 亞太區",
-      "aum": "美元1582.7"
+      "aum": "美元 1,582.7百萬"
     },
     {
       "code": "Z04",
@@ -1445,12 +1445,12 @@
       "risk": "高",
       "bidPrice": "美元9.5200",
       "offerPrice": "美元9.5200",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 中國及香港",
-      "aum": "美元386.6"
+      "aum": "美元 386.6百萬"
     },
     {
       "code": "Z05",
@@ -1458,12 +1458,12 @@
       "risk": "低",
       "bidPrice": "美元7.8100",
       "offerPrice": "美元7.8100",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "Neuberger Berman Asset Management Ireland Limited",
       "assetClass": "固定收入 - 新興市場",
-      "aum": "美元3895.8"
+      "aum": "美元 3,895.8百萬"
     },
     {
       "code": "Z06",
@@ -1471,12 +1471,12 @@
       "risk": "低",
       "bidPrice": "美元8.5538",
       "offerPrice": "美元8.5538",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "dividend",
       "manager": "PineBridge Investments Ireland Limited",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元287.6"
+      "aum": "美元 287.6百萬"
     },
     {
       "code": "Z07",
@@ -1484,12 +1484,12 @@
       "risk": "高",
       "bidPrice": "美元8.5273",
       "offerPrice": "美元8.5273",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "多元資產 - 美國",
-      "aum": "美元58721.7"
+      "aum": "美元 58,721.7百萬"
     },
     {
       "code": "Z08",
@@ -1497,12 +1497,12 @@
       "risk": "高",
       "bidPrice": "美元4.2804",
       "offerPrice": "美元4.2804",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "dividend",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元709.2"
+      "aum": "美元 709.2百萬"
     },
     {
       "code": "Z11",
@@ -1510,12 +1510,12 @@
       "risk": "高",
       "bidPrice": "美元15.2100",
       "offerPrice": "美元15.2100",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★",
       "type": "dividend",
       "manager": "Ninety One Luxembourg S.A.",
       "assetClass": "固定收入 - 中國及香港",
-      "aum": "美元47.0"
+      "aum": "美元 47百萬"
     },
     {
       "code": "Z12",
@@ -1523,12 +1523,12 @@
       "risk": "高",
       "bidPrice": "美元7.5900",
       "offerPrice": "美元7.5900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元14515.3"
+      "aum": "美元 14,515.3百萬"
     },
     {
       "code": "Z13",
@@ -1536,12 +1536,12 @@
       "risk": "高",
       "bidPrice": "美元7.7700",
       "offerPrice": "美元7.7700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "dividend",
       "manager": "FIL Investment Management (Luxembourg) S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "美元2496.2"
+      "aum": "美元 2,496.2百萬"
     },
     {
       "code": "Z15",
@@ -1549,12 +1549,12 @@
       "risk": "高",
       "bidPrice": "美元72.8500",
       "offerPrice": "美元72.8500",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "Baring International Fund Managers (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元5483.8"
+      "aum": "美元 5,483.8百萬"
     },
     {
       "code": "Z16",
@@ -1562,12 +1562,12 @@
       "risk": "高",
       "bidPrice": "美元4.6170",
       "offerPrice": "美元4.6170",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "★★★",
       "type": "dividend",
       "manager": "滙豐投資基金（香港）有限公司",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元649.9"
+      "aum": "美元 649.9百萬"
     },
     {
       "code": "Z17",
@@ -1575,12 +1575,12 @@
       "risk": "低",
       "bidPrice": "美元9.9900",
       "offerPrice": "美元9.9900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "dividend",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "美元15072.7"
+      "aum": "美元 15,072.7百萬"
     },
     {
       "code": "Z18",
@@ -1588,12 +1588,12 @@
       "risk": "高",
       "bidPrice": "美元10.0300",
       "offerPrice": "美元10.0300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "dividend",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "多元資產 - 美國",
-      "aum": "美元13596.3"
+      "aum": "美元 13,596.3百萬"
     },
     {
       "code": "Z20",
@@ -1601,12 +1601,12 @@
       "risk": "中",
       "bidPrice": "美元105.9345",
       "offerPrice": "美元105.9345",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元356.0"
+      "aum": "美元 356百萬"
     },
     {
       "code": "Z21",
@@ -1614,12 +1614,12 @@
       "risk": "高",
       "bidPrice": "人民幣10.8100",
       "offerPrice": "人民幣10.8100",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "惠理基金管理香港有限公司",
       "assetClass": "股票 - 亞太區",
-      "aum": "人民幣1828.4"
+      "aum": "人民幣 1,828.4百萬"
     },
     {
       "code": "Z23",
@@ -1627,12 +1627,12 @@
       "risk": "中",
       "bidPrice": "人民幣10.4900",
       "offerPrice": "人民幣10.4900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "多元資產 - 亞太區",
-      "aum": "人民幣1582.7"
+      "aum": "人民幣 1,582.7百萬"
     },
     {
       "code": "Z24",
@@ -1640,12 +1640,12 @@
       "risk": "高",
       "bidPrice": "人民幣8.7500",
       "offerPrice": "人民幣8.7500",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "摩根基金（亞洲）有限公司",
       "assetClass": "股票 - 中國及香港",
-      "aum": "人民幣386.6"
+      "aum": "人民幣 386.6百萬"
     },
     {
       "code": "Z25",
@@ -1653,12 +1653,12 @@
       "risk": "高",
       "bidPrice": "人民幣79.3300",
       "offerPrice": "人民幣79.3300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Baring International Fund Managers (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "人民幣5483.8"
+      "aum": "人民幣 5,483.8百萬"
     },
     {
       "code": "Z26",
@@ -1666,12 +1666,12 @@
       "risk": "高",
       "bidPrice": "人民幣4.4890",
       "offerPrice": "人民幣4.4890",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "滙豐投資基金（香港）有限公司",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "人民幣649.9"
+      "aum": "人民幣 649.9百萬"
     },
     {
       "code": "Z27",
@@ -1679,12 +1679,12 @@
       "risk": "高",
       "bidPrice": "人民幣7.0948",
       "offerPrice": "人民幣7.0948",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Allianz Global Investors GmbH",
       "assetClass": "多元資產 - 美國",
-      "aum": "人民幣58721.7"
+      "aum": "人民幣 58,721.7百萬"
     },
     {
       "code": "Z28",
@@ -1692,12 +1692,12 @@
       "risk": "高",
       "bidPrice": "人民幣7.8700",
       "offerPrice": "人民幣7.8700",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "多元資產 - 美國",
-      "aum": "人民幣13596.3"
+      "aum": "人民幣 13,596.3百萬"
     },
     {
       "code": "Z29",
@@ -1705,12 +1705,12 @@
       "risk": "低",
       "bidPrice": "美元10.5686",
       "offerPrice": "美元10.5686",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★",
       "type": "dividend",
       "manager": "Capital International Management Company",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元7054.6"
+      "aum": "美元 7,054.6百萬"
     },
     {
       "code": "Z30",
@@ -1718,12 +1718,12 @@
       "risk": "中",
       "bidPrice": "人民幣99.0324",
       "offerPrice": "人民幣99.0324",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Schroder Investment Management (Europe) S.A.",
       "assetClass": "多元資產 - 環球",
-      "aum": "人民幣356.0"
+      "aum": "人民幣 356百萬"
     },
     {
       "code": "Z31",
@@ -1731,12 +1731,12 @@
       "risk": "高",
       "bidPrice": "美元8.3400",
       "offerPrice": "美元8.3400",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "Janus Henderson Investors Europe S.A.",
       "assetClass": "股票 - 行業",
-      "aum": "美元175.4"
+      "aum": "美元 175.4百萬"
     },
     {
       "code": "Z32",
@@ -1744,12 +1744,12 @@
       "risk": "高",
       "bidPrice": "人民幣8.3700",
       "offerPrice": "人民幣8.3700",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "JPMorgan Asset Management (Europe) S.á r.l.",
       "assetClass": "固定收入 - 環球",
-      "aum": "人民幣14515.3"
+      "aum": "人民幣 14,515.3百萬"
     },
     {
       "code": "Z33",
@@ -1757,12 +1757,12 @@
       "risk": "低",
       "bidPrice": "美元11.6200",
       "offerPrice": "美元11.6200",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "Janus Henderson Investors Europe S.A.",
       "assetClass": "多元資產 - 美國",
-      "aum": "美元11772.2"
+      "aum": "美元 11,772.2百萬"
     },
     {
       "code": "Z36",
@@ -1770,12 +1770,12 @@
       "risk": "低",
       "bidPrice": "美元48.7300",
       "offerPrice": "美元48.7300",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★★",
       "type": "dividend",
       "manager": "Amundi Luxembourg S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "美元3113.9"
+      "aum": "美元 3,113.9百萬"
     },
     {
       "code": "Z37",
@@ -1783,12 +1783,12 @@
       "risk": "中",
       "bidPrice": "人民幣99.3900",
       "offerPrice": "人民幣99.3900",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "BlackRock (Luxembourg) S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "人民幣15072.7"
+      "aum": "人民幣 15,072.7百萬"
     },
     {
       "code": "Z39",
@@ -1796,12 +1796,12 @@
       "risk": "低",
       "bidPrice": "人民幣68.7792",
       "offerPrice": "人民幣68.7792",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Capital International Management Company",
       "assetClass": "固定收入 - 環球",
-      "aum": "人民幣7052.6"
+      "aum": "人民幣 7,052.6百萬"
     },
     {
       "code": "Z51",
@@ -1809,12 +1809,12 @@
       "risk": "中",
       "bidPrice": "美元11.6315",
       "offerPrice": "美元11.6315",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "FundRock Management Company S.A.",
       "assetClass": "股票 - 環球",
-      "aum": "美元1598.9"
+      "aum": "美元 1,598.9百萬"
     },
     {
       "code": "Z52",
@@ -1822,12 +1822,12 @@
       "risk": "高",
       "bidPrice": "美元9.8812",
       "offerPrice": "美元9.8812",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "FundRock Management Company S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "美元229.9"
+      "aum": "美元 229.9百萬"
     },
     {
       "code": "Z66",
@@ -1835,12 +1835,12 @@
       "risk": "低",
       "bidPrice": "人民幣48.2600",
       "offerPrice": "人民幣48.2600",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Amundi Luxembourg S.A.",
       "assetClass": "固定收入 - 美國",
-      "aum": "人民幣3113.9"
+      "aum": "人民幣 3,113.9百萬"
     },
     {
       "code": "Z69",
@@ -1848,12 +1848,12 @@
       "risk": "低",
       "bidPrice": "美元9.7959",
       "offerPrice": "美元9.7959",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "abrdn Investments Luxembourg S.A.",
       "assetClass": "固定收入 - 新興市場",
-      "aum": "美元1387.7"
+      "aum": "美元 1,387.7百萬"
     },
     {
       "code": "Z77",
@@ -1861,12 +1861,12 @@
       "risk": "低",
       "bidPrice": "美元57.9300",
       "offerPrice": "美元57.9300",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Amundi Luxembourg S.A.",
       "assetClass": "多元資產 - 環球",
-      "aum": "美元7444.9"
+      "aum": "美元 7,444.9百萬"
     },
     {
       "code": "ZL1",
@@ -1874,12 +1874,12 @@
       "risk": "低",
       "bidPrice": "美元61.0600",
       "offerPrice": "美元61.0600",
-      "valuationDate": "08/24/2026",
+      "valuationDate": "24/08/2026",
       "morningstar": "★★★",
       "type": "dividend",
       "manager": "Franklin Templeton International Services S.á r.l.",
       "assetClass": "固定收入 - 亞太區",
-      "aum": "美元102.1"
+      "aum": "美元 102.1百萬"
     },
     {
       "code": "ZP4",
@@ -1887,12 +1887,12 @@
       "risk": "低",
       "bidPrice": "美元8.1400",
       "offerPrice": "美元8.1400",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "Principal Global Investors (Ireland) Limited",
       "assetClass": "固定收入 - 環球",
-      "aum": "美元3763.5"
+      "aum": "美元 3,763.5百萬"
     },
     {
       "code": "ZU6",
@@ -1900,12 +1900,12 @@
       "risk": "高",
       "bidPrice": "美元84.0800",
       "offerPrice": "美元84.0800",
-      "valuationDate": "08/21/2026",
+      "valuationDate": "21/08/2026",
       "morningstar": "",
       "type": "dividend",
       "manager": "UBS Asset Management (Europe) S.A.",
       "assetClass": "固定收入 - 歐洲",
-      "aum": "美元4233.6"
+      "aum": "美元 4,233.6百萬"
     }
   ]
 }
