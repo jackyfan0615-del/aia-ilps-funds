@@ -236,6 +236,7 @@ function PortfolioBody({
   portfolio: ResolvedPortfolio;
   featured: boolean;
 }) {
+  const provisional = portfolio.dataStatus === "provisional";
   const gross = portfolio.stats.expectedPct;
   const earlyNet = afterPolicyFee(gross, POLICY_FEE_EARLY);
   const laterNet = afterPolicyFee(gross, POLICY_FEE_LATER);
@@ -246,38 +247,54 @@ function PortfolioBody({
     <>
       {featured ? <MeetingCard portfolio={portfolio} /> : null}
 
-      <div className="fee-strip" aria-label="扣保單費後參考回報">
-        <div>
-          <p className="price-label">未扣保單費</p>
-          <p className={`metric-value ${(gross ?? 0) >= 0 ? "is-up" : "is-down"}`}>
-            {formatSignedPct(gross)}
-          </p>
-          <p className="metric-sub">
-            {portfolio.style === "派息" && portfolio.stats.dividendYieldPct != null
-              ? "近1年價格 + 股息率"
-              : `按過去${portfolio.stats.expectedHorizon}`}
+      {provisional ? (
+        <div className="fee-strip is-pending" role="status">
+          <p className="data-pending-title">數據更新中</p>
+          <p className="data-pending-note">
+            {portfolio.failedCodes.length > 0
+              ? `以下基金數據暫未能更新：${portfolio.failedCodes.join("、")}。`
+              : "部分基金數據暫未能更新。"}
+            扣費後參考回報及滾存模擬會在數據齊備後顯示。
           </p>
         </div>
-        <div>
-          <p className="price-label">首 5 年扣費後</p>
-          <p className={`metric-value ${(earlyNet ?? 0) >= 0 ? "is-up" : "is-down"}`}>
-            {formatSignedPct(earlyNet)}
-          </p>
-          <p className="metric-sub">約 −{(POLICY_FEE_EARLY * 100).toFixed(2)}% 手續費</p>
+      ) : (
+        <div className="fee-strip" aria-label="扣保單費後參考回報">
+          <div>
+            <p className="price-label">未扣保單費</p>
+            <p className={`metric-value ${(gross ?? 0) >= 0 ? "is-up" : "is-down"}`}>
+              {formatSignedPct(gross)}
+            </p>
+            <p className="metric-sub">
+              {portfolio.style === "派息" && portfolio.stats.dividendYieldPct != null
+                ? "近1年價格 + 股息率"
+                : `按過去${portfolio.stats.expectedHorizon}`}
+            </p>
+          </div>
+          <div>
+            <p className="price-label">首 5 年扣費後</p>
+            <p className={`metric-value ${(earlyNet ?? 0) >= 0 ? "is-up" : "is-down"}`}>
+              {formatSignedPct(earlyNet)}
+            </p>
+            <p className="metric-sub">約 −{(POLICY_FEE_EARLY * 100).toFixed(2)}% 手續費</p>
+          </div>
+          <div>
+            <p className="price-label">第 6 年起扣費後</p>
+            <p className={`metric-value ${(laterNet ?? 0) >= 0 ? "is-up" : "is-down"}`}>
+              {formatSignedPct(laterNet)}
+            </p>
+            <p className="metric-sub">約 −{(POLICY_FEE_LATER * 100).toFixed(2)}% 手續費</p>
+          </div>
         </div>
-        <div>
-          <p className="price-label">第 6 年起扣費後</p>
-          <p className={`metric-value ${(laterNet ?? 0) >= 0 ? "is-up" : "is-down"}`}>
-            {formatSignedPct(laterNet)}
-          </p>
-          <p className="metric-sub">約 −{(POLICY_FEE_LATER * 100).toFixed(2)}% 手續費</p>
-        </div>
-      </div>
+      )}
       {portfolio.id === "steady" ? (
         <p className="fee-note">首 5 年現金／短債幾乎被手續費吃掉，新單較宜改用均衡核心。</p>
       ) : null}
 
-      <GrowthSimulator gross={gross} basisLabel={`過去${portfolio.stats.expectedHorizon}`} />
+      <GrowthSimulator
+        gross={gross}
+        basisLabel={`過去${portfolio.stats.expectedHorizon}`}
+        provisional={provisional}
+      />
 
       <div className="portfolio-metrics">
         {portfolio.style === "派息" ? (
@@ -374,6 +391,7 @@ function PortfolioBody({
 }
 
 function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
+  const provisional = portfolio.dataStatus === "provisional";
   const gross = portfolio.stats.expectedPct;
   const earlyNet = afterPolicyFee(gross, POLICY_FEE_EARLY);
   const laterNet = afterPolicyFee(gross, POLICY_FEE_LATER);
@@ -393,8 +411,14 @@ function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
       </p>
       <p>
         <strong>扣費後參考　</strong>
-        首 5 年 {formatSignedPct(earlyNet)} · 第 6 年起 {formatSignedPct(laterNet)}
-        <span className="meeting-gross">（未扣保單費 {formatSignedPct(gross)}）</span>
+        {provisional ? (
+          "數據更新中"
+        ) : (
+          <>
+            首 5 年 {formatSignedPct(earlyNet)} · 第 6 年起 {formatSignedPct(laterNet)}
+            <span className="meeting-gross">（未扣保單費 {formatSignedPct(gross)}）</span>
+          </>
+        )}
       </p>
       <p>
         <strong>風險　</strong>
