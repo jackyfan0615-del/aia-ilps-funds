@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { validateChartPoints } from "./aia";
+import { cleanFundName, formatFundSize, normalizeAiaDate, validateChartPoints } from "./aia";
 
 const DAY = 86_400_000;
 
@@ -53,4 +53,29 @@ test("drops invalid rows and still validates when enough remain", () => {
   const points = validateChartPoints(rows);
   assert.ok(points);
   assert.equal(points.length, 90);
+});
+
+test("normalizeAiaDate converts MM/DD/YYYY to DD/MM/YYYY", () => {
+  assert.equal(normalizeAiaDate("09/23/2026"), "23/09/2026");
+  assert.equal(normalizeAiaDate("08/21/2026"), "21/08/2026");
+});
+
+test("normalizeAiaDate leaves already-normalised DD/MM/YYYY alone", () => {
+  assert.equal(normalizeAiaDate("23/09/2026"), "23/09/2026");
+});
+
+test("normalizeAiaDate passes through non-date strings", () => {
+  assert.equal(normalizeAiaDate(""), "");
+  assert.equal(normalizeAiaDate("2026-09-23"), "2026-09-23");
+});
+
+test("cleanFundName strips a trailing @ artefact", () => {
+  assert.equal(cleanFundName('AB FCP I - 短期債券基金"A2" @'), 'AB FCP I - 短期債券基金"A2"');
+  assert.equal(cleanFundName("柏瑞港元貨幣市場基金"), "柏瑞港元貨幣市場基金");
+});
+
+test("formatFundSize adds thousands separators and the 百萬 unit", () => {
+  assert.equal(formatFundSize("美元", "8216.3"), "美元 8,216.3百萬");
+  assert.equal(formatFundSize("港元", "39.9"), "港元 39.9百萬");
+  assert.equal(formatFundSize("美元", ""), "");
 });

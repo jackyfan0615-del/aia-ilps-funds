@@ -134,13 +134,42 @@ function parseDate(value: string | undefined): string {
   return stripHtml(value).replace(/[\[\]]/g, "");
 }
 
+/**
+ * AIA publishes dates as MM/DD/YYYY; the site displays HK-style DD/MM/YYYY.
+ * Idempotent: a value whose first component cannot be a month is left alone,
+ * so already-normalised values pass through unchanged.
+ */
+export function normalizeAiaDate(value: string): string {
+  const m = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!m) return value;
+  const [, first, second, year] = m;
+  if (Number(first) > 12) return `${first.padStart(2, "0")}/${second.padStart(2, "0")}/${year}`;
+  return `${second.padStart(2, "0")}/${first.padStart(2, "0")}/${year}`;
+}
+
+/** Strip data artefacts some AIA names carry, e.g. B01's trailing "@". */
+export function cleanFundName(name: string): string {
+  return name.replace(/\s*@\s*$/, "").trim();
+}
+
+/**
+ * AIA fund_size is in millions: "美元8216.3" -> "美元 8,216.3百萬".
+ */
+export function formatFundSize(currency: string, size: string): string {
+  const trimmed = size.trim();
+  if (!trimmed) return "";
+  const num = Number(trimmed.replace(/,/g, ""));
+  if (!Number.isFinite(num)) return `${currency} ${trimmed}`;
+  return `${currency} ${num.toLocaleString("en-US", { maximumFractionDigits: 1 })}百萬`;
+}
+
 function parseStars(rating: number | undefined): string {
   if (!rating || rating <= 0) return "";
   return "★".repeat(Math.min(rating, 5));
 }
 
 function mapFund(raw: AiaFundRaw): Fund {
-  const name = stripHtml(raw.name || "");
+  const name = cleanFundName(stripHtml(raw.name || ""));
   let resolvedType: FundType = "growth";
   if (raw.code.startsWith("Z") || raw.distribution_fund === "Y") {
     resolvedType = "dividend";
@@ -157,12 +186,12 @@ function mapFund(raw: AiaFundRaw): Fund {
     risk: raw.risk || "",
     bidPrice: parsePrice(raw.bidPrice),
     offerPrice: parsePrice(raw.offerPrice),
-    valuationDate: parseDate(raw.valuationDate),
+    valuationDate: normalizeAiaDate(parseDate(raw.valuationDate)),
     morningstar: parseStars(raw.rating),
     type: resolvedType,
     manager: (raw.house || "").trim(),
     assetClass: (raw.type || "").trim(),
-    aum: size ? `${currency}${size}` : "",
+    aum: formatFundSize(currency, size),
   };
 }
 
@@ -269,7 +298,7 @@ export async function fetchAiaFundExtras(code: string): Promise<FundExtras> {
   return {
     isin: (fund.ISIN || "").trim(),
     dailyChange: stripHtml(fund.dd_change || ""),
-    performanceAsOf: parseDate(fund.performance_as_of),
+    performanceAsOf: normalizeAiaDate(parseDate(fund.performance_as_of)),
     yearReturns: parseYearReturns(fund.priceHistory),
   };
 }

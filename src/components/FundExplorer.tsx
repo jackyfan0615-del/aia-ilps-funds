@@ -62,7 +62,13 @@ export function FundExplorer({
         <p className="hero-brand">AIA ILPS</p>
         <h1 className="hero-title">基金研究台</h1>
         <p className="hero-sub">
-          {product} · 先問三題再出一套組合 · 增長 {counts.growth} · 派息 Z 字 {counts.dividend}
+          {product} · 先問三題再出一套組合 · 增長 {counts.growth} · 派息（Z字）
+          {counts.dividend}
+          {counts.other > 0 ? (
+            <>
+              {" "}· 派息（非Z）{counts.other}
+            </>
+          ) : null}
         </p>
         <p className="hero-meta">資料更新：{scrapedLabel} · 目錄隨 AIA 增減自動同步</p>
       </section>
@@ -118,7 +124,7 @@ export function FundExplorer({
             [
               ["all", `全部 ${counts.total}`],
               ["growth", `增長 ${counts.growth}`],
-              ["dividend", `派息 Z ${counts.dividend}`],
+              ["dividend", `派息（Z字）${counts.dividend}`],
             ] as const
           ).map(([value, label]) => (
             <button

@@ -364,7 +364,9 @@ function PortfolioBody({
                   <span className="holding-name">{holding.fund.name}</span>
                   <span className="holding-role">
                     {holding.role}
-                    {` · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · 近1年 ${formatSignedPct(holding.oneYearPct)}`}
+                    {` · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · 近1年 ${
+                      holding.oneYearPct == null ? "數據待更新" : formatSignedPct(holding.oneYearPct)
+                    }`}
                     {holding.dividendYieldPct != null
                       ? ` · 股息率 ${formatAbsPct(holding.dividendYieldPct)}`
                       : ""}
@@ -400,7 +402,7 @@ function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
   return (
     <div className="meeting-card" id={`meeting-${portfolio.id}`}>
       <p className="meeting-kicker">會面摘要 · 可截圖</p>
-      <h3 className="meeting-title">{portfolio.name}</h3>
+      <p className="meeting-title">{portfolio.name}</p>
       <p>
         <strong>適合　</strong>
         {portfolio.suitedFor}

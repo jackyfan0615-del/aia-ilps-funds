@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { EMPTY_ANSWERS } from "./suitability";
+import { EMPTY_ANSWERS, recommendPortfolio } from "./suitability";
 import { parseOpenIds, parseQuizAnswers } from "./quiz-storage";
 
 describe("parseQuizAnswers", () => {
@@ -36,5 +36,24 @@ describe("parseOpenIds", () => {
   it("returns an empty set for garbage input", () => {
     assert.equal(parseOpenIds(null, ["income"]).size, 0);
     assert.equal(parseOpenIds("income", ["income"]).size, 0);
+  });
+});
+
+describe("restore round-trip", () => {
+  it("restored answers recompute the same recommendation (no stale pick)", () => {
+    // Simulate exactly what localStorage holds after a quiz session.
+    const stored = JSON.stringify({ horizon: "long", goal: "growth", drawdown: "can" });
+    const answers = parseQuizAnswers(JSON.parse(stored));
+    assert.equal(recommendPortfolio(answers)?.id, "growth");
+  });
+
+  it("an empty restore yields no recommendation", () => {
+    const answers = parseQuizAnswers(JSON.parse(JSON.stringify(EMPTY_ANSWERS)));
+    assert.equal(recommendPortfolio(answers), null);
+  });
+
+  it("a partial restore yields no recommendation", () => {
+    const answers = parseQuizAnswers({ horizon: "long", goal: "growth", drawdown: "someday" });
+    assert.equal(recommendPortfolio(answers), null);
   });
 });
