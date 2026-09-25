@@ -16,6 +16,82 @@ const AIA_HEADERS = {
     "Mozilla/5.0 (compatible; AIA-ILPS-Funds/1.0; +https://aia-ilps-funds.vercel.app)",
 };
 
+/**
+ * AIA's WAF randomly answers HTTP 403 when too many requests arrive in one
+ * burst. Every chart/dividend fetch below goes through fetchAiaJson so those
+ * failures (plus 5xx and malformed bodies) are retried with backoff instead
+ * of being treated as "no data".
+ */
+const AIA_MAX_ATTEMPTS = 3;
+const MS_DAY = 86_400_000;
+const MIN_CHART_POINTS = 60;
+/** Allow weekend + public-holiday gaps, but reject genuinely stale series. */
+const MAX_CHART_AGE_MS = 10 * MS_DAY;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function retryDelayMs(failedAttempt: number): number {
+  return 500 * 2 ** failedAttempt + Math.random() * 250;
+}
+
+type AiaJsonRequest<T> = {
+  url: string;
+  label: string;
+  tag: string;
+  validate: (raw: unknown) => T | null;
+};
+
+async function fetchAiaJson<T>({ url, label, tag, validate }: AiaJsonRequest<T>): Promise<T> {
+  let lastError: Error | null = null;
+  for (let attempt = 0; attempt < AIA_MAX_ATTEMPTS; attempt += 1) {
+    if (attempt > 0) await sleep(retryDelayMs(attempt - 1));
+    try {
+      const res = await fetch(url, {
+        headers: AIA_HEADERS,
+        next: { revalidate: 21600, tags: [tag] },
+      });
+      if (!res.ok) throw new Error(`${label} failed: HTTP ${res.status}`);
+      let raw: unknown;
+      try {
+        raw = JSON.parse(await res.text()) as unknown;
+      } catch {
+        throw new Error(`${label} returned non-JSON`);
+      }
+      const parsed = validate(raw);
+      if (parsed == null) throw new Error(`${label} returned invalid data`);
+      return parsed;
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(`${label} failed`);
+    }
+  }
+  throw lastError ?? new Error(`${label} failed`);
+}
+
+/**
+ * Validates a raw AIA FundChart payload: must be [timestamp, price] rows with
+ * strictly increasing timestamps and a fresh last point. Returns null when the
+ * payload is unusable, which fetchAiaJson treats as retryable.
+ */
+export function validateChartPoints(raw: unknown): ChartPoint[] | null {
+  if (!Array.isArray(raw)) return null;
+  const points: ChartPoint[] = [];
+  for (const row of raw) {
+    if (!Array.isArray(row) || row.length < 2) continue;
+    const t = Number(row[0]);
+    const price = Number(row[1]);
+    if (!Number.isFinite(t) || !Number.isFinite(price) || price <= 0) continue;
+    points.push({ t, price });
+  }
+  if (points.length < MIN_CHART_POINTS) return null;
+  points.sort((a, b) => a.t - b.t);
+  const deduped = points.filter((point, index) => index === 0 || point.t > points[index - 1].t);
+  if (deduped.length < MIN_CHART_POINTS) return null;
+  if (Date.now() - deduped[deduped.length - 1].t > MAX_CHART_AGE_MS) return null;
+  return deduped;
+}
+
 export function aiaDetailsUrl(code: string): string {
   return `https://www.aia.com.hk/zh-hk/help-and-support/individuals/investment-information/investment-options-prices/details.html?id=${encodeURIComponent(code)}&cat=TMP2&lang=zh`;
 }
@@ -165,28 +241,12 @@ function parseYearReturns(rows: AiaYearRow[] | undefined): YearReturn[] {
 
 export async function fetchAiaFundChart(code: string): Promise<ChartPoint[]> {
   const url = `https://www1.aia.com.hk/CorpWS/Investment/Get/FundChart/?fund_code=${encodeURIComponent(code)}&fund_cat=TMP2`;
-  const res = await fetch(url, {
-    headers: AIA_HEADERS,
-    next: { revalidate: 21600, tags: [CHART_CACHE_TAG] },
+  return fetchAiaJson({
+    url,
+    label: `AIA FundChart ${code}`,
+    tag: CHART_CACHE_TAG,
+    validate: validateChartPoints,
   });
-
-  if (!res.ok) {
-    throw new Error(`AIA FundChart failed: ${res.status}`);
-  }
-
-  const text = await res.text();
-  const raw = JSON.parse(text) as unknown;
-  if (!Array.isArray(raw)) return [];
-
-  const points: ChartPoint[] = [];
-  for (const row of raw) {
-    if (!Array.isArray(row) || row.length < 2) continue;
-    const t = Number(row[0]);
-    const price = Number(row[1]);
-    if (!Number.isFinite(t) || !Number.isFinite(price)) continue;
-    points.push({ t, price });
-  }
-  return points;
 }
 
 export async function fetchAiaFundExtras(code: string): Promise<FundExtras> {
@@ -237,28 +297,28 @@ function parseAiaDate(value: string): number | null {
   return Number.isFinite(t) ? t : null;
 }
 
-export async function fetchAiaDividends(code: string): Promise<DividendPayout[]> {
-  const end = new Date();
-  const start = new Date(end.getTime() - 400 * 86_400_000);
-  const url = `https://www1.aia.com.hk/CorpWS/Investment/Get/FundDividendRecord/?fund_code=${encodeURIComponent(code)}&fund_cat=TMP2&start_date=${formatAiaDate(start)}&end_date=${formatAiaDate(end)}`;
-  const res = await fetch(url, {
-    headers: AIA_HEADERS,
-    next: { revalidate: 21600, tags: [DIVIDEND_CACHE_TAG] },
-  });
-
-  if (!res.ok) {
-    throw new Error(`AIA FundDividendRecord failed: ${res.status}`);
-  }
-
-  const raw = (await res.json()) as { dividend_rate?: string; record_date?: string }[];
-  if (!Array.isArray(raw)) return [];
-
+function validateDividendPayouts(raw: unknown): DividendPayout[] | null {
+  if (!Array.isArray(raw)) return null;
   const payouts: DividendPayout[] = [];
   for (const row of raw) {
-    const rate = Number.parseFloat(row.dividend_rate || "");
-    const t = parseAiaDate(row.record_date || "");
+    if (typeof row !== "object" || row == null) continue;
+    const record = row as { dividend_rate?: string; record_date?: string };
+    const rate = Number.parseFloat(record.dividend_rate || "");
+    const t = parseAiaDate(record.record_date || "");
     if (!Number.isFinite(rate) || rate <= 0 || t == null) continue;
     payouts.push({ rate, t });
   }
   return payouts.sort((a, b) => b.t - a.t);
+}
+
+export async function fetchAiaDividends(code: string): Promise<DividendPayout[]> {
+  const end = new Date();
+  const start = new Date(end.getTime() - 400 * 86_400_000);
+  const url = `https://www1.aia.com.hk/CorpWS/Investment/Get/FundDividendRecord/?fund_code=${encodeURIComponent(code)}&fund_cat=TMP2&start_date=${formatAiaDate(start)}&end_date=${formatAiaDate(end)}`;
+  return fetchAiaJson({
+    url,
+    label: `AIA FundDividendRecord ${code}`,
+    tag: DIVIDEND_CACHE_TAG,
+    validate: validateDividendPayouts,
+  });
 }

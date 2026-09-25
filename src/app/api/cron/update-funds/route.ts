@@ -1,10 +1,25 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { fetchAiaFunds, FUNDS_CACHE_TAG, CHART_CACHE_TAG, DIVIDEND_CACHE_TAG, toDataset } from "@/lib/aia";
+import {
+  fetchAiaFundChart,
+  fetchAiaFunds,
+  FUNDS_CACHE_TAG,
+  CHART_CACHE_TAG,
+  DIVIDEND_CACHE_TAG,
+  toDataset,
+} from "@/lib/aia";
 import { diffCatalog, hasCatalogChanges } from "@/lib/catalog";
 import { getFallbackDataset } from "@/lib/funds";
+import { PORTFOLIO_TEMPLATES } from "@/lib/portfolios";
 
 export const maxDuration = 60;
+
+/** Gentle pause between warm calls so AIA's WAF does not see a burst. */
+const WARM_GAP_MS = 250;
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function isAuthorized(request: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
@@ -49,8 +64,28 @@ export async function GET(request: NextRequest) {
     revalidatePath("/funds", "layout");
     revalidatePath("/api/funds");
 
-    // Warm the tagged cache for subsequent visitors
-    await fetchAiaFunds(true);
+    // Warm the tagged cache for subsequent visitors. The fund list goes
+    // through the cached fetch (cache: "no-store" would bypass the cache and
+    // warm nothing), and portfolio charts are warmed strictly one at a time —
+    // the old concurrent burst is exactly what got us 403'd by AIA's WAF.
+    await fetchAiaFunds();
+
+    const portfolioCodes = [
+      ...new Set(
+        PORTFOLIO_TEMPLATES.flatMap((template) => template.sleeves.map((sleeve) => sleeve.code)),
+      ),
+    ];
+    let chartsWarmed = 0;
+    const chartFailures: string[] = [];
+    for (const code of portfolioCodes) {
+      try {
+        await fetchAiaFundChart(code);
+        chartsWarmed += 1;
+      } catch {
+        chartFailures.push(code);
+      }
+      await wait(WARM_GAP_MS);
+    }
 
     return NextResponse.json({
       ok: true,
@@ -60,6 +95,8 @@ export async function GET(request: NextRequest) {
       added: catalog.added,
       removed: catalog.removed,
       renamed: catalog.renamed,
+      chartsWarmed,
+      chartFailures,
       sample: sample
         ? {
             code: sample.code,

@@ -10,12 +10,17 @@ type Props = {
   gross: number | null;
   /** 描述 gross 的基礎，例如「過去5年年化」 */
   basisLabel: string;
+  /**
+   * 部分基金數據未能更新時只顯示「數據更新中」，
+   * 不以局部數據作出看似完整的推算
+   */
+  provisional?: boolean;
 };
 
 const YEAR_OPTIONS = [5, 10, 15, 20];
 const PRINCIPAL_PRESETS = [500_000, 1_000_000, 3_000_000];
 
-export function GrowthSimulator({ gross, basisLabel }: Props) {
+export function GrowthSimulator({ gross, basisLabel, provisional = false }: Props) {
   const [principalInput, setPrincipalInput] = useState("1000000");
   const [years, setYears] = useState(10);
 
@@ -28,7 +33,11 @@ export function GrowthSimulator({ gross, basisLabel }: Props) {
   return (
     <section className="simulator" aria-label="滾存模擬">
       <h3 className="sim-title">滾存模擬</h3>
-      {gross == null ? (
+      {provisional ? (
+        <p className="sim-note" role="status">
+          數據更新中：部分基金數據暫未能更新，數據齊備後會顯示滾存模擬。
+        </p>
+      ) : gross == null ? (
         <p className="sim-note">暫無足夠數據作滾存模擬。</p>
       ) : (
         <>

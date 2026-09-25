@@ -7,7 +7,45 @@ import {
   withDividendYield,
   type PortfolioStats,
 } from "./portfolio-stats";
-import type { Fund } from "./types";
+import type { ChartPoint, Fund } from "./types";
+
+/** Max parallel requests to www1.aia.com.hk — AIA's WAF 403s wider bursts. */
+const AIA_FETCH_CONCURRENCY = 4;
+
+type Settled<T> = { ok: true; value: T } | { ok: false };
+
+/**
+ * Ordered Promise.allSettled that keeps at most `limit` tasks in flight.
+ * A throttled fund must never abort the whole portfolio resolve, and must
+ * never be silently averaged away — see dataStatus below.
+ */
+export async function mapWithLimit<T, R>(
+  items: readonly T[],
+  limit: number,
+  fn: (item: T, index: number) => Promise<R>,
+): Promise<Settled<R>[]> {
+  const results: Settled<R>[] = new Array(items.length);
+  let cursor = 0;
+  async function worker(): Promise<void> {
+    while (cursor < items.length) {
+      const index = cursor;
+      cursor += 1;
+      try {
+        results[index] = { ok: true, value: await fn(items[index], index) };
+      } catch {
+        // AIA throttled the request or the payload failed validation —
+        // recorded as a failure, never as an empty "no data" series.
+        results[index] = { ok: false };
+      }
+    }
+  }
+  const workers = Array.from(
+    { length: Math.min(Math.max(limit, 1), Math.max(items.length, 1)) },
+    worker,
+  );
+  await Promise.all(workers);
+  return results;
+}
 
 export type PortfolioId = "income" | "steady" | "balanced" | "growth";
 
@@ -37,9 +75,26 @@ export type ResolvedHolding = PortfolioSleeve & {
   dividendYieldPct: number | null;
 };
 
+export type PortfolioDataStatus = "ok" | "provisional";
+
+/**
+ * Pure provisional decision: any failed fetch, or coverage too thin to trust
+ * the blended numbers. Extracted so it can be unit-tested without network.
+ */
+export function resolveDataStatus(failedCodes: string[], coverage: number): PortfolioDataStatus {
+  return failedCodes.length > 0 || coverage < 0.6 ? "provisional" : "ok";
+}
+
 export type ResolvedPortfolio = Omit<PortfolioTemplate, "sleeves"> & {
   holdings: ResolvedHolding[];
   stats: PortfolioStats;
+  /**
+   * "provisional" when any holding's chart/dividend data failed to load (AIA
+   * throttling etc.) or coverage is too thin — the numbers are partial and the
+   * UI must say 數據更新中 instead of presenting a confident projection.
+   */
+  dataStatus: PortfolioDataStatus;
+  failedCodes: string[];
 };
 
 export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
@@ -141,21 +196,33 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
       ),
     ),
   ];
-  const charts = new Map<string, Awaited<ReturnType<typeof fetchAiaFundChart>>>();
+  const charts = new Map<string, ChartPoint[]>();
   const yields = new Map<string, ReturnType<typeof estimateDividendYield>>();
+  const failedChartCodes = new Set<string>();
+  const failedDividendCodes = new Set<string>();
   const [chartResults, dividendResults] = await Promise.all([
-    Promise.allSettled(codes.map((code) => fetchAiaFundChart(code))),
-    Promise.allSettled(incomeCodes.map((code) => fetchAiaDividends(code))),
+    mapWithLimit(codes, AIA_FETCH_CONCURRENCY, (code) => fetchAiaFundChart(code)),
+    mapWithLimit(incomeCodes, AIA_FETCH_CONCURRENCY, (code) => fetchAiaDividends(code)),
   ]);
   chartResults.forEach((result, index) => {
-    charts.set(codes[index], result.status === "fulfilled" ? result.value : []);
+    const code = codes[index];
+    if (result.ok) {
+      charts.set(code, result.value);
+    } else {
+      charts.set(code, []);
+      failedChartCodes.add(code);
+    }
   });
   const byCode = new Map(funds.map((fund) => [fund.code, fund]));
   dividendResults.forEach((result, index) => {
     const code = incomeCodes[index];
-    const bid = parseBidNumber(byCode.get(code)?.bidPrice || "");
-    const payouts = result.status === "fulfilled" ? result.value : [];
-    yields.set(code, bid ? estimateDividendYield(payouts, bid) : null);
+    if (result.ok) {
+      const bid = parseBidNumber(byCode.get(code)?.bidPrice || "");
+      yields.set(code, bid ? estimateDividendYield(result.value, bid) : null);
+    } else {
+      yields.set(code, null);
+      failedDividendCodes.add(code);
+    }
   });
 
   return PORTFOLIO_TEMPLATES.map((template) => {
@@ -186,6 +253,15 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
       );
     }
 
+    const failedCodes = template.sleeves
+      .map((sleeve) => sleeve.code)
+      .filter(
+        (code) =>
+          failedChartCodes.has(code) ||
+          (template.style === "派息" && failedDividendCodes.has(code)),
+      );
+    const dataStatus = resolveDataStatus(failedCodes, stats.coverage);
+
     return {
       id: template.id,
       name: template.name,
@@ -199,6 +275,8 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
       meetingRisk: template.meetingRisk,
       holdings,
       stats,
+      dataStatus,
+      failedCodes,
     };
   });
 }
