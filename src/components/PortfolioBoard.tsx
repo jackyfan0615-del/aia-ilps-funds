@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { PortfolioId, ResolvedPortfolio } from "@/lib/portfolios";
+import type { PortfolioId, ResolvedHolding, ResolvedPortfolio } from "@/lib/portfolios";
+import { DIVIDEND_SOURCE_METHOD_ZH, FROM_CAPITAL_LABEL } from "@/lib/dividend-source";
 import { afterPolicyFee, POLICY_FEE_EARLY, POLICY_FEE_LATER } from "@/lib/policy-fees";
 import {
   drawdownDisclosure,
@@ -13,11 +14,12 @@ import {
   riskBadgeClass,
 } from "@/lib/portfolio-stats";
 import {
+  DRAWDOWN_OPTIONS,
   EMPTY_ANSWERS,
+  GOAL_OPTIONS,
+  HORIZON_OPTIONS,
+  WITHDRAWAL_OPTIONS,
   recommendPortfolio,
-  type Drawdown,
-  type Goal,
-  type Horizon,
   type SuitabilityAnswers,
 } from "@/lib/suitability";
 import {
@@ -26,6 +28,7 @@ import {
   saveOpenIds,
   saveQuizAnswers,
 } from "@/lib/quiz-storage";
+import { ClientSummaryButton } from "./ClientSummaryButton";
 import { GrowthSimulator } from "./GrowthSimulator";
 import { typeLabel } from "@/lib/labels";
 
@@ -34,29 +37,13 @@ type Props = {
   fundCount: number;
 };
 
-const HORIZON_OPTIONS: { value: Horizon; label: string }[] = [
-  { value: "under5", label: "少於 5 年" },
-  { value: "mid", label: "約 5–7 年" },
-  { value: "long", label: "7 年或以上" },
-];
-
-const GOAL_OPTIONS: { value: Goal; label: string }[] = [
-  { value: "income", label: "帳戶要有現金股息" },
-  { value: "growth", label: "累積淨值、少派息" },
-];
-
-const DRAWDOWN_OPTIONS: { value: Drawdown; label: string }[] = [
-  { value: "cannot", label: "不能接受大跌" },
-  { value: "moderate", label: "可接受中度波動" },
-  { value: "can", label: "能接受 2022 那種大回撤" },
-];
-
 export function PortfolioBoard({ portfolios, fundCount }: Props) {
   const [answers, setAnswers] = useState<SuitabilityAnswers>(EMPTY_ANSWERS);
   const [openIds, setOpenIds] = useState<Set<PortfolioId>>(() => new Set());
   const [restored, setRestored] = useState(false);
   const pick = recommendPortfolio(answers);
   const quizDone = pick != null;
+  const featuredPortfolio = pick ? (portfolios.find((item) => item.id === pick.id) ?? null) : null;
 
   // Keep the quiz answers (and featured mix) across tab switches and fund
   // detail page visits. Restored in an effect after mount so the SSR HTML and
@@ -101,9 +88,9 @@ export function PortfolioBoard({ portfolios, fundCount }: Props) {
     <div className="portfolio-board">
       <section className="suitability" aria-labelledby="suitability-title">
         <h2 id="suitability-title" className="suitability-title">
-          會面三題
+          會面四題
         </h2>
-        <p className="suitability-lead">先問這三題，再出一套主倉。不要先翻 {fundCount} 隻基金。</p>
+        <p className="suitability-lead">先問這四題，再出一套主倉。不要先翻 {fundCount} 隻基金。</p>
         <QuizRow
           legend="1. 投資年期？"
           value={answers.horizon}
@@ -122,13 +109,20 @@ export function PortfolioBoard({ portfolios, fundCount }: Props) {
           options={DRAWDOWN_OPTIONS}
           onChange={(drawdown) => setAnswers((current) => ({ ...current, drawdown }))}
         />
-        {pick ? (
+        <QuizRow
+          legend="4. 幾時要用錢？"
+          value={answers.withdrawal}
+          options={WITHDRAWAL_OPTIONS}
+          onChange={(withdrawal) => setAnswers((current) => ({ ...current, withdrawal }))}
+        />
+        {pick && featuredPortfolio ? (
           <div className="suitability-result" data-pick={pick.id}>
             <p className="suitability-pick">
-              主推 <strong>{portfolios.find((item) => item.id === pick.id)?.name ?? pick.id}</strong>
+              主推 <strong>{featuredPortfolio.name}</strong>
             </p>
             <p>{pick.reason}</p>
             {pick.caution ? <p className="suitability-caution">{pick.caution}</p> : null}
+            <ClientSummaryButton answers={answers} pick={pick} portfolio={featuredPortfolio} />
             <button
               type="button"
               className="text-btn"
@@ -137,11 +131,11 @@ export function PortfolioBoard({ portfolios, fundCount }: Props) {
                 setOpenIds(new Set());
               }}
             >
-              重設三題
+              重設四題
             </button>
           </div>
         ) : (
-          <p className="suitability-hint">答完三題會高亮一套，其餘收摺。</p>
+          <p className="suitability-hint">答完四題會高亮一套，其餘收摺。</p>
         )}
       </section>
 
@@ -250,6 +244,7 @@ function PortfolioBody({
   const oneYear =
     portfolio.style === "派息" ? portfolio.stats.oneYearTotalPct : portfolio.stats.oneYearPct;
   const drawdownNote = drawdownDisclosure(portfolio.stats);
+  const source = portfolio.stats.dividendSource;
 
   return (
     <>
@@ -295,13 +290,16 @@ function PortfolioBody({
         </div>
       )}
       {portfolio.id === "steady" ? (
-        <p className="fee-note">首 5 年現金／短債幾乎被手續費吃掉，新單較宜改用均衡核心。</p>
+        <p className="fee-note">
+          首 5 年現金／短債（W04＋W06 合共 30%）扣約 2.38% 手續費後淨回報偏薄，不是保本。
+        </p>
       ) : null}
 
       <GrowthSimulator
         gross={gross}
         basisLabel={`過去${portfolio.stats.expectedHorizon}`}
         provisional={provisional}
+        maxDrawdownPct={portfolio.stats.maxDrawdownPct}
       />
 
       <div className="portfolio-metrics">
@@ -329,6 +327,16 @@ function PortfolioBody({
                 : "過往總回報"}
           </p>
         </div>
+        {portfolio.style === "派息" && source ? (
+          <div>
+            <p className="price-label">派息來源</p>
+            <p className={`metric-value ${source.fromCapital ? "is-down" : "is-up"}`}>
+              {formatSignedPct(source.oneYearCapitalPct)}
+            </p>
+            <p className="metric-sub">含息 − 股息率</p>
+            {source.fromCapital ? <p className="source-flag">{FROM_CAPITAL_LABEL}</p> : null}
+          </div>
+        ) : null}
         <div>
           <p className="price-label">年化波動</p>
           <p className="metric-value">{formatAbsPct(portfolio.stats.volPct)}</p>
@@ -340,6 +348,7 @@ function PortfolioBody({
           <p className="metric-sub">{drawdownPeriodLabel(portfolio.stats)}</p>
         </div>
       </div>
+      {portfolio.style === "派息" ? <p className="drawdown-note">{DIVIDEND_SOURCE_METHOD_ZH}</p> : null}
       {drawdownNote ? <p className="drawdown-note">{drawdownNote}</p> : null}
 
       <p className="portfolio-principle">{portfolio.principle}</p>
@@ -367,29 +376,11 @@ function PortfolioBody({
           <li key={holding.code}>
             {holding.fund ? (
               <Link href={`/funds/${holding.code}`} className="holding-btn">
-                <span className="holding-weight">{holding.weight}%</span>
-                <span className="holding-main">
-                  <span className="holding-code">{holding.code}</span>
-                  <span className="holding-name">{holding.fund.name}</span>
-                  <span className="holding-role">
-                    {holding.role}
-                    {` · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · 近1年 ${
-                      holding.oneYearPct == null ? "數據待更新" : formatSignedPct(holding.oneYearPct)
-                    }`}
-                    {holding.dividendYieldPct != null
-                      ? ` · 股息率 ${formatAbsPct(holding.dividendYieldPct)}`
-                      : ""}
-                  </span>
-                </span>
+                <HoldingCopy holding={holding} showSource={portfolio.style === "派息"} />
               </Link>
             ) : (
               <div className="holding-btn is-disabled">
-                <span className="holding-weight">{holding.weight}%</span>
-                <span className="holding-main">
-                  <span className="holding-code">{holding.code}</span>
-                  <span className="holding-name">此代號目前不在目錄</span>
-                  <span className="holding-role">{holding.role} · 已下架或暫停</span>
-                </span>
+                <HoldingCopy holding={holding} showSource={portfolio.style === "派息"} />
               </div>
             )}
           </li>
@@ -401,12 +392,45 @@ function PortfolioBody({
   );
 }
 
+function HoldingCopy({
+  holding,
+  showSource,
+}: {
+  holding: ResolvedHolding;
+  showSource: boolean;
+}) {
+  return (
+    <>
+      <span className="holding-weight">{holding.weight}%</span>
+      <span className="holding-main">
+        <span className="holding-code">{holding.code}</span>
+        <span className="holding-name">{holding.fund?.name ?? "此代號目前不在目錄"}</span>
+        <span className="holding-role">
+          {holding.fund
+            ? `${holding.role} · ${typeLabel(holding.fund.type)} · ${holding.fund.risk}風險 · 近1年 ${
+                holding.oneYearPct == null ? "數據待更新" : formatSignedPct(holding.oneYearPct)
+              }`
+            : `${holding.role} · 已下架或暫停`}
+          {holding.dividendYieldPct != null ? ` · 股息率 ${formatAbsPct(holding.dividendYieldPct)}` : ""}
+          {showSource && holding.dividendSource
+            ? ` · 派息來源 ${formatSignedPct(holding.dividendSource.oneYearCapitalPct)}`
+            : ""}
+        </span>
+        {showSource && holding.dividendSource?.fromCapital ? (
+          <span className="source-flag">{FROM_CAPITAL_LABEL}</span>
+        ) : null}
+      </span>
+    </>
+  );
+}
+
 function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
   const provisional = portfolio.dataStatus === "provisional";
   const gross = portfolio.stats.expectedPct;
   const earlyNet = afterPolicyFee(gross, POLICY_FEE_EARLY);
   const laterNet = afterPolicyFee(gross, POLICY_FEE_LATER);
   const mix = portfolio.holdings.map((holding) => `${holding.code} ${holding.weight}%`).join(" · ");
+  const source = portfolio.stats.dividendSource;
 
   return (
     <div className="meeting-card" id={`meeting-${portfolio.id}`}>
@@ -441,6 +465,14 @@ function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
           ? " 部分基金早期走勢經同類基金代理或因數據不足未納入，詳見組合說明。"
           : ""}
       </p>
+      {source ? (
+        <p>
+          <strong>派息來源　</strong>
+          近1年含息 {formatSignedPct(source.oneYearTotalPct)} − 股息率 {formatAbsPct(source.yieldPct)} ={" "}
+          {formatSignedPct(source.oneYearCapitalPct)}
+          {source.fromCapital ? `。${FROM_CAPITAL_LABEL}` : "。"}
+        </p>
+      ) : null}
       <p className="meeting-foot">內部銷售參考，並非投資建議。過往表現不代表將來表現。</p>
     </div>
   );

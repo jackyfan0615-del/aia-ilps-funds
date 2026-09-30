@@ -7,6 +7,7 @@ import type { ResolvedPortfolio } from "@/lib/portfolios";
 import { CatalogNotice } from "./CatalogNotice";
 import { FundRow } from "./FundRow";
 import { PortfolioBoard } from "./PortfolioBoard";
+import { ReviewBoard } from "./ReviewBoard";
 
 type Props = {
   funds: Fund[];
@@ -21,7 +22,7 @@ type Props = {
   product: string;
   catalogNotice: CatalogHistoryEvent | null;
   portfolios: ResolvedPortfolio[];
-  initialView: "funds" | "portfolios";
+  initialView: "funds" | "portfolios" | "review";
 };
 
 export function FundExplorer({
@@ -34,7 +35,7 @@ export function FundExplorer({
   portfolios,
   initialView,
 }: Props) {
-  const [view, setView] = useState<"funds" | "portfolios">(initialView);
+  const [view, setView] = useState<"funds" | "portfolios" | "review">(initialView);
   const [q, setQ] = useState("");
   const [type, setType] = useState<"all" | "growth" | "dividend">("all");
   const [risk, setRisk] = useState("");
@@ -62,7 +63,7 @@ export function FundExplorer({
         <p className="hero-brand">AIA ILPS</p>
         <h1 className="hero-title">基金研究台</h1>
         <p className="hero-sub">
-          {product} · 先問三題再出一套組合 · 增長 {counts.growth} · 派息（Z字）
+          {product} · 先問四題再出一套組合 · 增長 {counts.growth} · 派息（Z字）
           {counts.dividend}
           {counts.other > 0 ? (
             <>
@@ -98,11 +99,28 @@ export function FundExplorer({
         >
           基金目錄
         </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-review"
+          aria-controls="panel-review"
+          aria-selected={view === "review"}
+          className={view === "review" ? "active" : undefined}
+          onClick={() => setView("review")}
+        >
+          週年檢討
+        </button>
       </div>
 
       {view === "portfolios" ? (
         <div role="tabpanel" id="panel-portfolios" aria-labelledby="tab-portfolios">
           <PortfolioBoard portfolios={portfolios} fundCount={counts.total} />
+        </div>
+      ) : null}
+
+      {view === "review" ? (
+        <div role="tabpanel" id="panel-review" aria-labelledby="tab-review">
+          <ReviewBoard portfolios={portfolios} />
         </div>
       ) : null}
 

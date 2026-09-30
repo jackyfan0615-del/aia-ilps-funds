@@ -1,8 +1,10 @@
 import { fetchAiaFundChart, fetchAiaDividends } from "./aia";
 import { parseBidNumber } from "./chart";
 import { estimateDividendYield } from "./dividends";
+import { computeDividendSource, type DividendSource } from "./dividend-source";
 import {
   computePortfolioStats,
+  holdingFiveYearCagrPct,
   holdingOneYearPct,
   withDividendYield,
   type PortfolioStats,
@@ -73,7 +75,9 @@ export type PortfolioTemplate = {
 export type ResolvedHolding = PortfolioSleeve & {
   fund: Fund | null;
   oneYearPct: number | null;
+  fiveYearCagrPct: number | null;
   dividendYieldPct: number | null;
+  dividendSource: DividendSource | null;
 };
 
 export type PortfolioDataStatus = "ok" | "provisional";
@@ -109,7 +113,7 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
       "目標是帳戶有股息流。短債與公司債防守，安聯收益及增長做核心入息，環球高息股票提高派息。代價是淨值會波動，派息不保證。",
     suitedFor: "希望保單帳戶有現金股息、可接受價格波動的客戶。派息不保證，亦可因市況而從本金支付。",
     whySleeves:
-      "帳戶要現金股息才用 Z 字。J16 施羅德環球收益股票是累積類別，保單戶口不會派現金，不要用它替代 Z17。",
+      "帳戶要現金股息才用 Z 字。J16 施羅德環球收益股票是累積類別，保單戶口不會派現金，不要用它替代 Z17。請對照派息來源：含息總回報低於股息率即部分派息來自本金。",
     alternatives:
       "首 5 年手續費約 2.4% 會吃薄短債息；可略減 Z36／Z29、提高 Z07／Z17。第 6 年才把防守債加回。",
     meetingRisk: "淨值會波動，派息不保證，亦可從本金支付。",
@@ -126,20 +130,21 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     name: "穩健增長",
     risk: "偏低",
     style: "增長",
-    summary: "現金與短債降低波動，平衡及動態配置作核心，少量環球股票參與升市。",
+    summary: "現金與短債約三成壓波動，駿利平衡作核心，亞太入息與環球收益股票參與升市。",
     principle:
-      "目標是穩中求升、少派息。現金加短債壓波動，平衡／動態配置做核心，約兩成環球股票參與升市。",
-    suitedFor: "風險承受較低、年期中長、以累積淨值為主的客戶。",
+      "目標是穩中求升、少派息。現金加短債約 30% 壓波動，股債平衡做核心，亞太入息與環球收益股票各約四分一。",
+    suitedFor: "風險承受較低、年期中長、以累積淨值為主的客戶。不是保本，股市大跌時仍會回撤。",
     whySleeves:
-      "現金 W04 + 短債 W06 約 35% 壓波動。首 5 年這兩筆幾乎只夠交保單手續費，所以只留給完全不能看股票波動的客人。",
-    alternatives: "新單首 5 年較宜改用均衡核心（少現金、多股票核心）。第 6 年起才把這套當「穩」。",
-    meetingRisk: "首 5 年扣費後可能幾乎不升；股市大跌時仍會回撤，不是保本。",
+      "F14 摩根亞太入息（累積）取代舊 A32：5 年價格與 2022 年抗跌較好。J16 施羅德環球收益股票（累積）取代舊 CG1：2022 年回撤明顯較細，風格偏價值／收息，美股科技大升年會跑輸。現金 W04 + 短債 W06 減至 30%，因首 5 年約 2.38% 手續費會吃薄貨幣／短債淨回報。",
+    alternatives:
+      "若更想壓歐洲集中度，不要改用 F11 25% 那條（歐洲股美元對沖過重）。科技主導年可略增股票核心，但不要把 J16 當成派息 Z 字。",
+    meetingRisk: "首 5 年現金／短債扣費後淨回報偏薄；股市大跌時仍會回撤，不是保本。",
     sleeves: [
       { code: "W04", weight: 15, role: "美元現金" },
-      { code: "W06", weight: 20, role: "短債穩定" },
-      { code: "R03", weight: 25, role: "股債平衡" },
-      { code: "A32", weight: 20, role: "動態配置" },
-      { code: "CG1", weight: 20, role: "環球股票" },
+      { code: "W06", weight: 15, role: "短債穩定" },
+      { code: "R03", weight: 20, role: "股債平衡" },
+      { code: "F14", weight: 25, role: "亞太入息" },
+      { code: "J16", weight: 25, role: "環球收益股票" },
     ],
   },
   {
@@ -232,11 +237,23 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
   return PORTFOLIO_TEMPLATES.map((template) => {
     const holdings = template.sleeves.map((sleeve) => {
       const points = charts.get(sleeve.code) ?? [];
+      const oneYearPct = holdingOneYearPct(points);
+      const fiveYearCagrPct = holdingFiveYearCagrPct(points);
+      const dividendYieldPct = yields.get(sleeve.code)?.pct ?? null;
       return {
         ...sleeve,
         fund: byCode.get(sleeve.code) ?? null,
-        oneYearPct: holdingOneYearPct(points),
-        dividendYieldPct: yields.get(sleeve.code)?.pct ?? null,
+        oneYearPct,
+        fiveYearCagrPct,
+        dividendYieldPct,
+        dividendSource:
+          template.style === "派息"
+            ? computeDividendSource({
+                yieldPct: dividendYieldPct,
+                oneYearPricePct: oneYearPct,
+                fiveYearPriceCagrPct: fiveYearCagrPct,
+              })
+            : null,
       };
     });
 

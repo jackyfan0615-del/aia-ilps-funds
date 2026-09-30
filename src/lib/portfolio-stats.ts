@@ -1,3 +1,4 @@
+import { computeDividendSource, type DividendSource } from "./dividend-source";
 import type { PriceProxyUse } from "./price-proxies";
 import type { ChartPoint } from "./types";
 
@@ -23,6 +24,9 @@ export type PortfolioStats = {
   dividendYieldPct: number | null;
   dividendYieldMethod: "ttm" | "annualized" | null;
   oneYearTotalPct: number | null;
+  dividendSource: DividendSource | null;
+  /** Compact monthly blended NAV (own prices) for review / since-start returns. */
+  navPoints: ChartPoint[];
   asOf: number | null;
   coverage: number;
 };
@@ -67,7 +71,7 @@ function spanYears(points: ChartPoint[]): number {
   return (points[points.length - 1].t - points[0].t) / MS_YEAR;
 }
 
-function periodReturn(points: ChartPoint[], years: number, annualize: boolean): number | null {
+export function periodReturn(points: ChartPoint[], years: number, annualize: boolean): number | null {
   const sliced = sliceYears(points, years);
   if (sliced.length < 2 || sliced[0].price <= 0) return null;
   const span = spanYears(sliced);
@@ -143,6 +147,23 @@ function blendNav(holdings: { weight: number; points: ChartPoint[] }[]): ChartPo
     t: time,
     price: series.reduce((sum, item) => sum + item.weight * (item.aligned[idx] / item.base) * 100, 0),
   }));
+}
+
+/** Keep month-end points plus the first/last print so review payloads stay small. */
+export function compactMonthlyNav(points: ChartPoint[]): ChartPoint[] {
+  if (points.length <= 80) return points;
+  const byMonth = new Map<string, ChartPoint>();
+  for (const point of points) {
+    const year = new Date(point.t).toLocaleString("en-US", { timeZone: "Asia/Hong_Kong", year: "numeric" });
+    const month = new Date(point.t).toLocaleString("en-US", { timeZone: "Asia/Hong_Kong", month: "2-digit" });
+    byMonth.set(`${year}-${month}`, point);
+  }
+  const monthly = [...byMonth.values()].sort((a, b) => a.t - b.t);
+  if (monthly[0]?.t !== points[0].t) monthly.unshift(points[0]);
+  if (monthly[monthly.length - 1]?.t !== points[points.length - 1].t) {
+    monthly.push(points[points.length - 1]);
+  }
+  return monthly;
 }
 
 function annualizedVol(points: ChartPoint[]): number | null {
@@ -276,6 +297,8 @@ export function computePortfolioStats(holdings: HoldingStatsInput[]): PortfolioS
     dividendYieldPct: null,
     dividendYieldMethod: null,
     oneYearTotalPct: null,
+    dividendSource: null,
+    navPoints: compactMonthlyNav(nav),
     asOf: nav.at(-1)?.t ?? covered[0]?.points.at(-1)?.t ?? null,
     coverage,
   };
@@ -319,6 +342,10 @@ export function holdingOneYearPct(points: ChartPoint[]): number | null {
   return periodReturn(points, 1, false);
 }
 
+export function holdingFiveYearCagrPct(points: ChartPoint[]): number | null {
+  return periodReturn(points, 5, true);
+}
+
 export function withDividendYield(
   stats: PortfolioStats,
   items: { weight: number; yieldPct: number | null; method: "ttm" | "annualized" | null }[],
@@ -333,23 +360,31 @@ export function withDividendYield(
     if (item.method === "annualized") annualizedWeight += item.weight;
   }
   const dividendYieldPct = weight > 0 ? sum / weight : null;
-  const dividendYieldMethod =
+  const dividendYieldMethod: PortfolioStats["dividendYieldMethod"] =
     dividendYieldPct == null ? null : annualizedWeight / Math.max(weight, 1) >= 0.5 ? "annualized" : "ttm";
   const oneYearTotalPct =
     stats.oneYearPct != null && dividendYieldPct != null
       ? stats.oneYearPct + dividendYieldPct
       : stats.oneYearPct ?? dividendYieldPct;
 
-  if (dividendYieldPct == null) {
-    return { ...stats, dividendYieldPct, dividendYieldMethod, oneYearTotalPct };
-  }
+  const withYield =
+    dividendYieldPct == null
+      ? { ...stats, dividendYieldPct, dividendYieldMethod, oneYearTotalPct }
+      : {
+          ...stats,
+          dividendYieldPct,
+          dividendYieldMethod,
+          oneYearTotalPct,
+          expectedPct: (stats.oneYearPct ?? 0) + dividendYieldPct,
+          expectedHorizon: "1年" as const,
+        };
 
   return {
-    ...stats,
-    dividendYieldPct,
-    dividendYieldMethod,
-    oneYearTotalPct,
-    expectedPct: (stats.oneYearPct ?? 0) + dividendYieldPct,
-    expectedHorizon: "1年",
+    ...withYield,
+    dividendSource: computeDividendSource({
+      yieldPct: dividendYieldPct,
+      oneYearPricePct: stats.oneYearPct,
+      fiveYearPriceCagrPct: stats.fiveYearCagrPct,
+    }),
   };
 }

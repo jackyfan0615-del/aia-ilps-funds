@@ -5,18 +5,20 @@ import { parseOpenIds, parseQuizAnswers } from "./quiz-storage";
 
 describe("parseQuizAnswers", () => {
   it("keeps a complete valid answer set", () => {
-    assert.deepEqual(parseQuizAnswers({ horizon: "mid", goal: "growth", drawdown: "moderate" }), {
+    assert.deepEqual(parseQuizAnswers({ horizon: "mid", goal: "growth", drawdown: "moderate", withdrawal: "beyond10" }), {
       horizon: "mid",
       goal: "growth",
       drawdown: "moderate",
+      withdrawal: "beyond10",
     });
   });
 
   it("drops unknown option values but keeps valid ones", () => {
-    assert.deepEqual(parseQuizAnswers({ horizon: "someday", goal: "income", drawdown: null }), {
+    assert.deepEqual(parseQuizAnswers({ horizon: "someday", goal: "income", drawdown: null, withdrawal: "soon" }), {
       horizon: null,
       goal: "income",
       drawdown: null,
+      withdrawal: null,
     });
   });
 
@@ -42,7 +44,7 @@ describe("parseOpenIds", () => {
 describe("restore round-trip", () => {
   it("restored answers recompute the same recommendation (no stale pick)", () => {
     // Simulate exactly what localStorage holds after a quiz session.
-    const stored = JSON.stringify({ horizon: "long", goal: "growth", drawdown: "can" });
+    const stored = JSON.stringify({ horizon: "long", goal: "growth", drawdown: "can", withdrawal: "beyond10" });
     const answers = parseQuizAnswers(JSON.parse(stored));
     assert.equal(recommendPortfolio(answers)?.id, "growth");
   });
@@ -53,7 +55,7 @@ describe("restore round-trip", () => {
   });
 
   it("a partial restore yields no recommendation", () => {
-    const answers = parseQuizAnswers({ horizon: "long", goal: "growth", drawdown: "someday" });
+    const answers = parseQuizAnswers({ horizon: "long", goal: "growth", drawdown: "someday", withdrawal: "beyond10" });
     assert.equal(recommendPortfolio(answers), null);
   });
 });

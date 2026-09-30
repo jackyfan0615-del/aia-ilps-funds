@@ -103,8 +103,53 @@
   color: var(--ink-muted);
 }
 
+.sim-stress {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--line);
+}
+
+.sim-stress-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.sim-stress-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+  margin: 0.65rem 0;
+}
+
+.sim-path-wrap {
+  overflow-x: auto;
+}
+
+.sim-path {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.sim-path th,
+.sim-path td {
+  padding: 0.3rem 0.2rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.sim-path th {
+  color: var(--ink-muted);
+  font-weight: 650;
+}
+
 @media (min-width: 760px) {
   .sim-result {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sim-stress-stats {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
