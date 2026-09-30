@@ -111,11 +111,12 @@ export function clientSummaryHtml(model: ClientSummaryModel): string {
 <head>
   <meta charset="utf-8" />
   <title>${escapeHtml(model.clientName)} · 會面摘要</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;650;700&display=swap" />
   <style>
     @page { size: A4 portrait; margin: 12mm; }
     html, body { margin: 0; padding: 0; }
     body {
-      font-family: "PingFang TC", "Noto Sans TC", "Source Han Sans TC", sans-serif;
+      font-family: "Noto Sans TC", "PingFang TC", "Source Han Sans TC", sans-serif;
       color: #102033;
       font-size: 11.5pt;
       line-height: 1.45;

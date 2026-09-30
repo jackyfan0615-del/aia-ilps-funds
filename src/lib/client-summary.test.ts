@@ -83,6 +83,7 @@ test("print HTML is a single A4 document and does not embed storage hooks", () =
   assert.match(html, /A4/);
   assert.match(html, /A &lt;B&gt;/);
   assert.doesNotMatch(html, /localStorage|fetch\(|IndexedDB/);
+  assert.match(html, /陳|A &lt;B&gt;/);
   assert.match(html, /並非投資建議/);
   assert.match(html, /過往表現不代表將來表現/);
   assert.match(html, /派息不保證/);

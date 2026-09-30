@@ -512,6 +512,47 @@ body {
   cursor: pointer;
 }
 
+.summary-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(11, 28, 44, 0.45);
+}
+
+.summary-modal-inner {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: min(820px, 100%);
+  height: min(90vh, 1100px);
+  border-radius: 1rem;
+  background: #fff;
+  overflow: hidden;
+}
+
+.summary-modal-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.summary-modal-bar .summary-btn {
+  margin-top: 0;
+}
+
+.summary-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
 .review-help {
   margin: 0.55rem 0 0;
   padding: 0.7rem 0.8rem;
