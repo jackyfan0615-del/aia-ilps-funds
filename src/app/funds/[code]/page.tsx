@@ -4,7 +4,8 @@ import { PriceTrend } from "@/components/PriceTrend";
 import { aiaDetailsUrl, fetchAiaFundChart, fetchAiaFundExtras, fetchAiaDividends } from "@/lib/aia";
 import { compactChart, currencyPrefix, parseBidNumber, formatChartDate } from "@/lib/chart";
 import { estimateDividendYield, dividendYieldLabel } from "@/lib/dividends";
-import { formatAbsPct } from "@/lib/portfolio-stats";
+import { computeDividendSource, DIVIDEND_SOURCE_METHOD_ZH, FROM_CAPITAL_LABEL } from "@/lib/dividend-source";
+import { formatAbsPct, formatSignedPct, holdingFiveYearCagrPct, holdingOneYearPct } from "@/lib/portfolio-stats";
 import { getFundByCode } from "@/lib/funds";
 import { typeLabel } from "@/lib/labels";
 import type { Metadata } from "next";
@@ -53,6 +54,16 @@ export default async function FundDetailPage({ params }: PageProps) {
   const payouts = dividendResult.status === "fulfilled" ? dividendResult.value : [];
   const bid = parseBidNumber(fund.bidPrice);
   const yieldEst = bid ? estimateDividendYield(payouts, bid) : null;
+  const oneYearPricePct = holdingOneYearPct(points);
+  const fiveYearPriceCagrPct = holdingFiveYearCagrPct(points);
+  const dividendSource =
+    fund.type === "dividend" || fund.type === "other_dividend"
+      ? computeDividendSource({
+          yieldPct: yieldEst?.pct ?? null,
+          oneYearPricePct,
+          fiveYearPriceCagrPct,
+        })
+      : null;
 
   const daily = Number.parseFloat(extras.dailyChange);
   const dailyUp = Number.isFinite(daily) ? daily >= 0 : null;
@@ -100,6 +111,18 @@ export default async function FundDetailPage({ params }: PageProps) {
               <p className="price-date">{dividendYieldLabel(yieldEst.method)}</p>
             </div>
           ) : null}
+          {dividendSource ? (
+            <div>
+              <p className="price-label">派息來源</p>
+              <p className={`trend-change ${dividendSource.fromCapital ? "is-down" : "is-up"}`}>
+                {formatSignedPct(dividendSource.oneYearCapitalPct)}
+              </p>
+              <p className="price-date">含息 − 股息率</p>
+              {dividendSource.fromCapital ? (
+                <p className="price-date">{FROM_CAPITAL_LABEL}</p>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </header>
 
@@ -109,6 +132,16 @@ export default async function FundDetailPage({ params }: PageProps) {
         <section className="year-panel">
           <h2 className="detail-h">近期現金派息</h2>
           <p className="detail-note">{dividendYieldLabel(yieldEst?.method)}。派息不保證，亦可從本金支付。</p>
+          {dividendSource ? (
+            <p className="detail-note">
+              近1年含息 {formatSignedPct(dividendSource.oneYearTotalPct)} − 股息率{" "}
+              {formatAbsPct(dividendSource.yieldPct)}
+              {dividendSource.fiveYearCapitalPct != null
+                ? `；5年價格年化 ${formatSignedPct(dividendSource.fiveYearCapitalPct)}`
+                : ""}
+              。{DIVIDEND_SOURCE_METHOD_ZH}
+            </p>
+          ) : null}
           <div className="price-table-wrap">
             <table className="price-table">
               <thead>

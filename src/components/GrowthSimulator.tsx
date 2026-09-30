@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { formatHKD, projectValue } from "@/lib/growth-projection";
+import { formatHKD, projectPath, projectStressPath, projectValue } from "@/lib/growth-projection";
 import { afterPolicyFee, POLICY_FEE_EARLY, POLICY_FEE_LATER } from "@/lib/policy-fees";
 import { formatSignedPct } from "@/lib/portfolio-stats";
 
@@ -15,12 +15,19 @@ type Props = {
    * 不以局部數據作出看似完整的推算
    */
   provisional?: boolean;
+  /** 組合歷史最大回撤（負數），用作第 1 年跌市情境 */
+  maxDrawdownPct?: number | null;
 };
 
 const YEAR_OPTIONS = [5, 10, 15, 20];
 const PRINCIPAL_PRESETS = [500_000, 1_000_000, 3_000_000];
 
-export function GrowthSimulator({ gross, basisLabel, provisional = false }: Props) {
+export function GrowthSimulator({
+  gross,
+  basisLabel,
+  provisional = false,
+  maxDrawdownPct = null,
+}: Props) {
   const [principalInput, setPrincipalInput] = useState("1000000");
   const [years, setYears] = useState(10);
 
@@ -29,6 +36,9 @@ export function GrowthSimulator({ gross, basisLabel, provisional = false }: Prop
   const laterNet = afterPolicyFee(gross, POLICY_FEE_LATER);
   const projected = projectValue(principal, years, earlyNet, laterNet);
   const gain = projected == null ? null : projected - principal;
+  const basePath = projectPath(principal, years, earlyNet, laterNet);
+  const stress = projectStressPath(principal, years, maxDrawdownPct, earlyNet, laterNet);
+  const showPath = Number.isFinite(principal) && principal > 0 && basePath != null;
 
   return (
     <section className="simulator" aria-label="滾存模擬">
@@ -109,8 +119,57 @@ export function GrowthSimulator({ gross, basisLabel, provisional = false }: Prop
             、第6年起扣費後 {formatSignedPct(laterNet)} 年化滾存，假設派息再投資。
           </p>
           <p className="sim-disclaimer">
-            模擬僅供參考：假設每年回報固定等於上述數字，實際回報可升可跌。過往表現不代表將來表現，派息不保證。
+            固定利率路徑僅供參考：假設每年回報固定等於上述數字，實際回報可升可跌。過往表現不代表將來表現，派息不保證。
           </p>
+
+          {showPath && stress ? (
+            <div className="sim-stress">
+              <h4 className="sim-stress-title">跌市情境（不是預測）</h4>
+              <p className="sim-note">
+                第 1 年先按本組合歷史最大回撤 {formatSignedPct(maxDrawdownPct)} 下跌，其後才按上述扣費後年化回升。這是壓力測試情境，不是對未來的預測。
+              </p>
+              <div className="sim-stress-stats">
+                <div>
+                  <p className="price-label">第 1 年末</p>
+                  <p className="metric-value is-down">{formatHKD(stress.year1Value)}</p>
+                </div>
+                <div>
+                  <p className="price-label">回到本金</p>
+                  <p className="metric-value">
+                    {stress.yearsToRecover == null
+                      ? "50 年內未回本"
+                      : `約 ${stress.yearsToRecover} 年`}
+                  </p>
+                </div>
+                <div>
+                  <p className="price-label">{years}年後（跌市情境）</p>
+                  <p className={`metric-value ${stress.endValue >= principal ? "is-up" : "is-down"}`}>
+                    {formatHKD(stress.endValue)}
+                  </p>
+                </div>
+              </div>
+              <div className="sim-path-wrap">
+                <table className="sim-path">
+                  <thead>
+                    <tr>
+                      <th>年末</th>
+                      <th>固定利率</th>
+                      <th>跌市情境</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {basePath.map((value, year) => (
+                      <tr key={year}>
+                        <td>{year}年</td>
+                        <td>{formatHKD(value)}</td>
+                        <td>{formatHKD(stress.path[year] ?? stress.path[stress.path.length - 1])}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : null}
         </>
       )}
     </section>
