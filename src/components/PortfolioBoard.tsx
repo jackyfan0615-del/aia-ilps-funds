@@ -29,6 +29,7 @@ import {
   saveQuizAnswers,
 } from "@/lib/quiz-storage";
 import { ClientSummaryButton } from "./ClientSummaryButton";
+import { ShareLinkBuilder } from "./ShareLinkBuilder";
 import { GrowthSimulator } from "./GrowthSimulator";
 import { typeLabel } from "@/lib/labels";
 
@@ -123,6 +124,14 @@ export function PortfolioBoard({ portfolios, fundCount }: Props) {
             <p>{pick.reason}</p>
             {pick.caution ? <p className="suitability-caution">{pick.caution}</p> : null}
             <ClientSummaryButton answers={answers} pick={pick} portfolio={featuredPortfolio} />
+            <ShareLinkBuilder
+              portfolios={portfolios}
+              initialHoldings={featuredPortfolio.holdings.map((holding) => ({
+                code: holding.code,
+                weight: holding.weight,
+              }))}
+              compact
+            />
             <button
               type="button"
               className="text-btn"

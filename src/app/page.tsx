@@ -1,4 +1,5 @@
 import { FundExplorer } from "@/components/FundExplorer";
+import { ResearchNav } from "@/components/ResearchNav";
 import { diffCatalog, pickCatalogNotice } from "@/lib/catalog";
 import { getCatalogChanges, getDataset, getFallbackDataset, getFilterOptions } from "@/lib/funds";
 import { resolvePortfoliosWithStats } from "@/lib/portfolios";
@@ -31,6 +32,7 @@ export default async function HomePage({ searchParams }: PageProps) {
 
   return (
     <>
+      <ResearchNav />
       <FundExplorer
         funds={dataset.funds}
         assetClasses={assetClasses}

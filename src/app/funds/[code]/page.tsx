@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PriceTrend } from "@/components/PriceTrend";
+import { ResearchNav } from "@/components/ResearchNav";
 import { aiaDetailsUrl, fetchAiaFundChart, fetchAiaFundExtras, fetchAiaDividends } from "@/lib/aia";
 import { compactChart, currencyPrefix, parseBidNumber, formatChartDate } from "@/lib/chart";
 import { estimateDividendYield, dividendYieldLabel } from "@/lib/dividends";
@@ -71,6 +72,7 @@ export default async function FundDetailPage({ params }: PageProps) {
 
   return (
     <article className="fund-detail">
+      <ResearchNav />
       <Link href="/?view=funds" className="back-link">
         ← 返回基金目錄
       </Link>
