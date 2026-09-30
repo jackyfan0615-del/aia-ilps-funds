@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { PortfolioId, ResolvedPortfolio } from "@/lib/portfolios";
 import { afterPolicyFee, POLICY_FEE_EARLY, POLICY_FEE_LATER } from "@/lib/policy-fees";
-import { formatAbsPct, formatSignedPct, riskBadgeClass } from "@/lib/portfolio-stats";
+import {
+  drawdownDisclosure,
+  drawdownPeriodLabel,
+  drawdownPeriodRange,
+  formatAbsPct,
+  formatSignedPct,
+  riskBadgeClass,
+} from "@/lib/portfolio-stats";
 import {
   EMPTY_ANSWERS,
   recommendPortfolio,
@@ -242,6 +249,7 @@ function PortfolioBody({
   const laterNet = afterPolicyFee(gross, POLICY_FEE_LATER);
   const oneYear =
     portfolio.style === "派息" ? portfolio.stats.oneYearTotalPct : portfolio.stats.oneYearPct;
+  const drawdownNote = drawdownDisclosure(portfolio.stats);
 
   return (
     <>
@@ -329,9 +337,10 @@ function PortfolioBody({
         <div>
           <p className="price-label">最大回撤</p>
           <p className={`metric-value is-down`}>{formatSignedPct(portfolio.stats.maxDrawdownPct)}</p>
-          <p className="metric-sub">組合高峰至低位</p>
+          <p className="metric-sub">{drawdownPeriodLabel(portfolio.stats)}</p>
         </div>
       </div>
+      {drawdownNote ? <p className="drawdown-note">{drawdownNote}</p> : null}
 
       <p className="portfolio-principle">{portfolio.principle}</p>
       <p className="portfolio-fit">{portfolio.suitedFor}</p>
@@ -425,6 +434,12 @@ function MeetingCard({ portfolio }: { portfolio: ResolvedPortfolio }) {
       <p>
         <strong>風險　</strong>
         {portfolio.meetingRisk}
+        {portfolio.stats.maxDrawdownPct != null && drawdownPeriodRange(portfolio.stats)
+          ? ` 過去最大回撤 ${formatSignedPct(portfolio.stats.maxDrawdownPct)}（${drawdownPeriodRange(portfolio.stats)}）。`
+          : ""}
+        {portfolio.stats.drawdownProxies.length > 0 || portfolio.stats.drawdownOmitted.length > 0
+          ? " 部分基金早期走勢經同類基金代理或因數據不足未納入，詳見組合說明。"
+          : ""}
       </p>
       <p className="meeting-foot">內部銷售參考，並非投資建議。過往表現不代表將來表現。</p>
     </div>

@@ -469,6 +469,13 @@ body {
   font-size: 0.72rem;
 }
 
+.drawdown-note {
+  margin: 0.45rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
 .allocation-bar {
   display: flex;
   overflow: hidden;
