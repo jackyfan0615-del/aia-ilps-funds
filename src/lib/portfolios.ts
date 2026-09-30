@@ -7,6 +7,7 @@ import {
   withDividendYield,
   type PortfolioStats,
 } from "./portfolio-stats";
+import { allProxyCodes, resolveRiskSeries } from "./price-proxies";
 import type { ChartPoint, Fund } from "./types";
 
 /** Max parallel requests to www1.aia.com.hk — AIA's WAF 403s wider bursts. */
@@ -189,6 +190,9 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
 
 export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<ResolvedPortfolio[]> {
   const codes = [...new Set(PORTFOLIO_TEMPLATES.flatMap((template) => template.sleeves.map((sleeve) => sleeve.code)))];
+  const sleeveSet = new Set(codes);
+  const extraProxyCodes = allProxyCodes(codes).filter((code) => !sleeveSet.has(code));
+  const chartCodes = [...codes, ...extraProxyCodes];
   const incomeCodes = [
     ...new Set(
       PORTFOLIO_TEMPLATES.filter((template) => template.style === "派息").flatMap((template) =>
@@ -201,16 +205,16 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
   const failedChartCodes = new Set<string>();
   const failedDividendCodes = new Set<string>();
   const [chartResults, dividendResults] = await Promise.all([
-    mapWithLimit(codes, AIA_FETCH_CONCURRENCY, (code) => fetchAiaFundChart(code)),
+    mapWithLimit(chartCodes, AIA_FETCH_CONCURRENCY, (code) => fetchAiaFundChart(code)),
     mapWithLimit(incomeCodes, AIA_FETCH_CONCURRENCY, (code) => fetchAiaDividends(code)),
   ]);
   chartResults.forEach((result, index) => {
-    const code = codes[index];
+    const code = chartCodes[index];
     if (result.ok) {
       charts.set(code, result.value);
     } else {
       charts.set(code, []);
-      failedChartCodes.add(code);
+      if (sleeveSet.has(code)) failedChartCodes.add(code);
     }
   });
   const byCode = new Map(funds.map((fund) => [fund.code, fund]));
@@ -237,10 +241,18 @@ export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<Resolve
     });
 
     let stats = computePortfolioStats(
-      holdings.map((holding) => ({
-        weight: holding.weight,
-        points: charts.get(holding.code) ?? [],
-      })),
+      holdings.map((holding) => {
+        const points = charts.get(holding.code) ?? [];
+        const risk = resolveRiskSeries(holding.code, points, charts);
+        return {
+          code: holding.code,
+          weight: holding.weight,
+          points,
+          riskPoints: risk.points,
+          drawdownProxy: risk.proxy,
+          omittedFromDrawdown: risk.omitted,
+        };
+      }),
     );
     if (template.style === "派息") {
       stats = withDividendYield(

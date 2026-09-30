@@ -80,3 +80,22 @@ test("marks data provisional when any holding failed or coverage is thin", () =>
   assert.equal(resolveDataStatus([], 0.59), "provisional");
   assert.equal(resolveDataStatus(["Z77"], 0.2), "provisional");
 });
+
+test("sleeve lists are unchanged (drawdown fix must not retune allocations)", () => {
+  assert.deepEqual(
+    template("steady").sleeves.map((sleeve) => `${sleeve.code}:${sleeve.weight}`),
+    ["W04:15", "W06:20", "R03:25", "A32:20", "CG1:20"],
+  );
+  assert.deepEqual(
+    template("balanced").sleeves.map((sleeve) => `${sleeve.code}:${sleeve.weight}`),
+    ["W06:10", "P07:25", "J20:20", "CG1:25", "A15:20"],
+  );
+  assert.deepEqual(
+    template("growth").sleeves.map((sleeve) => `${sleeve.code}:${sleeve.weight}`),
+    ["CG1:30", "N07:25", "H01:20", "I07:15", "W04:10"],
+  );
+  assert.deepEqual(
+    template("income").sleeves.map((sleeve) => `${sleeve.code}:${sleeve.weight}`),
+    ["Z36:20", "Z77:20", "Z29:15", "Z07:25", "Z17:20"],
+  );
+});

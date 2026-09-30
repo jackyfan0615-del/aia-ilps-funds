@@ -1,6 +1,11 @@
+import type { PriceProxyUse } from "./price-proxies";
 import type { ChartPoint } from "./types";
 
 const MS_YEAR = 365.25 * 86_400_000;
+
+export type DrawdownProxyNote = PriceProxyUse & {
+  code: string;
+};
 
 export type PortfolioStats = {
   expectedPct: number | null;
@@ -10,12 +15,26 @@ export type PortfolioStats = {
   fiveYearCagrPct: number | null;
   volPct: number | null;
   maxDrawdownPct: number | null;
+  maxDrawdownFrom: number | null;
+  maxDrawdownTo: number | null;
+  drawdownProxies: DrawdownProxyNote[];
+  drawdownOmitted: string[];
   riskLabel: "偏低" | "中低" | "中等" | "偏高" | "高";
   dividendYieldPct: number | null;
   dividendYieldMethod: "ttm" | "annualized" | null;
   oneYearTotalPct: number | null;
   asOf: number | null;
   coverage: number;
+};
+
+export type HoldingStatsInput = {
+  code?: string;
+  weight: number;
+  points: ChartPoint[];
+  /** Own or proxy-extended series used only for the blended max-drawdown NAV. */
+  riskPoints?: ChartPoint[];
+  drawdownProxy?: PriceProxyUse | null;
+  omittedFromDrawdown?: boolean;
 };
 
 export function formatAbsPct(value: number | null, digits = 1): string {
@@ -165,9 +184,7 @@ function riskFromVol(vol: number | null): PortfolioStats["riskLabel"] {
   return "高";
 }
 
-export function computePortfolioStats(
-  holdings: { weight: number; points: ChartPoint[] }[],
-): PortfolioStats {
+export function computePortfolioStats(holdings: HoldingStatsInput[]): PortfolioStats {
   const covered = holdings.filter((holding) => holding.points.length >= 2);
   const coverage =
     holdings.reduce((sum, holding) => sum + holding.weight, 0) > 0
@@ -214,7 +231,6 @@ export function computePortfolioStats(
   const volWindow = sliceYears(nav, 5).length >= 30 ? sliceYears(nav, 5) : nav;
   const navIsLongEnough = spanYears(volWindow) >= 2 && volWindow.length >= 60;
   let volPct = navIsLongEnough ? annualizedVol(volWindow) : null;
-  let maxDrawdownPct = navIsLongEnough ? maxDrawdown(volWindow) : null;
 
   if (volPct == null) {
     volPct = weightedMean(
@@ -226,16 +242,23 @@ export function computePortfolioStats(
       })),
     ).value;
   }
-  if (maxDrawdownPct == null) {
-    maxDrawdownPct = weightedMean(
-      holdings.map((holding) => ({
-        weight: holding.weight,
-        value: maxDrawdown(
-          sliceYears(holding.points, 3).length >= 10 ? sliceYears(holding.points, 3) : holding.points,
-        ),
-      })),
-    ).value;
-  }
+
+  const drawdownProxies: DrawdownProxyNote[] = [];
+  const drawdownOmitted: string[] = [];
+  const riskHoldings = holdings.map((holding) => {
+    if (holding.omittedFromDrawdown) {
+      if (holding.code) drawdownOmitted.push(holding.code);
+      return { weight: holding.weight, points: [] as ChartPoint[] };
+    }
+    if (holding.drawdownProxy && holding.code) {
+      drawdownProxies.push({ code: holding.code, ...holding.drawdownProxy });
+    }
+    return { weight: holding.weight, points: holding.riskPoints ?? holding.points };
+  });
+
+  const riskNav = blendNav(riskHoldings);
+  const drawdownWindow = sliceYears(riskNav, 5).length >= 10 ? sliceYears(riskNav, 5) : riskNav;
+  const maxDrawdownPct = maxDrawdown(drawdownWindow);
 
   return {
     expectedPct,
@@ -245,6 +268,10 @@ export function computePortfolioStats(
     fiveYearCagrPct: fiveYear.value,
     volPct,
     maxDrawdownPct,
+    maxDrawdownFrom: drawdownWindow.at(0)?.t ?? null,
+    maxDrawdownTo: drawdownWindow.at(-1)?.t ?? null,
+    drawdownProxies,
+    drawdownOmitted,
     riskLabel: riskFromVol(volPct),
     dividendYieldPct: null,
     dividendYieldMethod: null,
@@ -252,6 +279,40 @@ export function computePortfolioStats(
     asOf: nav.at(-1)?.t ?? covered[0]?.points.at(-1)?.t ?? null,
     coverage,
   };
+}
+
+export function formatZhYearMonth(ts: number): string {
+  const year = new Date(ts).toLocaleString("en-US", { timeZone: "Asia/Hong_Kong", year: "numeric" });
+  const month = new Date(ts).toLocaleString("en-US", { timeZone: "Asia/Hong_Kong", month: "2-digit" });
+  return `${year}年${month}月`;
+}
+
+export function drawdownPeriodRange(stats: PortfolioStats): string | null {
+  if (stats.maxDrawdownFrom == null || stats.maxDrawdownTo == null) return null;
+  return `${formatZhYearMonth(stats.maxDrawdownFrom)}至${formatZhYearMonth(stats.maxDrawdownTo)}`;
+}
+
+export function drawdownPeriodLabel(stats: PortfolioStats): string {
+  const range = drawdownPeriodRange(stats);
+  if (!range) return "組合高峰至低位";
+  return `${range} · 組合高峰至低位`;
+}
+
+export function drawdownDisclosure(stats: PortfolioStats): string | null {
+  const parts: string[] = [];
+  for (const proxy of stats.drawdownProxies) {
+    if (proxy.until == null) {
+      parts.push(`${proxy.code} 以 ${proxy.proxyCode} 代理全程走勢（${proxy.reasonZh}）。`);
+    } else {
+      parts.push(
+        `${proxy.code} 於 ${formatZhYearMonth(proxy.until)}前以 ${proxy.proxyCode} 代理（${proxy.reasonZh}）。`,
+      );
+    }
+  }
+  for (const code of stats.drawdownOmitted) {
+    parts.push(`${code} 走勢不足，未納入組合回撤。`);
+  }
+  return parts.length > 0 ? parts.join("") : null;
 }
 
 export function holdingOneYearPct(points: ChartPoint[]): number | null {
