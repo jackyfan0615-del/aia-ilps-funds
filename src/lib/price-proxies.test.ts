@@ -66,9 +66,28 @@ test("resolveRiskSeries omits a holding with no own prices and no usable proxy",
   assert.equal(resolved.points.length, 0);
 });
 
-test("allProxyCodes includes twins and similar funds for the four mixes", () => {
-  const codes = allProxyCodes(["W06", "J20", "Z36", "Z29", "Z17", "Z77", "CG1"]);
-  for (const needed of ["Z36", "B01", "Z20", "R03", "W06", "CG9", "M11", "I17", "J16", "W07"]) {
-    assert.ok(codes.includes(needed), `missing ${needed}`);
+test("resolveRiskSeries prefers a 2022-covering twin for the Fidelity HY distribution class", () => {
+  const own = [pt(1400, 7.7), pt(1500, 7.8)];
+  const twin = [pt(-400, 18), pt(0, 19), pt(1500, 20)];
+  const charts = new Map<string, ChartPoint[]>([
+    ["M10", twin],
+    ["R52", [pt(1400, 10), pt(1500, 10.2)]],
+  ]);
+  const resolved = resolveRiskSeries("Z13", own, charts);
+  assert.equal(resolved.omitted, false);
+  assert.ok(resolved.proxy);
+  assert.equal(resolved.proxy.proxyCode, "M10");
+  assert.equal(resolved.proxy.kind, "share-class");
+  assert.ok(coversRiskWindow(resolved.points));
+});
+
+test("allProxyCodes includes twins and similar funds for the current mixes and leftover legacy holdings", () => {
+  const current = allProxyCodes(["W06", "Z36", "Z13", "Z18", "Z17", "Z07", "F11", "CG1"]);
+  for (const needed of ["Z36", "B01", "W06", "M10", "R52", "D18", "P07", "I17", "J16"]) {
+    assert.ok(current.includes(needed), `missing ${needed}`);
+  }
+  const legacy = allProxyCodes(["J20", "Z29", "Z77"]);
+  for (const needed of ["Z20", "R03", "CG9", "M11", "W07"]) {
+    assert.ok(legacy.includes(needed), `legacy missing ${needed}`);
   }
 });

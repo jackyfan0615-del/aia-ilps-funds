@@ -114,21 +114,21 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     name: "派息入息",
     risk: "中等",
     style: "派息",
-    summary: "以 Z 字派息基金為主，短債打底，再配多元資產與環球高息股票。",
+    summary: "以 Z 字派息基金為主，短債打底，富蘭克林入息做核心，再配高收益債與環球高息股票。",
     principle:
-      "目標是帳戶有股息流。短債與公司債防守，安聯收益及增長做核心入息，環球高息股票提高派息。代價是淨值會波動，派息不保證。",
+      "目標是帳戶有股息流。短債防守，富蘭克林入息做核心入息，美元高收益與安聯收益及增長補收益，環球高息股票提高派息。代價是淨值會波動，派息不保證。",
     suitedFor: "希望保單帳戶有現金股息、可接受價格波動的客戶。派息不保證，亦可因市況而從本金支付。",
     whySleeves:
-      "帳戶要現金股息才用 Z 字。J16 施羅德環球收益股票是累積類別，保單戶口不會派現金，不要用它替代 Z17。請對照派息來源：含息總回報低於股息率即部分派息來自本金。",
+      "帳戶要現金股息才用 Z 字。Z18 富蘭克林入息做核心，Z36 短債打底，Z13 美元高收益與 Z07 安聯收益及增長補入息，Z17 環球高息股票提高派息。J16 施羅德環球收益股票是累積類別，保單戶口不會派現金，不要用它替代 Z17。請對照派息來源：含息總回報低於股息率即部分派息來自本金。",
     alternatives:
-      "首 5 年手續費約 2.4% 會吃薄短債息；可略減 Z36／Z29、提高 Z07／Z17。第 6 年才把防守債加回。",
+      "首 5 年手續費約 2.4% 會吃薄短債息；可略減 Z36、提高 Z18／Z17。第 6 年才把防守債加回。不要用 J16 或其他累積類別替代 Z 字。",
     meetingRisk: "淨值會波動，派息不保證，亦可從本金支付。",
     sleeves: [
-      { code: "Z36", weight: 20, role: "短債打底" },
-      { code: "Z77", weight: 20, role: "多元收益" },
-      { code: "Z29", weight: 15, role: "環球公司債" },
-      { code: "Z07", weight: 25, role: "核心入息" },
-      { code: "Z17", weight: 20, role: "股票高息" },
+      { code: "Z36", weight: 25, role: "短債打底" },
+      { code: "Z13", weight: 10, role: "美元高收益" },
+      { code: "Z18", weight: 30, role: "核心入息" },
+      { code: "Z07", weight: 10, role: "收益及增長" },
+      { code: "Z17", weight: 25, role: "股票高息" },
     ],
   },
   {
@@ -143,7 +143,7 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     whySleeves:
       "F14 摩根亞太入息（累積）取代舊 A32：5 年價格與 2022 年抗跌較好。J16 施羅德環球收益股票（累積）取代舊 CG1：2022 年回撤明顯較細，風格偏價值／收息，美股科技大升年會跑輸。現金 W04 + 短債 W06 減至 30%，因首 5 年約 2.38% 手續費會吃薄貨幣／短債淨回報。",
     alternatives:
-      "若更想壓歐洲集中度，不要改用 F11 25% 那條（歐洲股美元對沖過重）。科技主導年可略增股票核心，但不要把 J16 當成派息 Z 字。",
+      "若要加歐洲股票，改用均衡核心（F11），不要在穩健裡疊歐洲。科技主導年可略增股票核心，但不要把 J16 當成派息 Z 字。",
     meetingRisk: "首 5 年現金／短債扣費後淨回報偏薄；股市大跌時仍會回撤，不是保本。",
     sleeves: [
       { code: "W04", weight: 15, role: "美元現金" },
@@ -158,21 +158,21 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     name: "均衡核心",
     risk: "中等",
     style: "增長",
-    summary: "安聯收益及增長 + 施羅德動力收息作股債混合，配環球股票核心。",
+    summary: "與穩健共用平衡及亞太／環球收益股票，把現金換成歐洲股票，短債作緩衝。",
     principle:
-      "目標是一籃子完成核心。股債混合約一半，環球加重點股票約四成半，一成短債作緩衝。",
+      "目標是一籃子完成核心。駿利平衡、亞太入息與環球收益股票約六成半，歐洲股票約四分一，一成短債作緩衝。",
     suitedFor: "可接受中度波動、想一籃子完成核心配置的客戶。",
     whySleeves:
-      "CG1 做環球核心，A15 柏瑞重點是集中衛星，兩隻走勢很接近，不要把 A15 當第二隻核心。P07＋J20 做股債混合。",
+      "與穩健共用 R03、F14、J16，但以 F11 摩根歐洲動力（美元對沖）取代現金，補歐洲股票、地域更均衡。W06 一成短債作緩衝。F11 是歐洲股票不是第二隻環球核心；不要把它當成 CG1。",
     alternatives:
-      "不要再疊 N07 或 H01，科技／增長會重複。能源 I09（油氣）與 T09（潔淨能源）二選一當主題，不要兩隻都加。",
-    meetingRisk: "中度波動，不是保本。過往表現不代表將來表現。",
+      "不要再疊 H01 或 CG1，歐洲／環球股票會過重。能源 I09（油氣）與 T09（潔淨能源）二選一當主題，不要兩隻都加。想再防守請改用穩健增長（含 W04 現金）。",
+    meetingRisk: "中度波動，歐洲股票約四分一，不是保本。過往表現不代表將來表現。",
     sleeves: [
       { code: "W06", weight: 10, role: "短債緩衝" },
-      { code: "P07", weight: 25, role: "收益及增長" },
-      { code: "J20", weight: 20, role: "動力收息" },
-      { code: "CG1", weight: 25, role: "環球股票" },
-      { code: "A15", weight: 20, role: "重點股票" },
+      { code: "R03", weight: 20, role: "股債平衡" },
+      { code: "F14", weight: 20, role: "亞太入息" },
+      { code: "J16", weight: 25, role: "環球收益股票" },
+      { code: "F11", weight: 25, role: "歐洲股票" },
     ],
   },
   {
@@ -180,21 +180,58 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     name: "進取增長",
     risk: "偏高",
     style: "增長",
-    summary: "環球股票為主，加科技與黃金分散，留少量貨幣市場作調倉緩衝。",
+    summary: "環球股票為主，加科技與黃金分散，配環球收益股票，留少量貨幣市場作調倉緩衝。",
     principle:
-      "目標是長期資本增值。約九成股票（環球核心、機會型、科技），黃金分散，一成現金方便調倉。",
+      "目標是長期資本增值。約九成股票（環球核心、科技、環球收益股票），黃金分散，一成現金方便調倉。",
     suitedFor: "年期較長、能承受較大回撤、目標資本增值的客戶。",
     whySleeves:
-      "CG1 做環球核心，N07 是機會型衛星，H01 是科技。黃金用 I07（大型金礦）而非 D14（貴金屬／中小型礦股），角色是分散不是追礦股。H01 不是 QQQ：主動環球科技，這張保單買不到納指 ETF。",
+      "CG1 做環球核心，H01 是科技，J16 施羅德環球收益股票偏價值／收息作衛星。黃金用 I07（大型金礦）而非 D14（貴金屬／中小型礦股），角色是分散不是追礦股。H01 不是 QQQ：主動環球科技，這張保單買不到納指 ETF。",
     alternatives:
-      "不要再加 A15（與 CG1／N07 同向）。能源 I09／T09 不要用來替代 I07。現金 W04 可留作調倉。",
-    meetingRisk: "年期要長，須能接受科技與機會型股票約三成至五成回撤。",
+      "不要再疊歐洲或集中股票主題，與 CG1／H01 同向會過重。能源 I09／T09 不要用來替代 I07。現金 W04 可留作調倉。不要把 J16 當成派息 Z 字。",
+    meetingRisk: "年期要長，須能接受科技與環球股票約三成至五成回撤。",
     sleeves: [
-      { code: "CG1", weight: 30, role: "環球核心" },
-      { code: "N07", weight: 25, role: "機會型股票" },
-      { code: "H01", weight: 20, role: "科技增長" },
-      { code: "I07", weight: 15, role: "黃金分散" },
       { code: "W04", weight: 10, role: "現金緩衝" },
+      { code: "CG1", weight: 30, role: "環球核心" },
+      { code: "J16", weight: 20, role: "環球收益股票" },
+      { code: "H01", weight: 25, role: "科技增長" },
+      { code: "I07", weight: 15, role: "黃金分散" },
+    ],
+  },
+];
+
+/**
+ * Previous published mixes. Share links encode holdings in the URL, so old
+ * `h=` queries must still resolve to the named template (style / roles).
+ */
+const LEGACY_SLEEVE_SETS: { id: PortfolioId; sleeves: MixSleeve[] }[] = [
+  {
+    id: "income",
+    sleeves: [
+      { code: "Z36", weight: 20 },
+      { code: "Z77", weight: 20 },
+      { code: "Z29", weight: 15 },
+      { code: "Z07", weight: 25 },
+      { code: "Z17", weight: 20 },
+    ],
+  },
+  {
+    id: "balanced",
+    sleeves: [
+      { code: "W06", weight: 10 },
+      { code: "P07", weight: 25 },
+      { code: "J20", weight: 20 },
+      { code: "CG1", weight: 25 },
+      { code: "A15", weight: 20 },
+    ],
+  },
+  {
+    id: "growth",
+    sleeves: [
+      { code: "CG1", weight: 30 },
+      { code: "N07", weight: 25 },
+      { code: "H01", weight: 20 },
+      { code: "I07", weight: 15 },
+      { code: "W04", weight: 10 },
     ],
   },
 ];
@@ -209,7 +246,11 @@ function mixKey(sleeves: MixSleeve[]): string {
 export function matchMixTemplate(sleeves: MixSleeve[]): PortfolioTemplate | null {
   const needle = mixKey(sleeves);
   if (!needle) return null;
-  return PORTFOLIO_TEMPLATES.find((template) => mixKey(template.sleeves) === needle) ?? null;
+  const current = PORTFOLIO_TEMPLATES.find((template) => mixKey(template.sleeves) === needle);
+  if (current) return current;
+  const legacy = LEGACY_SLEEVE_SETS.find((item) => mixKey(item.sleeves) === needle);
+  if (!legacy) return null;
+  return PORTFOLIO_TEMPLATES.find((template) => template.id === legacy.id) ?? null;
 }
 
 export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<ResolvedPortfolio[]> {

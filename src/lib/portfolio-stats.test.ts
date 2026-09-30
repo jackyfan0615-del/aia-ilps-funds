@@ -73,6 +73,15 @@ function equitySeries(from = START): ChartPoint[] {
   });
 }
 
+/** High-yield bond: about −14% peak-to-trough in 2022. */
+function hyBondSeries(from = START): ChartPoint[] {
+  return path(from, END, (t) => {
+    if (t <= PEAK) return lerp(100, 108, progress(t, START, PEAK));
+    if (t <= TROUGH) return lerp(108, 92.9, progress(t, PEAK, TROUGH));
+    return lerp(92.9, 118, progress(t, TROUGH, END));
+  });
+}
+
 const FIXTURES: Record<string, ChartPoint[]> = {
   W04: cashSeries(),
   W06: shortBondSeries(SHORT_START),
@@ -85,6 +94,7 @@ const FIXTURES: Record<string, ChartPoint[]> = {
   A15: equitySeries(),
   N07: equitySeries(),
   H01: equitySeries(),
+  F11: equitySeries(),
   I07: path(START, END, (t) => {
     if (t <= PEAK) return lerp(100, 110, progress(t, START, PEAK));
     if (t <= TROUGH) return lerp(110, 95, progress(t, PEAK, TROUGH));
@@ -100,6 +110,11 @@ const FIXTURES: Record<string, ChartPoint[]> = {
     return lerp(80, 100, progress(t, TROUGH, END));
   }),
   Z07: balancedSeries(),
+  Z13: hyBondSeries(Date.UTC(2025, 3, 24)),
+  M10: hyBondSeries(),
+  R52: hyBondSeries(),
+  Z18: balancedSeries(),
+  D18: balancedSeries(),
   Z17: equitySeries(Date.UTC(2023, 3, 27)),
   J16: equitySeries(),
   F14: path(START, END, (t) => {
@@ -181,7 +196,6 @@ test("max drawdown uses the weighted NAV including 2022 instead of averaging 3-y
   assert.ok(Math.abs(byId.balanced.before) < 0.16, `舊均衡應低估風險，got ${byId.balanced.before}`);
   assert.ok(Math.abs(byId.balanced.after) > 0.18, `新均衡應反映 2022，got ${byId.balanced.after}`);
   assert.match(byId.balanced.note ?? "", /W06.*B01/);
-  assert.match(byId.balanced.note ?? "", /J20.*R03/);
 
   assert.ok(byId.growth.before != null && byId.growth.after != null);
   assert.ok(
@@ -191,7 +205,9 @@ test("max drawdown uses the weighted NAV including 2022 instead of averaging 3-y
   assert.equal(byId.growth.note, null);
 
   assert.ok(byId.income.after != null);
-  assert.match(byId.income.note ?? "", /Z77 走勢不足/);
+  assert.match(byId.income.note ?? "", /Z36.*B01/);
+  assert.match(byId.income.note ?? "", /Z13.*M10/);
+  assert.doesNotMatch(byId.income.note ?? "", /Z77/);
 });
 
 test("return metrics still use own prices, not the proxy path", () => {
