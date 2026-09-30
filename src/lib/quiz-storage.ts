@@ -4,6 +4,7 @@ import {
   type Goal,
   type Horizon,
   type SuitabilityAnswers,
+  type Withdrawal,
 } from "./suitability";
 import type { PortfolioId } from "./portfolios";
 
@@ -13,6 +14,7 @@ const OPEN_IDS_KEY = "ilps-quiz-open-v1";
 const HORIZONS: readonly string[] = ["under5", "mid", "long"];
 const GOALS: readonly string[] = ["income", "growth"];
 const DRAWDOWNS: readonly string[] = ["cannot", "moderate", "can"];
+const WITHDRAWALS: readonly string[] = ["within5", "fiveToTen", "beyond10", "noPlan"];
 
 function asHorizon(value: unknown): Horizon | null {
   return typeof value === "string" && HORIZONS.includes(value) ? (value as Horizon) : null;
@@ -26,6 +28,10 @@ function asDrawdown(value: unknown): Drawdown | null {
   return typeof value === "string" && DRAWDOWNS.includes(value) ? (value as Drawdown) : null;
 }
 
+function asWithdrawal(value: unknown): Withdrawal | null {
+  return typeof value === "string" && WITHDRAWALS.includes(value) ? (value as Withdrawal) : null;
+}
+
 /** Pure validator: garbage in -> EMPTY_ANSWERS, never throws. */
 export function parseQuizAnswers(raw: unknown): SuitabilityAnswers {
   if (typeof raw !== "object" || raw === null) return EMPTY_ANSWERS;
@@ -34,6 +40,7 @@ export function parseQuizAnswers(raw: unknown): SuitabilityAnswers {
     horizon: asHorizon(record.horizon),
     goal: asGoal(record.goal),
     drawdown: asDrawdown(record.drawdown),
+    withdrawal: asWithdrawal(record.withdrawal),
   };
 }
 

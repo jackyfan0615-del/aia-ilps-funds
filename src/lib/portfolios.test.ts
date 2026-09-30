@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { test } from "node:test";
 import { PORTFOLIO_TEMPLATES, mapWithLimit, resolveDataStatus } from "./portfolios";
+import type { FundsDataset } from "./types";
 
 function template(id: string) {
   const found = PORTFOLIO_TEMPLATES.find((item) => item.id === id);
@@ -81,11 +84,31 @@ test("marks data provisional when any holding failed or coverage is thin", () =>
   assert.equal(resolveDataStatus(["Z77"], 0.2), "provisional");
 });
 
-test("sleeve lists are unchanged (drawdown fix must not retune allocations)", () => {
+test("steady mix uses the post-analysis sleeves (F14 / J16) and no longer steers new policies away", () => {
   assert.deepEqual(
     template("steady").sleeves.map((sleeve) => `${sleeve.code}:${sleeve.weight}`),
-    ["W04:15", "W06:20", "R03:25", "A32:20", "CG1:20"],
+    ["W04:15", "W06:15", "R03:20", "F14:25", "J16:25"],
   );
+  assert.match(template("steady").whySleeves, /F14/);
+  assert.match(template("steady").whySleeves, /J16/);
+  assert.doesNotMatch(template("steady").alternatives, /新單首 5 年較宜改用均衡核心/);
+});
+
+test("F14 and J16 exist in the AIA catalogue with the expected names", () => {
+  const dataset = JSON.parse(
+    readFileSync(path.join(process.cwd(), "data", "funds.json"), "utf-8"),
+  ) as FundsDataset;
+  const f14 = dataset.funds.find((fund) => fund.code === "F14");
+  const j16 = dataset.funds.find((fund) => fund.code === "J16");
+  assert.ok(f14, "F14 missing from data/funds.json");
+  assert.ok(j16, "J16 missing from data/funds.json");
+  assert.match(f14.name, /亞太入息/);
+  assert.match(j16.name, /環球收益股票/);
+  assert.equal(f14.type, "growth");
+  assert.equal(j16.type, "growth");
+});
+
+test("income / balanced / growth sleeve lists stay on the current published mixes", () => {
   assert.deepEqual(
     template("balanced").sleeves.map((sleeve) => `${sleeve.code}:${sleeve.weight}`),
     ["W06:10", "P07:25", "J20:20", "CG1:25", "A15:20"],

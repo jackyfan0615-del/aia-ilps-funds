@@ -102,6 +102,11 @@ const FIXTURES: Record<string, ChartPoint[]> = {
   Z07: balancedSeries(),
   Z17: equitySeries(Date.UTC(2023, 3, 27)),
   J16: equitySeries(),
+  F14: path(START, END, (t) => {
+    if (t <= PEAK) return lerp(100, 108, progress(t, START, PEAK));
+    if (t <= TROUGH) return lerp(108, 94.5, progress(t, PEAK, TROUGH));
+    return lerp(94.5, 140, progress(t, TROUGH, END));
+  }),
   I17: equitySeries(Date.UTC(2023, 3, 27)),
   Z20: balancedSeries(Date.UTC(2025, 0, 23)),
   CG9: balancedSeries(Date.UTC(2025, 3, 24)),
