@@ -22,6 +22,10 @@ export const SHARE_CLASS_TWIN: Record<string, string> = {
   Z17: "I17",
   J20: "Z20",
   Z20: "J20",
+  M10: "Z13",
+  Z13: "M10",
+  D18: "Z18",
+  Z18: "D18",
 };
 
 /**
@@ -37,6 +41,10 @@ export const SIMILAR_FUND_PROXY: Record<string, { code: string; reasonZh: string
   CG9: { code: "M11", reasonZh: "同類環球債券" },
   Z17: { code: "J16", reasonZh: "同類環球高息股票" },
   I17: { code: "J16", reasonZh: "同類環球高息股票" },
+  Z13: { code: "R52", reasonZh: "同類美元高收益債" },
+  M10: { code: "R52", reasonZh: "同類美元高收益債" },
+  Z18: { code: "P07", reasonZh: "同類股債入息" },
+  D18: { code: "P07", reasonZh: "同類股債入息" },
 };
 
 export type ProxyKind = "share-class" | "similar";

@@ -17,11 +17,11 @@ import {
 test("round-trips fund codes, weights, start date and quarter in the query string", () => {
   const payload = {
     holdings: [
-      { code: "z07", weight: 25 },
-      { code: "Z36", weight: 20 },
-      { code: "Z77", weight: 20 },
-      { code: "Z29", weight: 15 },
-      { code: "Z17", weight: 20 },
+      { code: "z07", weight: 10 },
+      { code: "Z36", weight: 25 },
+      { code: "Z13", weight: 10 },
+      { code: "Z18", weight: 30 },
+      { code: "Z17", weight: 25 },
     ],
     startDate: "2024-03-15",
     quarter: "2026q3",
@@ -36,7 +36,17 @@ test("round-trips fund codes, weights, start date and quarter in the query strin
   if ("error" in parsed) return;
   assert.equal(parsed.startDate, "2024-03-15");
   assert.equal(parsed.quarter, "2026Q3");
-  assert.equal(parsed.holdings.find((item) => item.code === "Z07")?.weight, 25);
+  assert.equal(parsed.holdings.find((item) => item.code === "Z07")?.weight, 10);
+  const sum = parsed.holdings.reduce((total, item) => total + item.weight, 0);
+  assert.ok(Math.abs(sum - 100) < 0.2);
+});
+
+test("legacy income share query still parses after the mix change", () => {
+  const parsed = parseShareSearch("h=Z07:25,Z36:20,Z77:20,Z29:15,Z17:20&s=2024-03-15&q=2026Q3");
+  assert.ok(!("error" in parsed));
+  if ("error" in parsed) return;
+  assert.equal(parsed.holdings.find((item) => item.code === "Z77")?.weight, 20);
+  assert.equal(parsed.holdings.find((item) => item.code === "Z29")?.weight, 15);
   const sum = parsed.holdings.reduce((total, item) => total + item.weight, 0);
   assert.ok(Math.abs(sum - 100) < 0.2);
 });
