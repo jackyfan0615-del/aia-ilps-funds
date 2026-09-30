@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/suitability.test.ts src/lib/policy-fees.test.ts src/lib/portfolios.test.ts src/lib/quiz-storage.test.ts src/lib/growth-projection.test.ts src/lib/aia.test.ts src/lib/portfolio-stats.test.ts src/lib/price-proxies.test.ts src/lib/dividend-source.test.ts src/lib/review.test.ts src/lib/client-summary.test.ts",
+    "test": "tsx --test src/lib/suitability.test.ts src/lib/policy-fees.test.ts src/lib/portfolios.test.ts src/lib/quiz-storage.test.ts src/lib/growth-projection.test.ts src/lib/aia.test.ts src/lib/portfolio-stats.test.ts src/lib/price-proxies.test.ts src/lib/dividend-source.test.ts src/lib/review.test.ts src/lib/client-summary.test.ts src/lib/insights-content.test.ts src/lib/share-link.test.ts src/lib/share-report.test.ts",
     "compare-drawdowns": "npx tsx scripts/compare-drawdowns.ts",
     "sync-funds": "npx tsx scripts/sync-funds.ts"
   },

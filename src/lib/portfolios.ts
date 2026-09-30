@@ -58,6 +58,12 @@ export type PortfolioSleeve = {
   role: string;
 };
 
+export type MixSleeve = {
+  code: string;
+  weight: number;
+  role?: string;
+};
+
 export type PortfolioTemplate = {
   id: PortfolioId;
   name: string;
@@ -192,6 +198,19 @@ export const PORTFOLIO_TEMPLATES: PortfolioTemplate[] = [
     ],
   },
 ];
+
+function mixKey(sleeves: MixSleeve[]): string {
+  return [...sleeves]
+    .map((sleeve) => `${sleeve.code.trim().toUpperCase()}:${Math.round(sleeve.weight * 10) / 10}`)
+    .sort()
+    .join("|");
+}
+
+export function matchMixTemplate(sleeves: MixSleeve[]): PortfolioTemplate | null {
+  const needle = mixKey(sleeves);
+  if (!needle) return null;
+  return PORTFOLIO_TEMPLATES.find((template) => mixKey(template.sleeves) === needle) ?? null;
+}
 
 export async function resolvePortfoliosWithStats(funds: Fund[]): Promise<ResolvedPortfolio[]> {
   const codes = [...new Set(PORTFOLIO_TEMPLATES.flatMap((template) => template.sleeves.map((sleeve) => sleeve.code)))];

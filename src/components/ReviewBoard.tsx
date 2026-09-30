@@ -5,6 +5,7 @@ import { POLICY_FEE_EARLY, POLICY_FEE_LATER } from "@/lib/policy-fees";
 import { formatSignedPct, formatZhYearMonth } from "@/lib/portfolio-stats";
 import type { PortfolioId, ResolvedPortfolio } from "@/lib/portfolios";
 import { PORTFOLIO_NAME_BY_ID, buildReviewSnapshot } from "@/lib/review";
+import { ShareLinkBuilder } from "./ShareLinkBuilder";
 import {
   REVIEW_CSV_HELP_ZH,
   loadReviewRecords,
@@ -169,6 +170,17 @@ export function ReviewBoard({ portfolios }: Props) {
             儲存到本機
           </button>
         </div>
+        <ShareLinkBuilder
+          key={selected ? `${selected.id}-${selected.portfolioId}-${selected.startDate}` : "new"}
+          portfolios={portfolios}
+          initialHoldings={
+            portfolio
+              ? portfolio.holdings.map((holding) => ({ code: holding.code, weight: holding.weight }))
+              : undefined
+          }
+          initialStartDate={selected?.startDate ?? draft.startDate}
+          initialName={selected?.name ?? draft.name}
+        />
       </section>
 
       <ul className="review-list">

@@ -12,6 +12,8 @@
 - 四套內部參考投資組合（派息／穩健／均衡／進取）
 - 會面四題（含「幾時要用錢」）與一頁 A4 客戶摘要（瀏覽器列印／另存 PDF，不存伺服器）
 - 週年檢討：本機 localStorage + CSV 匯入／匯出（可由 Notion CRM 匯出）
+- 市場短評（每週）與基金焦點（雙週）：以 `content/` 檔案更新
+- 客人季度分享頁：組合表現寫在連結裡，伺服器不存姓名
 - 手機友善，可分享給同事
 
 ## 本機開發
@@ -63,6 +65,74 @@ curl -H "Authorization: Bearer $CRON_SECRET" \
 name,anniversary,portfolio,start_date
 陳大文,15/3/2024,穩健增長,15/3/2023
 ```
+
+## 市場短評／基金焦點（用檔案更新）
+
+內容只存在 repo，**不要把真實市況寫進範本**。檔名 `_` 開頭，或 frontmatter `template: true`／`draft: true` 的檔**不會出現在公開列表**。
+
+### 市場短評（每週）
+
+1. 新增 `content/market/YYYY-MM-DD.md`（或 `.json`）
+2. 圖表放 `public/market/`，在檔案裡用網站路徑引用，例如 `/market/2026-10-05.png`
+3. 推上 `main` 後 Vercel 會重新部署，列表最新在最上
+
+Markdown 範本見 `content/market/_template.md`：
+
+```md
+---
+date: 2026-10-05
+title: 本週標題
+chart: /market/2026-10-05.png
+funds: CG1:up, I07:down, Z07:watch
+---
+
+一段客人口氣，覆蓋中美及環球股市、債市、黃金、能源。
+```
+
+`funds` 可用 `代號:up|down|watch`（亦接受 升／跌／留意），頁面會連到基金詳情。JSON 等價欄位：`date`、`title`、`body`、`chart`、`funds: [{ "code", "tag" }]`。
+
+公開頁：https://aia-ilps-funds.vercel.app/insights/market
+
+### 基金焦點（雙週）
+
+新增 `content/spotlight/YYYY-MM-DD.md`。頁面會用本站既有價格序列即時計近 1 年、波動、最大回撤、股息率／派息來源。
+
+```md
+---
+date: 2026-10-06
+fund: CG1
+title: 可省略，預設「基金焦點：代號 名稱」
+suitedFor: 年期較長、以資本增值為主的客戶
+risks: 股市與匯率波動；短線可有明顯回撤
+---
+
+為何這段時間值得留意（角色、風格、近期走勢）。
+```
+
+JSON 可用 `why` 或 `body` 當內文。範本：`content/spotlight/_template.md`。
+
+公開頁：https://aia-ilps-funds.vercel.app/insights/spotlight
+
+兩頁都有「複製 WhatsApp 文字」（標題、內文、受影響基金或數據、固定免責）。
+
+固定免責：「以上資料只供參考，不構成任何投資建議。投資涉及風險，基金價格可升可跌，過往表現不代表將來表現。」
+
+## 客人季度分享頁
+
+連結**沒有伺服器儲存**，查詢字串只含基金代號、比重、開始日、季度標籤。選填顯示名稱只寫在 URL **fragment**（`#n=`），瀏覽器不會把它送到伺服器。
+
+格式：
+
+```
+/share?h=Z07:25,Z36:20,Z77:20,Z29:15,Z17:20&s=2024-03-15&q=2026Q3#n=%E9%99%B3%E5%A4%A7%E6%96%87
+```
+
+- `h`：`代號:比重`，逗號分隔，合計約 100%
+- `s`：開始投資日 `YYYY-MM-DD`
+- `q`：季度 `2026Q3`
+- `#n=`：顯示名稱（可省略）
+
+在研究台「會面四題」一頁摘要區，或「週年檢討」產生連結。頁面顯示開始至今與該季加權 NAV、扣費後參考、現時回撤、成分表、最新市場短評標題與免責；可用瀏覽器列印／另存 PDF。不含佣金或內部建議。
 
 ## API
 

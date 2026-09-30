@@ -1188,6 +1188,249 @@ body {
   text-decoration: none;
 }
 
+.research-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.1rem;
+}
+
+.research-nav a {
+  border-radius: 999px;
+  padding: 0.42rem 0.85rem;
+  background: #edf2f6;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.research-nav a.is-on {
+  background: var(--ink);
+  color: #fff;
+}
+
+.insight-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.insight-head h1,
+.insight-page h1,
+.insight-card h2 {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+}
+
+.insight-head p,
+.insight-body p {
+  margin: 0.45rem 0 0;
+  color: var(--ink-muted);
+  line-height: 1.55;
+}
+
+.insight-body p {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.insight-date {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.insight-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.insight-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 1.05rem;
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+}
+
+.insight-excerpt {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.insight-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.2rem 0 0;
+}
+
+.move-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.12rem 0.55rem;
+  background: #eef2f5;
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.move-tag.is-up {
+  background: var(--growth-soft);
+  color: var(--growth);
+}
+
+.move-tag.is-down {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.insight-figure,
+.insight-chart {
+  width: 100%;
+  height: auto;
+  border-radius: 0.9rem;
+}
+
+.insight-empty {
+  border: 1px dashed var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.affected-funds {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.share-builder {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line);
+}
+
+.share-holdings {
+  margin-top: 0.75rem;
+}
+
+.share-holdings textarea,
+.sim-field textarea {
+  width: 100%;
+  min-height: 6.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.share-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.share-hero {
+  padding: 1.5rem 1.2rem 1.3rem;
+  border-radius: 1.25rem;
+  color: #f7fafc;
+  background:
+    linear-gradient(135deg, rgba(200, 16, 46, 0.22), transparent 42%),
+    linear-gradient(160deg, var(--bg-deep), var(--bg-mid) 70%, #184866);
+  box-shadow: var(--shadow);
+}
+
+.share-kicker {
+  margin: 0.35rem 0 0;
+  color: #ffd0d7;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.share-toolbar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.share-toolbar .summary-btn {
+  margin-top: 0;
+}
+
+.share-disclaimer {
+  margin: 0.4rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.copy-wa .suitability-hint {
+  margin-top: 0.35rem;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .research-nav,
+  .no-print,
+  .copy-wa,
+  .share-toolbar,
+  .site-footer {
+    display: none !important;
+  }
+
+  .shell {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .share-hero,
+  .portfolio-card,
+  .year-panel,
+  .insight-card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .share-hero {
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .share-kicker,
+  .share-hero .hero-sub,
+  .share-hero .hero-brand {
+    color: var(--ink-muted);
+  }
+
+  .share-hero .hero-title {
+    color: var(--ink);
+  }
+}
+
 @keyframes rise {
   from {
     opacity: 0;
